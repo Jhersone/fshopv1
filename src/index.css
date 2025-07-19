@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background-color: #2f3136;
+  color: white;
+}
+
+.nav-tab.active {
+  color: #FACC15;
+  border-bottom: 3px solid #FACC15;
+}
+
+.filter-pill {
+  background-color: #202224;
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.filter-pill.active {
+  background-color: #fff;
+  color: #000;
+}
+
+.filter-pill:hover {
+  background-color: #2f3136;
+}
+
+/* Scrollbar elegante para carrito */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #1f1f1f;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Animación modal */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slideDown {
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out;
+}
+
+
+
