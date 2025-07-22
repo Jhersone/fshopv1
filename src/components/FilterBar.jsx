@@ -1,8 +1,8 @@
 export default function FilterBar({ currentFilter, setCurrentFilter }) {
-  const filters = ["Todos", "Atuendo", "Gesto", "Calzado", "Música", "Autos"];
+  const filters = ["Todos", "Atuendo", "Gesto", "Calzado", "Música", "Autos","Pases"];
 
   return (
-    <div className="flex flex-wrap justify-center px-0 py-0 gap-2 w-full">
+    <div className="flex flex-wrap justify-start px-0 py-0 gap-2 w-full">
       {filters.map((type, index) => (
         <button
           key={index}

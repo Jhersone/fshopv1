@@ -1,12 +1,11 @@
 import { useState } from "react";
 
 const tabs = [
-  { id: "regalo", name: "Regalo", img: "/img/regalo-icon.jpg" },
-  { id: "pavos", name: "Pavos", img: "/img/regalo-icon.jpg" },
-  { id: "packs", name: "Packs", img: "/img/pack-icon.png" },
-  { id: "ofertas", name: "Ofertas", img: "/img/ofertas-icon.png" },
-  { id: "skins", name: "Skins", img: "/img/skins-icon.png" },
+  { id: "regalo", name: "Regalo", img: "/img/regalo_morado.png" },
+  { id: "crew", name: "Crew", img: "/img/crew.jpg" }, // ✅ Nuevo
+  { id: "pavos", name: "Pavos", img: "/img/robux_1.png" },
 ];
+
 
 export default function CarouselTabs({ activeTab, setActiveTab }) {
   const [showText, setShowText] = useState(true);
