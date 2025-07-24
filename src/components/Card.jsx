@@ -1,32 +1,17 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const WHATSAPP_NUMBER = "51931646873";
 
 export default function Card({ item, selectedCountry, addToCart }) {
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
-  const [fadeImage, setFadeImage] = useState(true);
-  const [firstLoaded, setFirstLoaded] = useState(false);
-  const [secondLoaded, setSecondLoaded] = useState(false);
 
-  // ✅ Conversión para pases o skins normales
   const localPrice = item.localPrice
     ? item.localPrice
     : (item.vBucks * selectedCountry.rate).toFixed(2);
 
-  // ✅ Alternar imágenes cada 3s solo si ambas cargaron
-  useEffect(() => {
-    if (firstLoaded && secondLoaded) {
-      const interval = setInterval(() => {
-        setFadeImage((prev) => !prev);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [firstLoaded, secondLoaded]);
-
-  // ✅ WhatsApp dinámico según tipo
   const handleWhatsApp = () => {
-    const isPase = item.type === "Pases"; // Detecta si es Pase
+    const isPase = item.type === "Pases";
 
     const message = isPase
       ? `¡Hola! Estoy interesado en comprar *${item.itemName}*.
@@ -43,8 +28,19 @@ Precio: ${selectedCountry.symbol} ${localPrice}
   };
 
   return (
-    <div className="bg-[#181818] rounded-xl shadow-lg w-full mx-auto overflow-hidden">
-      {/* Imagen con animación suave */}
+    <div
+      className={`relative bg-[#181818] rounded-xl shadow-lg w-full mx-auto overflow-hidden transform transition-transform duration-300 ${
+        !isLoading ? "hover:scale-105" : ""
+      }`}
+    >
+      {/* Efecto Fortnite: brillo animado */}
+      {!isLoading && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
+          <div className="shine"></div>
+        </div>
+      )}
+
+      {/* Imagen */}
       <div className="relative w-full h-40 flex justify-center items-center bg-[#111] overflow-hidden">
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -52,32 +48,14 @@ Precio: ${selectedCountry.symbol} ${localPrice}
           </div>
         )}
 
-        {!imageError ? (
-          <>
-            <img
-              src={item.renderImage}
-              alt={item.itemName}
-              className={`absolute w-full h-full object-contain transition-opacity duration-1000 ease-in-out ${
-                fadeImage ? "opacity-100" : "opacity-0"
-              }`}
-              onLoad={() => {
-                setFirstLoaded(true);
-                setIsLoading(false);
-              }}
-              onError={() => setImageError(true)}
-            />
-            {item.fallbackImage && (
-              <img
-                src={item.fallbackImage}
-                alt={item.itemName}
-                className={`absolute w-full h-full object-contain transition-opacity duration-1000 ease-in-out ${
-                  fadeImage ? "opacity-0" : "opacity-100"
-                }`}
-                onLoad={() => setSecondLoaded(true)}
-                onError={() => setImageError(true)}
-              />
-            )}
-          </>
+        {!imageError && item.fallbackImage ? (
+          <img
+            src={item.fallbackImage}
+            alt={item.itemName}
+            className="absolute w-full h-full object-contain"
+            onLoad={() => setIsLoading(false)}
+            onError={() => setImageError(true)}
+          />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-800 text-gray-400 text-sm">
             Sin imagen
@@ -87,8 +65,6 @@ Precio: ${selectedCountry.symbol} ${localPrice}
         {/* Overlay info */}
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent px-2 py-1 text-left z-20">
           <h3 className="text-white text-sm font-semibold truncate">{item.itemName}</h3>
-
-          {/* ✅ Solo mostramos V-Bucks si NO es un Pase */}
           {item.type !== "Pases" && (
             <p className="flex items-center gap-1 text-gray-200 text-sm font-bold">
               <img src="/img/vbucks2.png" alt="V-Bucks" className="w-4 h-4" />
@@ -104,15 +80,13 @@ Precio: ${selectedCountry.symbol} ${localPrice}
           {selectedCountry.symbol} {localPrice}
         </p>
 
-      <div className="flex justify-between items-center gap-2">
-          {/* ✅ Botón con ícono de WhatsApp */}
+        <div className="flex justify-between items-center gap-2">
           <button
             onClick={handleWhatsApp}
             className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 text-sm rounded flex-grow flex items-center justify-center gap-2"
           >
             <i className="fab fa-whatsapp text-lg"></i> Comprar
           </button>
-
           <button
             onClick={() => addToCart({ ...item, localPrice })}
             className="bg-red-600 hover:bg-red-700 text-white w-9 h-9 flex items-center justify-center rounded"

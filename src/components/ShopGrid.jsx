@@ -6,157 +6,139 @@ import SearchBar from "./SearchBar";
 export default function ShopGrid({ selectedCountry, searchTerm, setSearchTerm, addToCart }) {
   const [allItems, setAllItems] = useState([]);
   const [itemsByCategory, setItemsByCategory] = useState({});
-  const [currentFilter, setCurrentFilter] = useState("Todos");
+  const [currentFilter, setCurrentFilter] = useState("Atuendo");
   const [loading, setLoading] = useState(true);
-  const [lastFetchTime, setLastFetchTime] = useState(null);
 
-  // ✅ Tasas de conversión (1 Sol = ?)
+  // ✅ Tasas de conversión dinámicas para skins (1 V-Buck → moneda local)
   const conversionRates = {
-    PE: 1,     // Perú (Soles)
-    MX: 5.3,   // México
-    BO: 3.7,   // Bolivia
-    CL: 250,   // Chile
-    US: 0.27,  // USA
+    PE: 0.015, // Perú
+    MX: 0.08,  // México
+    BO: 0.012, // Bolivia
   };
 
   const rate = conversionRates[selectedCountry.code] || 1;
 
-  // ✅ Datos manuales para Pases con precio base en Soles
+  // ✅ Pases con precios fijos por país
   const manualPases = [
     {
       itemName: "Pase de Batalla",
-      renderImage: "/img/pase_batalla.webp",
-      basePrice: 22, // en soles
+      fallbackImage: "/img/pase_batalla.webp",
       type: "Pases",
+      prices: { PE: 22, MX: 117, BO: 0 }
     },
     {
       itemName: "Pase Musical",
-      renderImage: "/img/pase_musical.webp",
-      basePrice: 28,
+      fallbackImage: "/img/pase_musical.webp",
       type: "Pases",
+      prices: { PE: 28, MX: 149, BO: 0 }
     },
     {
-      itemName: "Pase Origenes",
-      renderImage: "/img/pase_origenes.webp",
-      basePrice: 22,
+      itemName: "Pase Orígenes",
+      fallbackImage: "/img/pase_origenes.webp",
       type: "Pases",
+      prices: { PE: 22, MX: 117, BO: 0 }
     },
     {
       itemName: "Pase Lego",
-      renderImage: "/img/pase_lego.webp",
-      basePrice: 28,
+      fallbackImage: "/img/pase_lego.webp",
       type: "Pases",
-    },
+      prices: { PE: 28, MX: 149, BO: 0 }
+    }
   ];
 
-  // ✅ Calculamos precios dinámicos con redondeo hacia arriba
-const manualPasesWithPrice = manualPases.map((pase) => ({
-  ...pase,
-  localPrice: Math.ceil(pase.basePrice * rate), // ✅ Conversión + redondeo
-}));
+  // ✅ Ajustamos precios según país seleccionado
+  const manualPasesWithPrice = manualPases.map((pase) => ({
+    ...pase,
+    localPrice: pase.prices[selectedCountry.code] || pase.prices["PE"]
+  }));
 
-
-  // ✅ Fetch API para cosméticos
-  const fetchShopData = () => {
+  // ✅ Fetch tienda (solo fallbackImage)
+  const fetchShopData = async () => {
     setLoading(true);
-    fetch("https://fortnite-api.com/v2/shop?language=es-419")
-      .then((res) => res.json())
-      .then((data) => {
-        const all = [];
-        const byCategory = {};
+    const now = Date.now();
+    const cachedData = localStorage.getItem("fortniteShopData");
+    const cachedTime = localStorage.getItem("fortniteShopTime");
 
-        data.data.entries.forEach((entry) => {
-          const renderImage =
-            entry.newDisplayAsset?.renderImages?.[0]?.image ||
-            entry.tracks?.[0]?.albumArt ||
-            "";
+    if (cachedData && cachedTime && now - cachedTime < 5 * 60 * 1000) {
+      const parsedData = JSON.parse(cachedData);
+      setAllItems(parsedData.all);
+      setItemsByCategory(parsedData.byCategory);
+      setLoading(false);
+      return;
+    }
 
-          const fallbackImage =
-            entry.bundle?.image ||
-            entry.displayAsset?.image ||
-            entry.albumArt ||
-            entry.brItems?.[0]?.images?.icon ||
-            entry.tracks?.[0]?.albumArt ||
-            "";
+    try {
+      const response = await fetch("https://fortnite-api.com/v2/shop?language=es-419");
+      const data = await response.json();
 
-          if (!renderImage && !fallbackImage) return;
+      const all = [];
+      const byCategory = {};
 
-          const itemName =
-            entry.bundle?.name ||
-            entry.brItems?.[0]?.name ||
-            entry.tracks?.[0]?.title ||
-            "SIN NOMBRE";
+      data.data.entries.forEach((entry) => {
+        const fallbackImage =
+          entry.bundle?.image ||
+          entry.displayAsset?.image ||
+          entry.albumArt ||
+          entry.brItems?.[0]?.images?.icon ||
+          entry.tracks?.[0]?.albumArt ||
+          "";
 
-          const rarity = entry.brItems?.[0]?.rarity?.displayValue || "Común";
+        if (!fallbackImage) return;
 
-          let type = entry.brItems?.[0]?.type?.displayValue || "Otros";
-          if (type === "Otros" && entry.tracks?.length > 0) type = "Música";
-          if (type === "Zapatos") type = "Calzado";
-          if (entry.cars?.length > 0) type = "Autos";
+        const itemName =
+          entry.bundle?.name ||
+          entry.brItems?.[0]?.name ||
+          entry.tracks?.[0]?.title ||
+          "SIN NOMBRE";
 
-          const vBucks = entry.finalPrice;
-          const category = entry.layout?.name || "Otros";
+        const rarity = entry.brItems?.[0]?.rarity?.displayValue || "Común";
+        let type = entry.brItems?.[0]?.type?.displayValue || "Otros";
+        if (type === "Otros" && entry.tracks?.length > 0) type = "Música";
+        if (type === "Zapatos") type = "Calzado";
+        if (entry.cars?.length > 0) type = "Autos";
 
-          const item = {
-            itemName,
-            renderImage,
-            fallbackImage,
-            rarity,
-            vBucks,
-            type,
-          };
+        const vBucks = entry.finalPrice;
+        const category = entry.layout?.name || "Otros";
 
-          all.push(item);
-          if (!byCategory[category]) byCategory[category] = [];
-          byCategory[category].push(item);
-        });
+        const item = { itemName, fallbackImage, rarity, vBucks, type };
+        all.push(item);
 
-        setAllItems(all);
-        setItemsByCategory(byCategory);
-        setLastFetchTime(Date.now());
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error al obtener tienda:", err);
-        setLoading(false);
+        if (!byCategory[category]) byCategory[category] = [];
+        byCategory[category].push(item);
       });
+
+      setAllItems(all);
+      setItemsByCategory(byCategory);
+
+      localStorage.setItem("fortniteShopData", JSON.stringify({ all, byCategory }));
+      localStorage.setItem("fortniteShopTime", now.toString());
+
+    } catch (error) {
+      console.error("Error al obtener tienda:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    const now = Date.now();
-    if (!lastFetchTime || now - lastFetchTime > 5 * 60 * 1000) {
-      fetchShopData();
-    }
-
-    const interval = setInterval(() => {
-      fetchShopData();
-    }, 5 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [lastFetchTime]);
+    fetchShopData();
+  }, []);
 
   const filters = ["Todos", "Atuendo", "Gesto", "Calzado", "Música", "Personaje", "Autos", "Pases"];
-
   const combinedItems = currentFilter === "Pases" ? manualPasesWithPrice : allItems;
 
- const globalResults = useMemo(() => {
-  if (!searchTerm) return [];
-  const allForSearch = [...allItems, ...manualPasesWithPrice];
-  return allForSearch.filter((item) =>
-    item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-}, [searchTerm, allItems, manualPasesWithPrice]);
-
+  const globalResults = useMemo(() => {
+    if (!searchTerm) return [];
+    const allForSearch = [...allItems, ...manualPasesWithPrice];
+    return allForSearch.filter((item) =>
+      item.itemName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, allItems, manualPasesWithPrice]);
 
   return (
     <div className="space-y-6 px-0 py-0 w-full max-w-[1200px] mx-auto">
       <SearchBar setSearchTerm={setSearchTerm} />
-
-      <FilterBar
-        types={filters}
-        currentFilter={currentFilter}
-        setCurrentFilter={setCurrentFilter}
-      />
+      <FilterBar types={filters} currentFilter={currentFilter} setCurrentFilter={setCurrentFilter} />
 
       {loading ? (
         <div className="flex justify-center items-center h-40">
@@ -170,12 +152,7 @@ const manualPasesWithPrice = manualPases.map((pase) => ({
           {globalResults.length > 0 ? (
             <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
               {globalResults.map((item, index) => (
-                <Card
-                  key={index}
-                  item={item}
-                  selectedCountry={selectedCountry}
-                  addToCart={addToCart}
-                />
+                <Card key={index} item={item} selectedCountry={{ ...selectedCountry, rate }} addToCart={addToCart} />
               ))}
             </div>
           ) : (
@@ -183,29 +160,22 @@ const manualPasesWithPrice = manualPases.map((pase) => ({
           )}
         </section>
       ) : currentFilter === "Pases" ? (
-       <section>
-  <h2 className="text-white text-2xl font-bold mb-4 text-center">Pases de Batalla</h2>
-  <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
-    {manualPasesWithPrice.map((item, index) => (
-      <Card
-        key={index}
-        item={{
-          ...item,
-          vBucks: `${item.basePrice} PEN`, // Mostramos base (opcional)
-        }}
-        selectedCountry={{
-          ...selectedCountry,
-          symbol: selectedCountry.symbol || "$", // Aseguramos símbolo
-          // 👇 Inyectamos el precio convertido dinámico
-          rate: 1,
-        }}
-        addToCart={addToCart}
-        localPrice={item.localPrice} // ✅ Pasamos el precio ya calculado
-      />
-    ))}
-  </div>
-</section>
-
+        <section>
+          <h2 className="text-white text-2xl font-bold mb-4 text-center">Pases de Batalla</h2>
+          <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
+            {manualPasesWithPrice.map((item, index) => (
+              <Card
+                key={index}
+                item={{
+                  ...item,
+                  vBucks: "Precio fijo", // Solo para mostrar algo descriptivo
+                }}
+                selectedCountry={selectedCountry}
+                addToCart={addToCart}
+              />
+            ))}
+          </div>
+        </section>
       ) : (
         Object.keys(itemsByCategory).map((category) => {
           const sectionItems = itemsByCategory[category].filter(
@@ -218,12 +188,7 @@ const manualPasesWithPrice = manualPases.map((pase) => ({
               <h2 className="text-white text-2xl font-bold mb-4 text-center">{category}</h2>
               <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
                 {sectionItems.map((item, index) => (
-                  <Card
-                    key={index}
-                    item={item}
-                    selectedCountry={selectedCountry}
-                    addToCart={addToCart}
-                  />
+                  <Card key={index} item={item} selectedCountry={{ ...selectedCountry, rate }} addToCart={addToCart} />
                 ))}
               </div>
             </section>

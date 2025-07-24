@@ -77,5 +77,27 @@ body {
   animation: fade-in 0.8s ease-out;
 }
 
+.shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(170, 170, 170, 0) 30%, /* gris claro */
+    rgba(170, 170, 170, 0.06) 60%, /* opacidad baja */
+    rgba(170, 170, 170, 0) 70%
+  );
+  animation: shineMove 3s infinite linear;
+}
 
+@keyframes shineMove {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
 
