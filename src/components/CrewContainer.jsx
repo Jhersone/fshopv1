@@ -39,20 +39,21 @@ Precio: ${selectedCountry.symbol} ${fixedPrice.toFixed(2)}
       {/* Botones */}
       <div className="flex justify-between items-center gap-2 mb-4">
         <button
-          onClick={handleWhatsApp}
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex-grow flex items-center justify-center gap-2"
-        >
-          <i className="fab fa-whatsapp text-lg"></i> Comprar
-        </button>
-        <button
-          onClick={() =>
-            addToCart({ itemName: "Fortnite Crew", localPrice: fixedPrice.toFixed(2) })
-          }
-          className="bg-red-600 hover:bg-red-700 text-white w-10 h-10 flex items-center justify-center rounded"
-          title="Agregar al carrito"
-        >
-          <i className="fas fa-plus text-lg"></i>
-        </button>
+  onClick={handleWhatsApp}
+  className="bg-[#00FF7F] hover:bg-[#00CC66] text-black font-bold py-2 px-4 rounded flex-grow flex items-center justify-center gap-2"
+>
+  <i className="fab fa-whatsapp text-lg"></i> Comprar
+</button>
+<button
+  onClick={() =>
+    addToCart({ itemName: "Fortnite Crew", localPrice: fixedPrice.toFixed(2) })
+  }
+  className="bg-[#00FF7F] hover:bg-[#00CC66] text-black w-10 h-10 flex items-center justify-center rounded"
+  title="Agregar al carrito"
+>
+  <i className="fas fa-plus text-lg"></i>
+</button>
+
       </div>
 
       {/* ✅ Información */}

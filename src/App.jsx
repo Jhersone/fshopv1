@@ -5,6 +5,8 @@ import ShopGrid from "./components/ShopGrid";
 import CrewContainer from "./components/CrewContainer";
 import AvisoRegalo from "./components/AvisoRegalo";
 import FloatingButtons from "./components/FloatingButtons";
+import ImageSlider from "./components/ImageSlider";
+
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState({
@@ -24,7 +26,7 @@ function App() {
   const clearCart = () => setCart([]);
 
   return (
-    <div className="bg-black min-h-screen text-white">
+    <div className="min-h-screen text-white">
       <Header
         selectedCountry={selectedCountry}
         onCountryChange={setSelectedCountry}
@@ -32,6 +34,7 @@ function App() {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
       />
+      <ImageSlider />
 
       <CarouselTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 

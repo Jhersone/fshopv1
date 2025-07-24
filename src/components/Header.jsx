@@ -44,50 +44,74 @@ Total: ${selectedCountry.symbol} ${totalPrice}
   };
 
   return (
-    <header className="bg-[#121212] text-white flex justify-between items-center px-6 py-3 relative">
-      <h1 className="text-xl font-extrabold italic">TIOHUNTER</h1>
+    <header className="bg-[#192028] text-white flex justify-between items-center px-6 py-3 relative shadow-md">
+      {/* Logo */}
+      <h1 className="text-xl font-extrabold italic tracking-wide">TIOHUNTER</h1>
 
       <div className="flex items-center gap-4 relative">
         {/* Carrito */}
         <div className="relative">
           <button
             onClick={() => setShowCart(!showCart)}
-            className="bg-red-600 hover:bg-red-700 p-2 rounded relative transition-transform hover:scale-105"
+            className="bg-[#45f983] hover:bg-[#36e673] text-black p-2 rounded relative transition-transform hover:scale-105"
           >
-            <i className="fas fa-shopping-cart text-white text-lg"></i>
+            <i className="fas fa-shopping-cart text-lg"></i>
             {cart.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs font-bold rounded-full px-2 shadow-lg">
+              <span className="absolute -top-2 -right-2 bg-[#FBBF24] text-black text-xs font-bold rounded-full px-2 shadow-lg">
                 {cart.length}
               </span>
             )}
           </button>
 
           {showCart && (
-            <div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-72 bg-[#181818] text-white rounded-lg shadow-xl z-50 p-4 border border-red-600">
+            <div className="absolute right-0 mt-3 w-80 bg-[#192028] text-white rounded-lg shadow-xl z-50 p-4 border border-[#2C3A47]">
               {cart.length === 0 ? (
                 <p className="text-gray-400 text-center py-4">Carrito vacío</p>
               ) : (
                 <>
-                  <ul className="max-h-[200px] overflow-y-auto space-y-2">
+                  {/* Lista del carrito */}
+                  <ul className="max-h-[200px] overflow-y-auto space-y-2 custom-scrollbar">
                     {cart.map((item, index) => (
-                      <li key={index} className="flex justify-between items-center bg-[#202224] px-3 py-2 rounded-lg">
+                      <li
+                        key={index}
+                        className="flex justify-between items-center bg-[#22303C] px-3 py-2 rounded-lg"
+                      >
                         <p className="text-sm font-semibold truncate">{item.itemName}</p>
                         <div className="flex items-center gap-3">
-                          <span className="text-xs text-gray-300">{selectedCountry.symbol}{item.localPrice}</span>
-                          <button onClick={() => removeFromCart(index)} className="text-red-500 hover:text-red-700">
+                          <span className="text-xs text-gray-300">
+                            {selectedCountry.symbol}{item.localPrice}
+                          </span>
+                          <button
+                            onClick={() => removeFromCart(index)}
+                            className="text-red-500 hover:text-red-700"
+                          >
                             <i className="fas fa-trash"></i>
                           </button>
                         </div>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-3 border-t border-red-600 pt-3 flex justify-between font-bold">
+
+                  {/* Total */}
+                  <div className="mt-3 border-t border-[#2C3A47] pt-3 flex justify-between font-bold text-[#FBBF24]">
                     <span>Total:</span>
                     <span>{selectedCountry.symbol} {totalPrice}</span>
                   </div>
+
+                  {/* Botones */}
                   <div className="mt-4 flex gap-2">
-                    <button onClick={clearCart} className="flex-1 bg-red-700 hover:bg-red-800 text-white py-2 rounded">Vaciar</button>
-                    <button onClick={handleCheckout} className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded">Comprar</button>
+                    <button
+                      onClick={clearCart}
+                      className="flex-1 bg-[#2C3A47] hover:bg-[#374151] text-white py-2 rounded transition"
+                    >
+                      Vaciar
+                    </button>
+                    <button
+                      onClick={handleCheckout}
+                      className="flex-1 bg-[#45f983] hover:bg-[#36e673] text-black font-bold py-2 rounded transition"
+                    >
+                      Comprar
+                    </button>
                   </div>
                 </>
               )}
@@ -95,18 +119,18 @@ Total: ${selectedCountry.symbol} ${totalPrice}
           )}
         </div>
 
-        {/* Selector */}
+        {/* Selector País */}
         <div className="relative">
           <button
             onClick={() => setOpenCountry(!openCountry)}
-            className="bg-[#1f1f1f] px-4 py-2 rounded-lg flex items-center gap-2 border border-gray-700 hover:border-red-500"
+            className="bg-[#192028] px-4 py-2 rounded-lg flex items-center gap-2 border border-[#2C3A47] hover:border-[#45f983] transition"
           >
             <span>{selectedCountry.flag}</span>
             <span className="font-bold">{selectedCountry.code}</span>
             <i className="fas fa-chevron-down text-gray-400"></i>
           </button>
           {openCountry && (
-            <div className="absolute right-0 mt-2 bg-[#1f1f1f] w-36 rounded-lg shadow-lg border border-gray-700 z-50">
+            <div className="absolute right-0 mt-2 bg-[#192028] w-36 rounded-lg shadow-lg border border-[#2C3A47] z-50">
               {countries.map((c) => (
                 <div
                   key={c.code}
@@ -114,7 +138,7 @@ Total: ${selectedCountry.symbol} ${totalPrice}
                     onCountryChange(c);
                     setOpenCountry(false);
                   }}
-                  className="p-2 hover:bg-red-600 cursor-pointer flex items-center gap-2 rounded"
+                  className="p-2 hover:bg-[#22303C] cursor-pointer flex items-center gap-2 rounded"
                 >
                   <span>{c.flag}</span>
                   <span>{c.name}</span>
@@ -122,7 +146,6 @@ Total: ${selectedCountry.symbol} ${totalPrice}
               ))}
             </div>
           )}
-         
         </div>
       </div>
     </header>

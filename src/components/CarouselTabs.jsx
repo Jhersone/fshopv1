@@ -21,27 +21,28 @@ export default function CarouselTabs({ activeTab, setActiveTab }) {
   return (
     <div className="flex flex-col items-center mt-4">
       {/* Carrusel */}
-     <div className="flex items-center gap-6 overflow-x-auto bg-black py-4 px-4 scrollbar-hide w-full">
+      <div className="flex items-center gap-4 overflow-x-auto bg-[#0f161b] py-3 px-4 scrollbar-hide w-full">
 
         {tabs.map((tab) => (
-          <div
-            key={tab.id}
-            onClick={() => handleTabClick(tab.id)}
-            className={`cursor-pointer transform transition-all duration-300 rounded-xl flex-shrink-0
-              ${
-                activeTab === tab.id
-                  ? "scale-110 ring-4 ring-red-600 shadow-[0_0_25px_rgba(255,0,0,0.8)]"
-                  : "opacity-80 hover:scale-105 hover:opacity-100"
-              }`}
-          >
-            <img
-              src={tab.img}
-              alt={tab.name}
-              className="w-28 h-28 md:w-32 md:h-32 rounded-2xl object-cover border-2 border-gray-700"
-            />
-          </div>
+         <div
+  key={tab.id}
+  onClick={() => handleTabClick(tab.id)}
+  className={`cursor-pointer transform transition-all duration-300 rounded-xl flex-shrink-0 ${
+    activeTab === tab.id
+      ? "scale-105 ring-4 ring-[#45f983] shadow-[0_0_15px_rgba(69,249,131,0.6)]"
+      : "opacity-80 hover:scale-100 hover:opacity-100"
+  }`}
+>
+  <img
+    src={tab.img}
+    alt={tab.name}
+    className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border-2 border-[#2C3A47]"
+  />
+</div>
+
         ))}
       </div>
     </div>
   );
 }
+

@@ -29,22 +29,21 @@ Precio: ${selectedCountry.symbol} ${localPrice}
 
   return (
     <div
-      className={`relative bg-[#181818] rounded-xl shadow-lg w-full mx-auto overflow-hidden transform transition-transform duration-300 ${
+      className={`relative bg-[#192028] rounded-xl shadow-lg w-full mx-auto overflow-hidden transform transition-transform duration-300 ${
         !isLoading ? "hover:scale-105" : ""
       }`}
     >
-      {/* Efecto Fortnite: brillo animado */}
       {!isLoading && (
         <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
           <div className="shine"></div>
         </div>
       )}
-
-      {/* Imagen */}
-      <div className="relative w-full h-40 flex justify-center items-center bg-[#111] overflow-hidden">
+       {/* COLOR DE ATRAS IMAGE*/}
+      {/* Imagen */} 
+      <div className="relative w-full h-40 flex justify-center items-center bg-[#192028] overflow-hidden">
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-6 h-6 border-4 border-gray-500 border-t-red-600 rounded-full animate-spin"></div>
+            <div className="w-6 h-6 border-4 border-gray-500 border-t-[#45f983] rounded-full animate-spin"></div>
           </div>
         )}
 
@@ -62,7 +61,6 @@ Precio: ${selectedCountry.symbol} ${localPrice}
           </div>
         )}
 
-        {/* Overlay info */}
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent px-2 py-1 text-left z-20">
           <h3 className="text-white text-sm font-semibold truncate">{item.itemName}</h3>
           {item.type !== "Pases" && (
@@ -75,21 +73,21 @@ Precio: ${selectedCountry.symbol} ${localPrice}
       </div>
 
       {/* Precio y botones */}
-      <div className="bg-[#181818] text-white px-3 py-3 text-center">
-        <p className="text-green-400 font-bold text-base mb-3">
+      <div className="bg-[#192028] text-white px-3 py-3 text-center">
+        <p className="text-[#FBBF24] font-bold text-base mb-3">
           {selectedCountry.symbol} {localPrice}
         </p>
 
         <div className="flex justify-between items-center gap-2">
           <button
             onClick={handleWhatsApp}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 text-sm rounded flex-grow flex items-center justify-center gap-2"
+            className="bg-[#45f983] hover:bg-[#36e673] text-black font-bold py-2 px-3 text-sm rounded flex-grow flex items-center justify-center gap-2"
           >
             <i className="fab fa-whatsapp text-lg"></i> Comprar
           </button>
           <button
             onClick={() => addToCart({ ...item, localPrice })}
-            className="bg-red-600 hover:bg-red-700 text-white w-9 h-9 flex items-center justify-center rounded"
+            className="bg-[#45f983] hover:bg-[#36e673] text-black w-9 h-9 flex items-center justify-center rounded"
             title="Agregar al carrito"
           >
             <i className="fas fa-plus text-lg"></i>

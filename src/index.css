@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+
 body {
   font-family: 'Barlow', sans-serif;
-  background-color: #2f3136;
+   background-color: #0f161b; /* NUEVO FONDO */
   color: white;
 }
 
@@ -100,4 +105,37 @@ body {
     transform: translateX(50%);
   }
 }
+
+/* Fondo oscuro + botones verdes */
+.custom-swiper .swiper-button-prev,
+.custom-swiper .swiper-button-next {
+  color: #45f983; /* Verde brillante */
+  background: rgba(25, 32, 40, 0.8); /* Fondo oscuro semi */
+  padding: 12px;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-swiper .swiper-button-prev:hover,
+.custom-swiper .swiper-button-next:hover {
+  color: #36e673; /* Verde más intenso en hover */
+  background: rgba(25, 32, 40, 1);
+}
+
+/* Paginación (bullets) */
+.custom-swiper .swiper-pagination-bullet {
+  background: #2c3a47; /* Gris oscuro para inactivos */
+  opacity: 1;
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+  background: #45f983; /* Verde brillante activo */
+}
+
+/* Ajusta tamaño de bullets */
+.custom-swiper .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+}
+
 
