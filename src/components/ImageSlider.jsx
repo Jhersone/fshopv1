@@ -8,7 +8,7 @@ export default function ImageSlider() {
   const slides = [
     { img: "/img/F1.1.png", alt: "Promoción exclusiva", link: "#" },
     { img: "/img/diaman2.1.png", alt: "Nuevo pase disponible", link: "#" },
-    { img: "/img/F1.1.png", alt: "Evento especial Fortnite", link: "#" },
+    { img: "/img/r1.1.png", alt: "Evento especial Fortnite", link: "#" },
   ];
 
   return (
@@ -26,11 +26,13 @@ export default function ImageSlider() {
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
             <a href={slide.link}>
-              <img
-                src={slide.img}
-                alt={slide.alt}
-                className="w-full h-[250px] md:h-[400px] object-cover"
-              />
+ <img
+  src={slide.img}
+  alt={slide.alt}
+  className="w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] object-cover"
+/>
+
+
             </a>
           </SwiperSlide>
         ))}

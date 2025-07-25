@@ -46,7 +46,7 @@ Precio: ${selectedCountry.symbol} ${localPrice}
             <div className="w-6 h-6 border-4 border-gray-500 border-t-[#45f983] rounded-full animate-spin"></div>
           </div>
         )}
-
+ 
         {!imageError && item.fallbackImage ? (
           <img
             src={item.fallbackImage}

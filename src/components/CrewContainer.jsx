@@ -23,7 +23,9 @@ Precio: ${selectedCountry.symbol} ${fixedPrice.toFixed(2)}
   };
 
   return (
-    <div className="bg-darkSecondary rounded-xl shadow-xl max-w-lg w-full mx-auto p-4">
+    <div className="bg-[#0D1F1E] border border-[#00FF7F33] rounded-xl max-w-lg w-full mx-auto p-4">
+
+
       {/* Banner */}
       <img
         src="/img/crew2.png"
@@ -32,7 +34,8 @@ Precio: ${selectedCountry.symbol} ${fixedPrice.toFixed(2)}
       />
 
       {/* Precio */}
-      <p className="text-green-400 font-bold text-lg mb-3 text-center">
+    <p className="text-[#FFD700] font-bold text-lg mb-3 text-center">
+
         {selectedCountry.symbol} {fixedPrice.toFixed(2)}
       </p>
 
