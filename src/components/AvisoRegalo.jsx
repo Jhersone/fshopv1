@@ -46,7 +46,7 @@ export default function AvisoRegalo() {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
           <div className="bg-[#192028] text-white rounded-lg p-6 w-[90%] max-w-md shadow-xl animate-fadeIn">
             <h2 className="text-lg font-bold mb-4 text-center">
-              Nuestros IDs de Fortnite
+              Debemos ser amigos por 48 horas
             </h2>
             <div className="grid grid-cols-2 gap-3 mb-4">
               {ids.map((id, index) => (

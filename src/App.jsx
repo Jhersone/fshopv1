@@ -6,6 +6,8 @@ import CrewContainer from "./components/CrewContainer";
 import AvisoRegalo from "./components/AvisoRegalo";
 import FloatingButtons from "./components/FloatingButtons";
 import ImageSlider from "./components/ImageSlider";
+import RobuxCard from "./components/RobuxCard";
+import MarqueeNotice from "./components/MarqueeNotice";
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
       />
+
+      
       <ImageSlider />
 
       <CarouselTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -56,15 +60,14 @@ function App() {
         {activeTab === "crew" && (
           <CrewContainer selectedCountry={selectedCountry} addToCart={addToCart} />
         )}
-        {activeTab === "pavos" && (
-          <div className="text-center text-xl mt-10 font-bold text-red-500">
-            Más tarde se añadirá los precios
-            <br />
-            Únete al grupo en Roblox
-            <br />
-            <span className="text-white">TIOHUNTER</span>
-          </div>
-        )}
+{activeTab === "pavos" && (
+  <div className="space-y-4">
+    <MarqueeNotice /> {/* Texto animado solo para Robux */}
+    <RobuxCard selectedCountry={selectedCountry} />
+  </div>
+)}
+
+
       </main>
 
       <FloatingButtons />
