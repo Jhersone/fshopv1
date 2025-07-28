@@ -4,6 +4,7 @@ const tabs = [
   { id: "regalo", name: "Regalo", img: "/img/regalo_morado.png" },
   { id: "crew", name: "Crew", img: "/img/crew.jpg" }, // ✅ Nuevo
   { id: "pavos", name: "Pavos", img: "/img/robux_1.png" },
+  { id: "freefire", name: "Free Fire", img: "/img/dim2.png" }, // ✅ Nueva pestaña
 ];
 
 

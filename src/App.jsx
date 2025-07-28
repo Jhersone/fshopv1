@@ -8,7 +8,7 @@ import FloatingButtons from "./components/FloatingButtons";
 import ImageSlider from "./components/ImageSlider";
 import RobuxCard from "./components/RobuxCard";
 import MarqueeNotice from "./components/MarqueeNotice";
-
+import FreeFireShop from "./components/FreeFireShop";
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState({
@@ -66,7 +66,9 @@ function App() {
     <RobuxCard selectedCountry={selectedCountry} />
   </div>
 )}
-
+{activeTab === "freefire" && (
+  <FreeFireShop selectedCountry={selectedCountry} />
+)}
 
       </main>
 
