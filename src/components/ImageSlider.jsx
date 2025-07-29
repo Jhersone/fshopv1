@@ -6,7 +6,7 @@ import "swiper/css/pagination";
 
 export default function ImageSlider() {
   const slides = [
-    { img: "/img/F1.1.png", alt: "Promoción exclusiva", link: "#" },
+    { img: "/img/db2.png", alt: "Promoción exclusiva", link: "#" },
     { img: "/img/diaman2.1.png", alt: "Nuevo pase disponible", link: "#" },
     { img: "/img/r1.1.png", alt: "Evento especial Fortnite", link: "#" },
   ];
