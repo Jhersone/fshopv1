@@ -1,28 +1,25 @@
 import { useState } from "react";
+import { openWhatsApp } from "@/utils/whatsapp"; // Asegúrate de tener este helper
 
-const WHATSAPP_NUMBER = "51931646873";
 const MIN_ROBUX = 1000;
+
+// Tarifas por 1000 Robux (ajústalas si cambian)
+const PRICES = {
+  PE: { rate: 35,   symbol: "S/" }, // 1000 Robux = 35 soles
+  MX: { rate: 185.5, symbol: "$"  }, // 1000 Robux = 185.5 pesos
+};
 
 export default function RobuxCard({ selectedCountry }) {
   const [quantity, setQuantity] = useState(1000);
   const [error, setError] = useState("");
 
-  // Precios fijos por país
-  const prices = {
-    PE: { rate: 35, symbol: "S/" },    // 1000 Robux = 35 soles
-    MX: { rate: 185.5, symbol: "$" },  // 1000 Robux = 185.5 pesos
-  };
-
-  const countryData = prices[selectedCountry.code] || { rate: 35, symbol: "S/" };
+  const code = selectedCountry?.code || "PE";
+  const countryData = PRICES[code] || PRICES.PE;
 
   const handleChange = (value) => {
-    const newQty = parseInt(value) || 0;
+    const newQty = Math.max(MIN_ROBUX, parseInt(value || 0, 10));
     setQuantity(newQty);
-    if (newQty < MIN_ROBUX) {
-      setError("Monto mínimo 1000 Robux");
-    } else {
-      setError("");
-    }
+    setError(newQty < MIN_ROBUX ? "Monto mínimo 1000 Robux" : "");
   };
 
   const increase = () => handleChange(quantity + 100);
@@ -31,18 +28,18 @@ export default function RobuxCard({ selectedCountry }) {
   const totalPrice =
     quantity >= MIN_ROBUX
       ? ((quantity / 1000) * countryData.rate).toFixed(2)
-      : "Error";
+      : "0.00";
 
   const handleBuy = () => {
     if (quantity < MIN_ROBUX) return;
     const message = `¡Hola! Estoy interesado en comprar ${quantity} Robux.
 Total: ${countryData.symbol}${totalPrice}
 ¿Está disponible?`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+    openWhatsApp(message);
   };
 
   return (
-    <div className="bg-[#192028] text-white rounded-xl p-6 shadow-lg w-full max-w-md mx-auto space-y-5">
+    <div className="bg-[#192028] text-white rounded-xl p-6 shadow-lg w/full max-w-md mx-auto space-y-5">
       {/* Header */}
       <div className="bg-[#22303C] text-center py-2 rounded-lg text-sm font-semibold text-[#45F983]">
         Yo cubro el 30% de impuesto de Roblox
@@ -64,14 +61,28 @@ Total: ${countryData.symbol}${totalPrice}
 
       {/* Selector */}
       <div className="flex items-center bg-[#0F161B] rounded-lg px-4 py-3 justify-between">
-        <button onClick={decrease} className="text-2xl font-bold text-gray-400 hover:text-white">-</button>
+        <button
+          onClick={decrease}
+          className="text-2xl font-bold text-gray-400 hover:text-white"
+          aria-label="Disminuir"
+        >
+          -
+        </button>
         <input
           type="number"
+          min={MIN_ROBUX}
+          step={100}
           value={quantity}
           onChange={(e) => handleChange(e.target.value)}
-          className="bg-transparent text-center text-lg font-bold w-24 focus:outline-none text-white"
+          className="bg-transparent text-center text-lg font-bold w-28 focus:outline-none text-white"
         />
-        <button onClick={increase} className="text-2xl font-bold text-gray-400 hover:text-white">+</button>
+        <button
+          onClick={increase}
+          className="text-2xl font-bold text-gray-400 hover:text-white"
+          aria-label="Aumentar"
+        >
+          +
+        </button>
       </div>
 
       {/* Error */}
@@ -79,7 +90,7 @@ Total: ${countryData.symbol}${totalPrice}
 
       {/* Total */}
       <div className="text-lg font-bold text-[#FBBF24]">
-        Total: {totalPrice === "Error" ? "Error" : `${countryData.symbol}${totalPrice}`}
+        Total: {countryData.symbol}{totalPrice}
       </div>
 
       {/* Botón */}

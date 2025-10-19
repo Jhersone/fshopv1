@@ -1,30 +1,23 @@
+// src/components/Card.jsx
 import { useState } from "react";
-
-const WHATSAPP_NUMBER = "51931646873";
+import { openWhatsApp } from "../utils/whatsapp";
+import { msgItem } from "../utils/messages";
+import { vbucksToLocal } from "../lib/pricing";
 
 export default function Card({ item, selectedCountry, addToCart }) {
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
 
-  const localPrice = item.localPrice
-    ? item.localPrice
-    : (item.vBucks * selectedCountry.rate).toFixed(2);
+  // Precio local: si ya viene en item.localPrice lo usa; si no, convierte desde vBucks
+  const localPrice =
+    item.localPrice ??
+    (item.vBucks ? vbucksToLocal(selectedCountry.code, item.vBucks) : null);
 
   const handleWhatsApp = () => {
     const isPase = item.type === "Pases";
-
-    const message = isPase
-      ? `¡Hola! Estoy interesado en comprar *${item.itemName}*.
-Precio: ${selectedCountry.symbol} ${localPrice}
-
-¿Está disponible? ¿Cómo podemos coordinar?`
-      : `¡Hola! Estoy interesado en comprar *${item.itemName}*.
-Costo: ${item.vBucks} pavos
-Precio: ${selectedCountry.symbol} ${localPrice}
-
-¿Está disponible?`;
-
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+    const extra = !isPase && item.vBucks ? `Costo: ${item.vBucks} pavos` : "";
+    const priceToSend = localPrice ?? "0.00";
+    openWhatsApp(msgItem(item.itemName, priceToSend, selectedCountry, extra));
   };
 
   return (
@@ -38,20 +31,22 @@ Precio: ${selectedCountry.symbol} ${localPrice}
           <div className="shine"></div>
         </div>
       )}
-       {/* COLOR DE ATRAS IMAGE*/}
-      {/* Imagen */} 
+
+      {/* Imagen */}
       <div className="relative w-full h-40 flex justify-center items-center bg-[#192028] overflow-hidden">
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-6 h-6 border-4 border-gray-500 border-t-[#45f983] rounded-full animate-spin"></div>
           </div>
         )}
- 
+
         {!imageError && item.fallbackImage ? (
           <img
             src={item.fallbackImage}
             alt={item.itemName}
             className="absolute w-full h-full object-contain"
+            loading="lazy"
+            decoding="async"
             onLoad={() => setIsLoading(false)}
             onError={() => setImageError(true)}
           />
@@ -62,8 +57,10 @@ Precio: ${selectedCountry.symbol} ${localPrice}
         )}
 
         <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent px-2 py-1 text-left z-20">
-          <h3 className="text-white text-sm font-semibold truncate">{item.itemName}</h3>
-          {item.type !== "Pases" && (
+          <h3 className="text-white text-sm font-semibold truncate">
+            {item.itemName}
+          </h3>
+          {item.type !== "Pases" && item.vBucks && (
             <p className="flex items-center gap-1 text-gray-200 text-sm font-bold">
               <img src="/img/vbucks2.png" alt="V-Bucks" className="w-4 h-4" />
               {item.vBucks}
@@ -72,11 +69,13 @@ Precio: ${selectedCountry.symbol} ${localPrice}
         </div>
       </div>
 
-      {/* Precio y botones */}
+      {/* Precio y acciones */}
       <div className="bg-[#192028] text-white px-3 py-3 text-center">
-        <p className="text-[#FBBF24] font-bold text-base mb-3">
-          {selectedCountry.symbol} {localPrice}
-        </p>
+        {localPrice && (
+          <p className="text-[#FBBF24] font-bold text-base mb-3">
+            {selectedCountry.symbol} {localPrice}
+          </p>
+        )}
 
         <div className="flex justify-between items-center gap-2">
           <button
@@ -85,8 +84,11 @@ Precio: ${selectedCountry.symbol} ${localPrice}
           >
             <i className="fab fa-whatsapp text-lg"></i> Comprar
           </button>
+
           <button
-            onClick={() => addToCart({ ...item, localPrice })}
+            onClick={() =>
+              addToCart({ ...item, localPrice: localPrice ?? "0.00" })
+            }
             className="bg-[#45f983] hover:bg-[#36e673] text-black w-9 h-9 flex items-center justify-center rounded"
             title="Agregar al carrito"
           >

@@ -2,23 +2,19 @@ import { useState } from "react";
 import Header from "./components/Header";
 import CarouselTabs from "./components/CarouselTabs";
 import ShopGrid from "./components/ShopGrid";
-import CrewContainer from "./components/CrewContainer";
+import CrewClub from "./components/CrewClub"
 import AvisoRegalo from "./components/AvisoRegalo";
 import FloatingButtons from "./components/FloatingButtons";
-import ImageSlider from "./components/ImageSlider";
-import RobuxCard from "./components/RobuxCard";
-import MarqueeNotice from "./components/MarqueeNotice";
+import BannerCarousel from "./components/BannerCarousel";
+import RobuxShop from "./components/RobuxShop";
 import FreeFireShop from "./components/FreeFireShop";
+import VBucksShop from "./components/VBucksShop";
+import { useCountry } from "@/hooks/useCountry";
+import { DEFAULT_COUNTRY } from "@/lib/currency";
+import Footer from "./components/Footer";
 
 function App() {
-  const [selectedCountry, setSelectedCountry] = useState({
-    code: "PE",
-    name: "Perú",
-    flag: "🇵🇪",
-    symbol: "S/",
-    rate: 0.015,
-  });
-
+  const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
   const [activeTab, setActiveTab] = useState("regalo");
   const [searchTerm, setSearchTerm] = useState("");
   const [cart, setCart] = useState([]);
@@ -36,43 +32,39 @@ function App() {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
       />
-
-      
-      <ImageSlider />
-
+      <BannerCarousel />
       <CarouselTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {activeTab === "regalo" && (
-        <div className="px-4">
-          <AvisoRegalo />
-        </div>
-      )}
+     {activeTab === "regalo" && <div className="px-4"><AvisoRegalo /></div>}
 
-      <main className="p-6">
-        {activeTab === "regalo" && (
-          <ShopGrid
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            selectedCountry={selectedCountry}
-            addToCart={addToCart}
-          />
-        )}
-        {activeTab === "crew" && (
-          <CrewContainer selectedCountry={selectedCountry} addToCart={addToCart} />
-        )}
-{activeTab === "pavos" && (
-  <div className="space-y-4">
-    <MarqueeNotice /> {/* Texto animado solo para Robux */}
-    <RobuxCard selectedCountry={selectedCountry} />
-  </div>
-)}
-{activeTab === "freefire" && (
-  <FreeFireShop selectedCountry={selectedCountry} />
+<main className="p-6">
+  {activeTab === "regalo" && (
+    <ShopGrid
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      selectedCountry={selectedCountry}
+      addToCart={addToCart}
+    />
+  )}
+  {activeTab === "crew" && (
+    <CrewClub selectedCountry={selectedCountry} />
+  )}
+  {activeTab === "pavos" && (
+    <div className="space-y-4">
+      <RobuxShop selectedCountry={selectedCountry} />
+    </div>
+  )}
+  {activeTab === "freefire" && (
+    <FreeFireShop selectedCountry={selectedCountry} />
+  )}
+ {activeTab === "vbucks" && (
+  <VBucksShop selectedCountry={selectedCountry} />
 )}
 
-      </main>
+</main>
 
       <FloatingButtons />
+      <Footer />
     </div>
   );
 }

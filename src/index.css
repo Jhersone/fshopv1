@@ -152,3 +152,14 @@ body {
   animation: marquee 30s linear infinite;
 }
 
+/* Color de las bolitas */
+.swiper-pagination-bullet {
+  background-color: #45F983 !important;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #45F983 !important;
+  opacity: 1;
+}
+

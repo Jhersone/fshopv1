@@ -1,59 +1,77 @@
-import { useState, useEffect } from "react";
+// src/components/Header.jsx
+import { useMemo, useState } from "react";
+import { openWhatsApp } from "../utils/whatsapp";
+import { msgCart } from "../utils/messages";
+import { fmt } from "../lib/currency";
 
-const WHATSAPP_NUMBER = "51931646873";
-
-const countries = [
-  { code: "PE", name: "Perú", flag: "🇵🇪", symbol: "S/", rate: 0.015 },
-  { code: "MX", name: "México", flag: "🇲🇽", symbol: "$", rate: 0.08 },
+// Opciones de país (solo flag + code)
+const COUNTRY_OPTIONS = [
+  { code: "PE", flag: "🇵🇪", symbol: "S/" },
+  { code: "MX", flag: "🇲🇽", symbol: "$"  },
+  { code: "US", flag: "🇺🇸", symbol: "$"  },
 ];
 
-export default function Header({ selectedCountry, onCountryChange, cart, removeFromCart, clearCart }) {
+function CountryMenu({ current, onSelect, onClose }) {
+  return (
+    <div
+      className="absolute right-0 mt-2 w-28 bg-[#192028] rounded-lg shadow-xl border border-[#2C3A47] z-50 p-2"
+      role="listbox"
+      aria-label="Seleccionar país"
+    >
+      {COUNTRY_OPTIONS.map((opt) => (
+        <button
+          key={opt.code}
+          onClick={() => { onSelect(opt); onClose?.(); }}
+          className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded hover:bg-[#22303C] ${
+            current?.code === opt.code ? "bg-[#22303C]" : ""
+          }`}
+          role="option"
+          aria-selected={current?.code === opt.code}
+        >
+          <span className="text-lg">{opt.flag}</span>
+          <span className="font-bold text-sm">{opt.code}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export default function Header({
+  selectedCountry,
+  onCountryChange,
+  cart,
+  removeFromCart,
+  clearCart,
+}) {
   const [openCountry, setOpenCountry] = useState(false);
   const [showCart, setShowCart] = useState(false);
 
-  // ✅ Detección automática con ipapi
-  useEffect(() => {
-    const detectCountry = async () => {
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        const data = await res.json();
-        if (data && data.country_code) {
-          const found = countries.find(c => c.code === data.country_code);
-          if (found) onCountryChange(found);
-        }
-      } catch (error) {
-        console.log("Error detectando país:", error);
-      }
-    };
-    detectCountry();
-  }, [onCountryChange]);
-
-  const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.localPrice), 0).toFixed(2);
+  const totalPrice = useMemo(
+    () => cart.reduce((sum, it) => sum + Number(it.localPrice || 0), 0),
+    [cart]
+  );
 
   const handleCheckout = () => {
-    if (cart.length === 0) return;
-    const message = `¡Hola! Estoy interesado en comprar los siguientes productos:\n\n${cart
-      .map((item, i) => `${i + 1}. ${item.itemName} - ${item.vBucks} pavos - ${selectedCountry.symbol} ${item.localPrice}`)
-      .join("\n")}
-      
-Total: ${selectedCountry.symbol} ${totalPrice}
-
-¿Está disponible? ¿Cómo podemos coordinar?`;
-
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+    if (!cart.length) return;
+    openWhatsApp(msgCart(cart, selectedCountry, totalPrice));
   };
 
   return (
     <header className="bg-[#192028] text-white flex justify-between items-center px-6 py-3 relative shadow-md">
       {/* Logo */}
-      <h1 className="text-xl font-extrabold italic tracking-wide">TIOHUNTER</h1>
+      <a href="/" className="text-xl font-extrabold tracking-wide">
+        <span className="bg-[#45f983] text-black px-2 py-1 rounded">TIOHUNTER</span>
+      </a>
 
       <div className="flex items-center gap-4 relative">
         {/* Carrito */}
         <div className="relative">
           <button
-            onClick={() => setShowCart(!showCart)}
+            onClick={() => setShowCart((v) => !v)}
             className="bg-[#45f983] hover:bg-[#36e673] text-black p-2 rounded relative transition-transform hover:scale-105"
+            aria-haspopup="dialog"
+            aria-expanded={showCart}
+            aria-label="Abrir carrito"
           >
             <i className="fas fa-shopping-cart text-lg"></i>
             {cart.length > 0 && (
@@ -69,8 +87,7 @@ Total: ${selectedCountry.symbol} ${totalPrice}
                 <p className="text-gray-400 text-center py-4">Carrito vacío</p>
               ) : (
                 <>
-                  {/* Lista del carrito */}
-                  <ul className="max-h-[200px] overflow-y-auto space-y-2 custom-scrollbar">
+                  <ul className="max-h-[220px] overflow-y-auto space-y-2 custom-scrollbar">
                     {cart.map((item, index) => (
                       <li
                         key={index}
@@ -79,11 +96,12 @@ Total: ${selectedCountry.symbol} ${totalPrice}
                         <p className="text-sm font-semibold truncate">{item.itemName}</p>
                         <div className="flex items-center gap-3">
                           <span className="text-xs text-gray-300">
-                            {selectedCountry.symbol}{item.localPrice}
+                            {fmt(selectedCountry.code, item.localPrice)}
                           </span>
                           <button
                             onClick={() => removeFromCart(index)}
                             className="text-red-500 hover:text-red-700"
+                            aria-label={`Eliminar ${item.itemName}`}
                           >
                             <i className="fas fa-trash"></i>
                           </button>
@@ -92,13 +110,11 @@ Total: ${selectedCountry.symbol} ${totalPrice}
                     ))}
                   </ul>
 
-                  {/* Total */}
                   <div className="mt-3 border-t border-[#2C3A47] pt-3 flex justify-between font-bold text-[#FBBF24]">
                     <span>Total:</span>
-                    <span>{selectedCountry.symbol} {totalPrice}</span>
+                    <span>{fmt(selectedCountry.code, totalPrice)}</span>
                   </div>
 
-                  {/* Botones */}
                   <div className="mt-4 flex gap-2">
                     <button
                       onClick={clearCart}
@@ -119,32 +135,25 @@ Total: ${selectedCountry.symbol} ${totalPrice}
           )}
         </div>
 
-        {/* Selector País */}
+        {/* Selector de País (solo bandera + código) */}
         <div className="relative">
           <button
-            onClick={() => setOpenCountry(!openCountry)}
-            className="bg-[#192028] px-4 py-2 rounded-lg flex items-center gap-2 border border-[#2C3A47] hover:border-[#45f983] transition"
+            onClick={() => setOpenCountry((v) => !v)}
+            className="bg-[#0f161b] border border-[#2C3A47] hover:border-[#45f983] px-3 py-2 rounded-lg flex items-center gap-2"
+            aria-haspopup="listbox"
+            aria-expanded={openCountry}
+            aria-label="Seleccionar país"
           >
-            <span>{selectedCountry.flag}</span>
+            <span className="text-lg">{selectedCountry.flag}</span>
             <span className="font-bold">{selectedCountry.code}</span>
             <i className="fas fa-chevron-down text-gray-400"></i>
           </button>
           {openCountry && (
-            <div className="absolute right-0 mt-2 bg-[#192028] w-36 rounded-lg shadow-lg border border-[#2C3A47] z-50">
-              {countries.map((c) => (
-                <div
-                  key={c.code}
-                  onClick={() => {
-                    onCountryChange(c);
-                    setOpenCountry(false);
-                  }}
-                  className="p-2 hover:bg-[#22303C] cursor-pointer flex items-center gap-2 rounded"
-                >
-                  <span>{c.flag}</span>
-                  <span>{c.name}</span>
-                </div>
-              ))}
-            </div>
+            <CountryMenu
+              current={selectedCountry}
+              onSelect={(opt) => onCountryChange(opt)}
+              onClose={() => setOpenCountry(false)}
+            />
           )}
         </div>
       </div>
