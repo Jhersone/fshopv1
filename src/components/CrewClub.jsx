@@ -6,7 +6,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { openWhatsApp } from "../utils/whatsapp";
-import StickyCTA from "./StickyCTA";
+import StickyCrewCTA from "./StickyCrewCTA";
+
+
 
 // ==== Helper: full-bleed SOLO en móvil/tablet (en desktop no cambia nada) ====
 function MobileBleed({ children, className = "" }) {
@@ -66,13 +68,15 @@ const getVisiblePayments = (code) =>
   PAYMENTS_BY_COUNTRY[code] ?? PAYMENTS_BY_COUNTRY.GLOBAL;
 
 // ==== PRECIOS ====
-const CREW_PRICE = { PE: 20.0, MX: 110.0, BO: 140.0, CL: 6500.0, US: 5.99 };
+const CREW_PRICE = { PE: 25.0, MX: 110.0, BO: 140.0, CL: 6500.0, US: 5.99 };
 
 export default function CrewClub({ selectedCountry }) {
   const [platform, setPlatform] = useState("nintendo");
   const [payment, setPayment] = useState("");
   const endRef = useRef(null);
   const [atEnd, setAtEnd] = useState(false); // true cuando llegamos al final
+  const [selectedCrew, setSelectedCrew] = useState(null);
+
 
   const code = selectedCountry?.code ?? "PE";
   const symbol = selectedCountry?.symbol ?? "S/";
@@ -387,12 +391,11 @@ Total: ${priceText}`;
         {/* CTA ACOPLADA (en el flujo) cuando estamos al final — full-bleed SOLO en mobile/tablet */}
         {atEnd && (
           <MobileBleed className="mt-0">
-            <StickyCTA
-              variant="static"
-              title="Fortnite Crew"
-              totalText={priceText}
-              onClick={handleBuy}
-              showOnDesktop
+            <StickyCrewCTA
+            variant="static"
+  selectedCrew={selectedCrew}
+  onClick={handleBuy}
+  showOnDesktop
             />
           </MobileBleed>
         )}
@@ -400,12 +403,11 @@ Total: ${priceText}`;
 
       {/* CTA FLOTANTE (para mobile y desktop) mientras NO estás al final */}
       {!atEnd && (
-        <StickyCTA
-          variant="fixed"
-          title="Fortnite Crew"
-          totalText={priceText}
-          onClick={handleBuy}
-          showOnDesktop
+        <StickyCrewCTA
+         variant="fixed"
+  priceText={priceText}
+  onClick={handleBuy}
+  showOnDesktop
         />
       )}
     </>

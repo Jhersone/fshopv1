@@ -40,7 +40,7 @@ export default function BannerCarousel() {
               <img
                 src={b.img}
                 alt={b.alt}
-                className="w-full h-[160px] sm:h-[220px] md:h-[250px] lg:h-[280px] object-cover rounded-2xl shadow-lg border border-[#22303C]"
+                className="w-full h-[130px] sm:h-[220px] md:h-[200px] lg:h-[280px] object-cover rounded-2xl shadow-lg border border-[#22303C]"
                 loading="lazy"
                 decoding="async"
               />

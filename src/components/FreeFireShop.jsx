@@ -6,7 +6,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { openWhatsApp } from "../utils/whatsapp";
-import StickyCTA from "./StickyCTA"; // 👈 CTA flotante
+import StickyFreeFireCTA from "./StickyFreeFireCTA";
+
 
 // ==== Helper: full-bleed SOLO en móvil/tablet (en desktop no cambia nada)
 function MobileBleed({ children, className = "" }) {
@@ -451,9 +452,10 @@ Total: ${totalText}
 {/* CTA ACOPLADA (en el flujo) cuando estamos al final — full-bleed SOLO en mobile/tablet */}
 {atEnd && (
   <MobileBleed className="mt-0">
-    <StickyCTA
-      variant="static"
-      title="Free Fire"
+    <StickyFreeFireCTA
+     variant="static"
+      amount={amount}
+      selectedOffer={selectedOffer}
       totalText={totalText}
       onClick={handleBuy}
       showOnDesktop
@@ -464,12 +466,13 @@ Total: ${totalText}
 
 {/* CTA FLOTANTE (para mobile y desktop) mientras NO estás al final */}
 {!atEnd && (
-  <StickyCTA
+  <StickyFreeFireCTA
     variant="fixed"
-    title="Free Fire"
-    totalText={totalText}
-    onClick={handleBuy}
-    showOnDesktop
+  amount={amount}
+  selectedOffer={selectedOffer}
+  totalText={totalText}
+  onClick={handleBuy}
+  showOnDesktop
   />
 )}
 </>

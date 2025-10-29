@@ -3,10 +3,14 @@ import { useState } from "react";
 import { openWhatsApp } from "../utils/whatsapp";
 import { msgItem } from "../utils/messages";
 import { vbucksToLocal } from "../lib/pricing";
+import { getCategoryGradient } from "../utils/categoryGradients";
 
-export default function Card({ item, selectedCountry, addToCart }) {
+export default function Card({ item, selectedCountry, addToCart, category }) {
   const [isLoading, setIsLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const bgClass = getCategoryGradient(category);
+  console.log("🟣 Categoría:", category, "→ Clase aplicada:", bgClass);
+
 
   // Precio local: si ya viene en item.localPrice lo usa; si no, convierte desde vBucks
   const localPrice =
@@ -33,7 +37,14 @@ export default function Card({ item, selectedCountry, addToCart }) {
       )}
 
       {/* Imagen */}
-      <div className="relative w-full h-40 flex justify-center items-center bg-[#192028] overflow-hidden">
+<div
+  className={`relative w-full h-40 flex justify-center items-center overflow-hidden rounded-t-xl ${
+    item.type === "Gesto" ? "bg-fortnite-rare" : bgClass
+  }`}
+>
+
+
+
         {isLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-6 h-6 border-4 border-gray-500 border-t-[#45f983] rounded-full animate-spin"></div>
@@ -56,12 +67,12 @@ export default function Card({ item, selectedCountry, addToCart }) {
           </div>
         )}
 
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent px-2 py-1 text-left z-20">
-          <h3 className="text-white text-sm font-semibold truncate">
+        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/25 to-transparent px-2 py-1 text-left z-20">
+          <h3 className="text-white text-sm font-burbank-shadow truncate">
             {item.itemName}
           </h3>
           {item.type !== "Pases" && item.vBucks && (
-            <p className="flex items-center gap-1 text-gray-200 text-sm font-bold">
+             <p className="flex items-center gap-1 text-gray-200 text-sm font-burbank">
               <img src="/img/vbucks2.png" alt="V-Bucks" className="w-4 h-4" />
               {item.vBucks}
             </p>
@@ -72,7 +83,7 @@ export default function Card({ item, selectedCountry, addToCart }) {
       {/* Precio y acciones */}
       <div className="bg-[#192028] text-white px-3 py-3 text-center">
         {localPrice && (
-          <p className="text-[#FBBF24] font-bold text-base mb-3">
+        <p className="text-[#FBBF24] font-burbank-shadow text-base mb-3">
             {selectedCountry.symbol} {localPrice}
           </p>
         )}

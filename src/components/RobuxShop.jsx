@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { openWhatsApp } from "../utils/whatsapp";
-import StickyCTA from "./StickyCTA";
+import StickyCTA from "./StickyCTA_Robux";
 
 /* ===== Helper: full-bleed SOLO en móvil/tablet (desktop intacto) ===== */
 function MobileBleed({ children, className = "" }) {
@@ -379,10 +379,11 @@ Total: ${totalText}
                  <MobileBleed className="mt-0">
                    <StickyCTA
                      variant="static"
-                     title="Robux"
-                     totalText={totalText}
-                     onClick={handleBuy}
-                     showOnDesktop
+  amount={amount}
+  icon="/img/robux-icon.png"
+  totalText={totalText}
+  onClick={handleBuy}
+  showOnDesktop
                    />
                  </MobileBleed>
                )}
@@ -392,10 +393,11 @@ Total: ${totalText}
              {!atEnd && (
                <StickyCTA
                  variant="fixed"
-                 title="Robux"
-                 totalText={totalText}
-                 onClick={handleBuy}
-                 showOnDesktop
+  amount={amount}
+  icon="/img/robux-icon.png"
+  totalText={totalText}
+  onClick={handleBuy}
+  showOnDesktop
                />
              )}
            </>
