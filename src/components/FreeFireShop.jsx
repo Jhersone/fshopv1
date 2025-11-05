@@ -185,35 +185,27 @@ Total: ${totalText}
 
   return (
     <>
-      <section className="max-w-[990px] mx-auto px-6 mt-2 space-y-8">
+      <section className="max-w-[990px] mx-auto px-6 mt-0 space-y-8">
         {/* ===================== HERO — full-bleed en móvil/tablet ===================== */}
-        <MobileBleed>
-          <div className="rounded-2xl overflow-hidden border border-[#2C3A47] bg-[#0f161b]">
-            <Swiper modules={[Navigation]} navigation loop slidesPerView={1}>
-              {[
-                { img: "/img/freefire/hero1.webp", alt: "Free Fire Promo 1" },
-                { img: "/img/freefire/hero2.webp", alt: "Free Fire Promo 2" },
-              ].map((b, i) => (
-                <SwiperSlide key={i}>
-                  <img
-                    src={b.img}
-                    alt={b.alt}
-                    className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </MobileBleed>
+      <MobileBleed>
+  <div className="overflow-hidden border border-[#2C3A47] bg-[#0f161b]">
+    <img
+        src="/img/freeb.png" // 👈 Elige la imagen principal
+      alt="Free Fire Promo"
+      className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+</MobileBleed>
+
 
         {/* ===================== PASO 1: Ingresar (full-bleed en móvil/tablet) ===================== */}
         <MobileBleed>
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div
-                className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+                className="w-8 h-8 bg-[#ffff00] text-black font-bold text-[18px] grid place-items-center"
                 style={{
                   clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                   borderRadius: "4px",
@@ -233,7 +225,7 @@ Total: ${totalText}
                 value={playerId}
                 onChange={(e) => setPlayerId(e.target.value)}
                 placeholder="Introduce el ID del jugador aquí."
-                className="w-full bg-[#0f161b] border border-[#2C3A47] focus:border-[#45F983] focus:ring-2 focus:ring-[#45F983]/30 text-white rounded-xl px-4 py-3 outline-none"
+                className="w-full bg-[#0f161b] border border-[#2C3A47] focus:border-[#ffff00] focus:ring-2 focus:ring-[#ffff00]/30 text-white rounded-xl px-4 py-3 outline-none"
               />
             </div>
           </div>
@@ -244,7 +236,7 @@ Total: ${totalText}
           <div>
             <div className="flex items-center gap-3 mb-5">
               <div
-                className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+                className="w-8 h-8 bg-[#ffff00] text-black font-bold text-[18px] grid place-items-center"
                 style={{
                   clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                   borderRadius: "4px",
@@ -266,7 +258,7 @@ Total: ${totalText}
                     aria-pressed={active}
                     style={{ overflow: "visible" }}
                     className={`relative rounded-xl transition border-2 px-4 py-3 bg-[#191F26] flex items-center justify-center gap-2
-                      ${active ? "border-[#45F983] shadow-[0_0_20px_rgba(69,249,131,.4)]" : "border-[#2C3A47] hover:border-[#45F983]"}`}
+                      ${active ? "border-[#ffff00] shadow-[0_0_20px_rgba(255,251,0,.35)]" : "border-[#2C3A47] hover:border-[#ffff00]"}`}
                   >
                     <img
                       src="/img/diama.png"
@@ -279,7 +271,7 @@ Total: ${totalText}
                     </span>
 
                     {active && (
-                      <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#45F983] text-black grid place-items-center shadow-lg">
+                      <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#ffff00] text-black grid place-items-center shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
@@ -294,7 +286,7 @@ Total: ${totalText}
             <div className="mt-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-sd text-gray-300">Ofertas especiales</span>
-                <div className="flex-1 border-t border-[#2C3A47]" />
+                <div className="flex-1 border-t border-[#ffff00]" />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -307,7 +299,7 @@ Total: ${totalText}
                       onClick={() => setSelectedOffer(of.id)}
                       aria-pressed={active}
                       className={`relative rounded-xl border-2 px-4 py-4 bg-[#191F26] transition flex items-center gap-3 h-[60px]
-                        ${active ? "border-[#45F983] shadow-[0_0_20px_rgba(69,249,131,.4)]" : "border-[#2C3A47] hover:border-[#45F983]"}`}
+                        ${active ? "border-[#ffff00] shadow-[0_0_20px_rgba(255,251,0,.35)]" : "border-[#2C3A47] hover:border-[#ffff00]"}`}
                     >
                       <img
                         src={of.img}
@@ -317,7 +309,7 @@ Total: ${totalText}
                       <span className="font-semibold">{of.title}</span>
 
                       {active && (
-                        <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#45F983] text-black grid place-items-center shadow-lg">
+                        <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#ffff00] text-black grid place-items-center shadow-lg">
                           <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                           </svg>
@@ -336,7 +328,7 @@ Total: ${totalText}
           <div>
             <div className="flex items-center gap-3 mb-5">
               <div
-                className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+                className="w-8 h-8 bg-[#ffff00] text-black font-bold text-[18px] grid place-items-center"
                 style={{
                   clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                   borderRadius: "4px",
@@ -358,8 +350,8 @@ Total: ${totalText}
                     aria-pressed={active}
                     className={[
                       "relative rounded-2xl p-3 text-left border transition flex items-center justify-between",
-                      "bg-[#192028] border-[#2C3A47] hover:border-[#45F983]",
-                      active && "bg-[#0f161b] border-[#45F983] ring-2 ring-[#45F983]/40",
+                      "bg-[#192028] border-[#2C3A47] hover:border-[#ffff00]",
+                      active && "bg-[#0f161b] border-[#ffff00] ring-2 ring-[#ffff00]/40",
                     ].filter(Boolean).join(" ")}
                   >
                     <div className="pr-3">
@@ -368,7 +360,7 @@ Total: ${totalText}
                     </div>
                     <img src={pm.logo} alt={pm.name} className="w-12 h-12 md:w-14 md:h-14 object-contain" loading="lazy" decoding="async" />
                     {active && (
-                      <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#45F983] text-black grid place-items-center font-bold shadow-lg">
+                      <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#ffff00] text-black grid place-items-center font-bold shadow-lg">
                         <i className="fa-solid fa-check text-base" />
                       </span>
                     )}
@@ -381,7 +373,7 @@ Total: ${totalText}
 
       
 
-        {/* ===================== VIDEO YOUTUBE — full-bleed en móvil/tablet ===================== */}
+        {/* ===================== VIDEO YOUTUBE — full-bleed en móvil/tablet ===================== 
         <MobileBleed>
           <div className="w-full aspect-video rounded-2xl overflow-hidden border border-[#2C3A47] bg-[#191F26]">
             <iframe
@@ -398,7 +390,9 @@ Total: ${totalText}
 
         {/* ===================== REFERENCIAS (slider) — full-bleed en móvil/tablet ===================== */}
         <div className="text-center">
-          <h2 className="text-2xl font-bold mt-4 mb-2">¿Necesitas Referencias?</h2>
+              <h2 className="text-2xl font-bold mt-4 mb-2">
+  ¿Necesitas <span className="text-[#FFFB00]">Referencias</span>?
+</h2>
           <p className="text-gray-300 mb-6">
             Aquí podrás visualizar algunos de los tantos pedidos que concretamos todos los días.
           </p>
@@ -417,16 +411,17 @@ Total: ${totalText}
               768: { slidesPerView: 3, spaceBetween: 16 },
               1024: { slidesPerView: 4, spaceBetween: 18 },
             }}
-            className="rounded-xl referencias-slider"
+            
+ className="custom-swiper rounded-xl referencias-slider"
           >
             {[
-              "/img/club/ref1.webp",
-              "/img/club/ref2.webp",
-              "/img/club/ref3.webp",
-              "/img/club/ref4.webp",
-              "/img/club/ref5.webp",
-              "/img/club/ref6.webp",
-              "/img/club/ref7.webp",
+             "/img/club/1.png",
+              "/img/club/2.png",
+              "/img/club/3.png",
+              "/img/club/4.png",
+              "/img/club/5.png",
+              "/img/club/7.png",
+              "/img/club/10.png",
             ].map((src, i) => (
               <SwiperSlide key={i}>
                 <div className="rounded-2xl overflow-hidden border border-[#2C3A47] bg-[#0f161b]">

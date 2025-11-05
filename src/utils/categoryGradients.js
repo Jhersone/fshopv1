@@ -16,12 +16,16 @@ export function getCategoryGradient(category = "") {
   if (name.includes("navidad") || name.includes("winter") || name.includes("festiva")) return "bg-navidad";
   if (name.includes("doja cat")) return "bg-doja";
   if (name.includes("sin límite")) return "bg-sinlimite";
+  if (name.includes("las guerreras k-pop")) return "bg-kpop";
+  if (name.includes("los simpson") || name.includes("adidas")|| name.includes("listo para el combate"))return "bg-simpson";
+  if (name.includes("jóvenes titanes")) return "bg-simpson";
 
   // 🧩 Colaboraciones
   if (name.includes("scooby")) return "bg-scoobydoo";
   if (name.includes("dragon") || name.includes("goku") || name.includes("ball")) return "bg-dragonball";
   if (name.includes("marvel") || name.includes("spider") || name.includes("avenger")) return "bg-marvel";
   if (name.includes("dc") || name.includes("batman") || name.includes("joker")) return "bg-dc";
+
   if (name.includes("star wars") || name.includes("jedi") || name.includes("vader")) return "bg-starwars";
   if (name.includes("icon") || name.includes("colaboración") || name.includes("creator")) return "bg-iconseries";
   if (name.includes("gaming") || name.includes("legends") || name.includes("halo") || name.includes("kratos")) return "bg-gaminglegends";

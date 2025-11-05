@@ -51,8 +51,8 @@ const getVisiblePayments = (code) => PAYMENTS_BY_COUNTRY[code] ?? PAYMENTS_BY_CO
 /* ===== Precio Robux por 1000 ===== */
 const ROBUX_RATE = {
   PE: { per1000: 35,   symbol: "S/" },
-  MX: { per1000: 185.5, symbol: "$" },
-  US: { per1000: 7.0,  symbol: "$" },
+  MX: { per1000: 192.5, symbol: "$" },
+  US: { per1000: 10.5,  symbol: "$" },
   BO: { per1000: 50,   symbol: "Bs" },
 };
 
@@ -122,34 +122,27 @@ Total: ${totalText}
 
   return (
     <>
-      <section className="w-full md:max-w-[990px] md:mx-auto space-y-8 px-3 sm:px-4 md:px-6 mt-2">
+      <section className="w-full md:max-w-[990px] md:mx-auto space-y-8 px-3 sm:px-4 md:px-6 mt-0">
         {/* === HERO (misma altura que Crew) — full-bleed en mobile/tablet === */}
-        <MobileBleed>
-          <div className="rounded-2xl overflow-hidden border md:border border-[#2C3A47] bg-[#0f161b]">
-            <Swiper modules={[Navigation]} navigation loop slidesPerView={1}>
-              {[
-                { img: "/img/robux/hero1.webp", alt: "Robux Promo 1" },
-                { img: "/img/robux/hero2.webp", alt: "Robux Promo 2" },
-              ].map((b, i) => (
-                <SwiperSlide key={i}>
-                  <img
-                    src={b.img}
-                    alt={b.alt}
-                    className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </MobileBleed>
+      <MobileBleed>
+ <div className="overflow-hidden bg-[#0f161b] rounded-none md:rounded-2xl border-0 md:border md:border-[#2C3A47]">
+
+    <img
+      src="/img/robuxb.png"  // 👈 Puedes cambiar por hero2.webp si prefieres
+      alt="Robux Promo"
+      className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+</MobileBleed>
+
  <MobileBleed>
         {/* === PASO 1: Requisitos === */}
         <div>
           <div className="flex items-center gap-3 mb-3">
             <div
-              className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+              className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                 borderRadius: "4px",
@@ -163,17 +156,17 @@ Total: ${totalText}
           <div className="rounded-2xl bg-[#191F26] border border-[#2C3A47] p-4 md:p-5">
             <div className="space-y-3 md:space-y-4">
               <div className="flex items-start gap-3">
-                <i className="fa-solid fa-check mt-0.5 text-[#45F983]" />
+                <i className="fa-solid fa-check mt-0.5 text-[#FFFB00]" />
                 <p className="text-base text-white">
                   Debes estar en mi grupo por 14 días para enviar Robux al instante.
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <i className="fa-solid fa-check mt-0.5 text-[#45F983]" />
+                <i className="fa-solid fa-check mt-0.5 text-[#FFFB00]" />
                 <p className="text-base text-white">No se entrega por Gamepass (solo por Grupo).</p>
               </div>
               <div className="flex items-start gap-3">
-                <i className="fa-solid fa-check mt-0.5 text-[#45F983]" />
+                <i className="fa-solid fa-check mt-0.5 text-[#FFFB00]" />
                 <p className="text-base text-white">Robux 100% legales.</p>
               </div>
             </div>
@@ -186,7 +179,7 @@ Total: ${totalText}
         <div>
           <div className="flex items-center gap-3 mb-5">
             <div
-              className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+              className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                 borderRadius: "4px",
@@ -207,13 +200,13 @@ Total: ${totalText}
                   aria-pressed={active}
                   style={{ overflow: "visible" }}
                   className={`relative rounded-xl transition border-2 px-4 py-4 bg-[#191F26] flex items-center justify-center gap-2
-                    ${active ? "border-[#45F983] shadow-[0_0_20px_rgba(69,249,131,.4)]" : "border-[#2C3A47] hover:border-[#45F983]"}`}
+                    ${active ? "border-[#FFFB00] shadow-[0_0_20px_rgba(255,251,0,.35)]" : "border-[#2C3A47] hover:border-[#FFFB00]"}`}
                 >
                   <img src="/img/robux-icon.png" alt="Robux" className="w-6 h-6 object-contain" />
                   <span className="font-semibold text-[16px]">{r.toLocaleString()}</span>
 
                   {active && (
-                    <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#45F983] text-black grid place-items-center shadow-lg">
+                    <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#FFFB00] text-black grid place-items-center shadow-lg">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
@@ -228,7 +221,7 @@ Total: ${totalText}
           <div className="mt-5">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-sd text-gray-300">Monto personalizado (mínimo 1000)</span>
-              <div className="flex-1 border-t border-[#2C3A47]" />
+              <div className="flex-1 border-t border-[#FFFB00]" />
             </div>
 
             <div className="flex items-center gap-3">
@@ -239,11 +232,11 @@ Total: ${totalText}
                 value={custom}
                 onChange={(e) => handleCustom(e.target.value)}
                 placeholder="Ej: 1800"
-                className="flex-1 bg-[#0f161b] border border-[#2C3A47] focus:border-[#45F983] focus:ring-2 focus:ring-[#45F983]/30 text-white rounded-xl px-4 py-3 outline-none"
+                className="flex-1 bg-[#0f161b] border border-[#2C3A47] focus:border-[#FFFB00] focus:ring-2 focus:ring-[#FFFB00]/30 text-white rounded-xl px-4 py-3 outline-none"
               />
               <button
                 onClick={() => handleCustom(String(Math.max(Number(custom) || 0, 1000)))}
-                className="px-4 py-3 rounded-xl bg-[#192028] border border-[#2C3A47] hover:border-[#45F983] text-white"
+                className="px-4 py-3 rounded-xl bg-[#192028] border border-[#2C3A47] hover:border-[#FFFB00] text-white"
               >
                 Usar
               </button>
@@ -257,7 +250,7 @@ Total: ${totalText}
         <div>
           <div className="flex items-center gap-3 mb-5">
             <div
-              className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+              className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                 borderRadius: "4px",
@@ -278,8 +271,8 @@ Total: ${totalText}
                   aria-pressed={active}
                   className={[
                     "relative rounded-2xl p-3 text-left border transition flex items-center justify-between",
-                    "bg-[#192028] border-[#2C3A47] hover:border-[#45F983]",
-                    active && "bg-[#0f161b] border-[#45F983] ring-2 ring-[#45F983]/40",
+                    "bg-[#192028] border-[#2C3A47] hover:border-[#FFFB00]",
+                    active && "bg-[#0f161b] border-[#FFFB00] ring-2 ring-[#FFFB00]/40",
                   ].filter(Boolean).join(" ")}
                 >
                   <div className="pr-3">
@@ -296,7 +289,7 @@ Total: ${totalText}
                   />
 
                   {active && (
-                    <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#45F983] text-black grid place-items-center font-bold shadow-lg">
+                    <span className="absolute -bottom-2 -right-2 w-7 h-7 rounded-lg bg-[#FFFB00] text-black grid place-items-center font-bold shadow-lg">
                       <i className="fa-solid fa-check text-base" />
                     </span>
                   )}
@@ -306,7 +299,7 @@ Total: ${totalText}
           </div>
         </div>
 </MobileBleed>
-        {/* === VIDEO — full-bleed en mobile/tablet === */}
+        {/* === VIDEO — full-bleed en mobile/tablet === 
         <MobileBleed>
           <div className="w-full aspect-video rounded-2xl overflow-hidden border border-[#2C3A47] bg-[#191F26]">
             <iframe
@@ -323,7 +316,9 @@ Total: ${totalText}
 
         {/* === REFERENCIAS === */}
         <div className="text-center">
-          <h2 className="text-2xl font-bold mt-4 mb-2">¿Necesitas Referencias?</h2>
+          <h2 className="text-2xl font-bold mt-4 mb-2">
+  ¿Necesitas <span className="text-[#FFFB00]">Referencias</span>?
+</h2>
           <p className="text-gray-300 mb-6">
             Aquí podrás visualizar algunos de los tantos pedidos que concretamos todos los días.
           </p>
@@ -342,19 +337,19 @@ Total: ${totalText}
               768: { slidesPerView: 3, spaceBetween: 16 },
               1024: { slidesPerView: 4, spaceBetween: 18 },
             }}
-            className="rounded-xl referencias-slider"
+             className="custom-swiper rounded-xl referencias-slider"
           >
             {[
-              "/img/club/ref1.webp",
-              "/img/club/ref2.webp",
-              "/img/club/ref3.webp",
-              "/img/club/ref4.webp",
-              "/img/club/ref5.webp",
-              "/img/club/ref6.webp",
-              "/img/club/ref7.webp",
+              "/img/club/1.png",
+              "/img/club/2.png",
+              "/img/club/3.png",
+              "/img/club/4.png",
+              "/img/club/5.png",
+              "/img/club/7.png",
+              "/img/club/10.png",
             ].map((src, i) => (
               <SwiperSlide key={i}>
-                <div className="rounded-xl overflow-hidden border border-[#2C3A47] bg-[#0f161b]">
+                <div className="rounded-xl overflow-hidden border border-[#FFFB00] bg-[#0f161b]">
                   <img
                     src={src}
                     alt={`Referencia ${i + 1}`}

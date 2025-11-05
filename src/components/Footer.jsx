@@ -27,7 +27,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Logo + copy */}
           <div>
-            <div className="inline-block rounded px-2 py-1 bg-[#45f983] text-black font-bold">
+            <div className="inline-block rounded px-2 py-1 bg-[#ffff00] text-black font-bold">
               TIOHUNTER
             </div>
             <p className="text-gray-400 text-sm mt-3 leading-relaxed">

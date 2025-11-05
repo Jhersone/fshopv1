@@ -3,7 +3,7 @@ export const COUNTRIES = {
   MX: { code: "MX", name: "México", flag: "🇲🇽", symbol: "$",  rates: { vbucks: 0.09,  robux: 185.5, crew: 110 } },
   BO: { code: "BO", name: "Bolivia", flag: "🇧🇴", symbol: "Bs", rates: { vbucks: 0.012, robux: 0,   crew: 140 } },
   CL: { code: "CL", name: "Chile", flag: "🇨🇱", symbol: "$",  rates: { vbucks: 0.0,   robux: 0,   crew: 6500 } },
-  US: { code: "US", name: "USA",  flag: "🇺🇸", symbol: "$",  rates: { vbucks: 0.0,   robux: 0,   crew: 5.99 } },
+  US: { code: "US", name: "USA",  flag: "🇺🇸", symbol: "$",  rates: { vbucks: 0.0045,   robux: 0,   crew: 7.50 } },
 };
 export const DEFAULT_COUNTRY = COUNTRIES.PE;
 

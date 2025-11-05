@@ -36,7 +36,18 @@ export default function ShopGrid({ selectedCountry, searchTerm, setSearchTerm, a
     })();
   }, []);
 
-  const filters = ["Todos", "Atuendo", "Gesto", "Calzado", "Música", "Personaje", "Autos", "Pases"];
+// 🔹 Filtros con etiquetas personalizadas (UI) y valores reales (data)
+const filters = [
+  "Todos",
+  { label: "SKINS", value: "Atuendo" },
+  { label: "BAILES", value: "Gesto" },
+  "Calzado",
+  "Música",
+  "Personaje",
+  "Autos",
+  "Pases"
+];
+
   const combinedItems = currentFilter === "Pases" ? manualPasesWithPrice : allItems;
 
   const globalResults = useMemo(() => {

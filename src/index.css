@@ -14,10 +14,12 @@
   font-style: normal;
 }
 
-
+/*cambio de color fondo de proyecto
+  background-color: #0f161b;   
+*/
 body {
   font-family: 'Barlow', sans-serif; /* fuente general más legible */
-  background-color: #0f161b;
+  background-color: #0a0a0a;
   color: white;
 }
 
@@ -117,11 +119,13 @@ body {
   }
 }
 
-/* Fondo oscuro + botones verdes */
+
+
+/* === Flechas amarillas puras (sin fondo oscuro) === */
 .custom-swiper .swiper-button-prev,
 .custom-swiper .swiper-button-next {
-  color: #45f983; /* Verde brillante */
-  background: rgba(25, 32, 40, 0.8); /* Fondo oscuro semi */
+  color: #FFFB00; /* Amarillo brillante */
+  background: transparent; /* 🔥 sin fondo detrás */
   padding: 12px;
   border-radius: 50%;
   transition: all 0.3s ease-in-out;
@@ -129,19 +133,24 @@ body {
 
 .custom-swiper .swiper-button-prev:hover,
 .custom-swiper .swiper-button-next:hover {
-  color: #36e673; /* Verde más intenso en hover */
-  background: rgba(25, 32, 40, 1);
+  color: #FFF70A; /* un tono más cálido en hover */
+  transform: scale(1.15);
+  text-shadow: 0 0 8px rgba(255, 251, 0, 0.7); /* brillo suave */
 }
 
-/* Paginación (bullets) */
+/* === Bolitas SIEMPRE amarillas === */
 .custom-swiper .swiper-pagination-bullet {
-  background: #2c3a47; /* Gris oscuro para inactivos */
-  opacity: 1;
+  background: #FFFB00 !important; /* todas amarillas */
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
 }
 
 .custom-swiper .swiper-pagination-bullet-active {
-  background: #45f983; /* Verde brillante activo */
+  opacity: 1; /* solo cambia opacidad, no color */
+  box-shadow: 0 0 6px rgba(255, 251, 0, 0.7); /* resalta la activa */
 }
+
+
 
 /* Ajusta tamaño de bullets */
 .custom-swiper .swiper-pagination-bullet {
@@ -165,12 +174,12 @@ body {
 
 /* Color de las bolitas */
 .swiper-pagination-bullet {
-  background-color: #45F983 !important;
+  background-color: #FFFB00 !important;
   opacity: 0.5;
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #45F983 !important;
+  background-color: #FFFB00 !important;
   opacity: 1;
 }
 
@@ -188,8 +197,8 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-shadow:
-      0 2px 6px rgba(0, 0, 0, 0.5),  /* sombra suave difusa */
-    2px 2px 2px rgba(0, 0, 0, 0.5), /* borde oscuro leve */
+      0 2px 6px rgba(0, 0, 0, 0.3),  /* sombra suave difusa */
+    2px 2px 2px rgba(0, 0, 0, 0.3), /* borde oscuro leve */
     0 0 8px rgba(0, 0, 0, 0.1);     /* halo general */
 }
 
@@ -207,6 +216,15 @@ body {
     radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.25), transparent 70%),
     linear-gradient(to bottom, #1fd7f1 0%, #0a4d8c 100%);
 }
+
+.bg-simpson {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #e78df2 0%, #e78df2 60%, #eca4f3 100%);
+}
+
+
 
 
 /* === Gradientes por categoría === */
@@ -238,6 +256,13 @@ body {
     radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.25), transparent 70%),
     linear-gradient(180deg, #ff1008 0%, #7f1d1d 100%);
 }
+.bg-kpop {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(180deg, #aa14e6 0%, #e045d9 100%);
+}
+
 .bg-dc {
   background:
     radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.25), transparent 70%),

@@ -68,7 +68,7 @@ const getVisiblePayments = (code) =>
   PAYMENTS_BY_COUNTRY[code] ?? PAYMENTS_BY_COUNTRY.GLOBAL;
 
 // ==== PRECIOS ====
-const CREW_PRICE = { PE: 25.0, MX: 110.0, BO: 140.0, CL: 6500.0, US: 5.99 };
+const CREW_PRICE = { PE: 25.0, MX: 110.0, BO: 140.0, CL: 6500.0, US: 7.50 };
 
 export default function CrewClub({ selectedCountry }) {
   const [platform, setPlatform] = useState("nintendo");
@@ -136,41 +136,33 @@ Total: ${priceText}`;
         "
       >
         {/* HERO – full-bleed SOLO en mobile/tablet */}
-        <MobileBleed>
-          <div
-            className="
-              overflow-hidden bg-[#0f161b]
-              rounded-none md:rounded-2xl
-              border-0 md:border md:border-[#2C3A47]
-            "
-          >
-            <Swiper modules={[Navigation]} navigation loop slidesPerView={1}>
-              {[
-                { img: "/img/crew2.png", alt: "Fortnite Crew A" },
-                { img: "/img/crew.jpg",  alt: "Fortnite Crew B" },
-              ].map((b, i) => (
-                <SwiperSlide key={i}>
-                  <img
-                    src={b.img}
-                    alt={b.alt}
-                    className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </MobileBleed>
+<MobileBleed>
+  <div
+    className="
+      overflow-hidden bg-[#0f161b]
+      rounded-none md:rounded-2xl
+      border-0 md:border md:border-[#2C3A47]
+    "
+  >
+    <img
+      src="/img/crew2.png"  // 👈 usa aquí la imagen que quieras
+      alt="Fortnite Crew"
+      className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+</MobileBleed>
+
         <MobileBleed>
         {/* PASO 1: Requisitos (se mantiene con padding del section en todos los tamaños) */}
         <div>
           <div className="flex items-center gap-3 mb-3">
             <div
-              className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+              className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
-                borderRadius: "4px",
+                borderRadius: "4px"
               }}
             >
               1
@@ -181,11 +173,11 @@ Total: ${priceText}`;
           <div className="rounded-2xl bg-[#191F26] border border-[#2C3A47] p-4 md:p-5">
             <div className="space-y-3 md:space-y-4">
               <div className="flex items-start gap-3">
-                <i className="fa-solid fa-check mt-0.5 text-[#45F983]" />
+                <i className="fa-solid fa-check mt-0.5 text-[#FFFB00]" />
                 <p className="text-base text-white">Correo electrónico y contraseña</p>
               </div>
               <div className="flex items-start gap-3">
-                <i className="fa-solid fa-check mt-0.5 text-[#45F983]" />
+                <i className="fa-solid fa-check mt-0.5 text-[#FFFB00]" />
                 <p className="text-base text-white">
                   Debes tener acceso a tu correo electrónico
                   <span className="block text-sm text-gray-400">
@@ -194,7 +186,7 @@ Total: ${priceText}`;
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <i className="fa-solid fa-check mt-0.5 text-[#45F983]" />
+                <i className="fa-solid fa-check mt-0.5 text-[#FFFB00]" />
                 <p className="text-base text-white">Tiempo aproximado: 15 minutos</p>
               </div>
             </div>
@@ -206,7 +198,7 @@ Total: ${priceText}`;
         <div>
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+              className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                 borderRadius: "4px",
@@ -228,8 +220,8 @@ Total: ${priceText}`;
                   style={{ overflow: "visible" }}
                   className={`relative rounded-xl transition border ${
                     active
-                      ? "border-[#45F983] shadow-[0_0_16px_rgba(69,249,131,.35)]"
-                      : "border-[#2C3A47] hover:border-[#45F983]"
+                      ? "border-[#FFFB00] shadow-[0_0_16px_rgba(255,251,0,.35)]"
+                      : "border-[#2C3A47] hover:border-[#FFFB00]"
                   }`}
                 >
                   <div className="h-[67px] sm:h-24 rounded-xl bg-[#192028] grid place-items-center">
@@ -243,7 +235,7 @@ Total: ${priceText}`;
                   </div>
 
                   {active && (
-                    <span className="absolute -bottom-2 -right-2 w-6 h-6 rounded-md bg-[#45F983] text-black grid place-items-center shadow-lg">
+                    <span className="absolute -bottom-2 -right-2 w-6 h-6 rounded-md bg-[#FFFB00] text-black grid place-items-center shadow-lg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-4 h-4"
@@ -269,7 +261,7 @@ Total: ${priceText}`;
         <div>
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="w-8 h-8 bg-[#45F983] text-black font-bold text-[18px] grid place-items-center"
+              className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
               style={{
                 clipPath: "polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%)",
                 borderRadius: "4px",
@@ -290,8 +282,8 @@ Total: ${priceText}`;
                   aria-pressed={active}
                   className={[
                     "relative rounded-2xl p-3 sm:p-4 text-left border transition flex items-center justify-between",
-                    "bg-[#192028] border-[#2C3A47] hover:border-[#45F983]",
-                    active && "bg-[#0f161b] border-[#45F983] ring-2 ring-[#45F983]/40",
+                    "bg-[#192028] border-[#2C3A47] hover:border-[#FFFB00]",
+                    active && "bg-[#0f161b] border-[#FFFB00] ring-2 ring-[#FFFB00]/40",
                   ]
                     .filter(Boolean)
                     .join(" ")}
@@ -310,7 +302,7 @@ Total: ${priceText}`;
                   />
 
                   {active && (
-                    <span className="absolute -bottom-2 -right-2 w-6 h-6 rounded-md bg-[#45F983] text-black grid place-items-center font-bold shadow-lg">
+                    <span className="absolute -bottom-2 -right-2 w-6 h-6 rounded-md bg-[#FFFB00] text-black grid place-items-center font-bold shadow-lg">
                       <i className="fa-solid fa-check text-sm" />
                     </span>
                   )}
@@ -319,25 +311,16 @@ Total: ${priceText}`;
             })}
           </div>
         </div>
+        
 </MobileBleed>
         {/* VIDEO – full-bleed SOLO en mobile/tablet */}
-        <MobileBleed>
-          <div className="w-full aspect-video rounded-2xl overflow-hidden border border-[#2C3A47] bg-[#191F26]">
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="Video de referencia"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
-        </MobileBleed>
-
+        
         {/* REFERENCIAS – slider full-bleed SOLO mobile/tablet */}
         <div className="text-center">
-          <h2 className="text-2xl font-bold mt-4 mb-2">¿Necesitas Referencias?</h2>
+          <h2 className="text-2xl font-bold mt-4 mb-2">
+  ¿Necesitas <span className="text-[#FFFB00]">Referencias</span>?
+</h2>
+
           <p className="text-gray-300 mb-6">
             Aquí podrás visualizar algunos de los tantos pedidos que concretamos todos los días.
           </p>
@@ -356,19 +339,19 @@ Total: ${priceText}`;
               768: { slidesPerView: 3, spaceBetween: 16 },
               1024: { slidesPerView: 4, spaceBetween: 18 },
             }}
-            className="rounded-xl referencias-slider"
+             className="custom-swiper rounded-xl referencias-slider"
           >
             {[
-              "/img/club/ref1.webp",
-              "/img/club/ref2.webp",
-              "/img/club/ref3.webp",
-              "/img/club/ref4.webp",
-              "/img/club/ref5.webp",
-              "/img/club/ref6.webp",
-              "/img/club/ref7.webp",
+              "/img/club/1.png",
+              "/img/club/2.png",
+              "/img/club/3.png",
+              "/img/club/4.png",
+              "/img/club/5.png",
+              "/img/club/7.png",
+              "/img/club/10.png",
             ].map((src, i) => (
               <SwiperSlide key={i}>
-                <div className="rounded-xl overflow-hidden border border-[#2C3A47] bg-[#0f161b]">
+                <div className="rounded-xl overflow-hidden border border-[#FFFB00] bg-[#0f161b]">
                   <img
                     src={src}
                     alt={`Referencia ${i + 1}`}
@@ -395,6 +378,7 @@ Total: ${priceText}`;
             variant="static"
   selectedCrew={selectedCrew}
   onClick={handleBuy}
+  priceText={priceText}   // ✅ agrega esta línea
   showOnDesktop
             />
           </MobileBleed>

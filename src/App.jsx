@@ -32,7 +32,8 @@ function App() {
         removeFromCart={removeFromCart}
         clearCart={clearCart}
       />
-      <BannerCarousel />
+    {/* <BannerCarousel /> */}
+
       <CarouselTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
      {activeTab === "regalo" && <div className="px-4"><AvisoRegalo /></div>}

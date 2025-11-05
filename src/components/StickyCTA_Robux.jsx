@@ -48,14 +48,14 @@ totalText,
 
   {/* Total */}
   <div className="text-[17px] mt-0.5">
-    Total: <span className="font-bold text-[#45F983]">{totalText}</span>
+    Total: <span className="font-bold text-[#FFFB00]">{totalText}</span>
   </div>
           </div>
 
           <button
             type="button"
             onClick={onClick}
-            className="flex-shrink-0 w-[180px] bg-[#45F983] hover:bg-[#36E673] text-black font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-base shadow-lg transition"
+            className="flex-shrink-0 w-[180px] bg-[#FFFB00] text-black font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-base shadow-lg transition"
             aria-label={buttonText}
           >
             <i className="fab fa-whatsapp text-xl" aria-hidden="true" />

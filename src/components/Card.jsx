@@ -72,7 +72,7 @@ export default function Card({ item, selectedCountry, addToCart, category }) {
             {item.itemName}
           </h3>
           {item.type !== "Pases" && item.vBucks && (
-             <p className="flex items-center gap-1 text-gray-200 text-sm font-burbank">
+             <p className="flex items-center gap-1 text-gray-200 text-sm font-burbank-shadow">
               <img src="/img/vbucks2.png" alt="V-Bucks" className="w-4 h-4" />
               {item.vBucks}
             </p>
@@ -83,28 +83,21 @@ export default function Card({ item, selectedCountry, addToCart, category }) {
       {/* Precio y acciones */}
       <div className="bg-[#192028] text-white px-3 py-3 text-center">
         {localPrice && (
-        <p className="text-[#FBBF24] font-burbank-shadow text-base mb-3">
+        <p className="text-[#FFFFFF] font-burbank-shadow text-lg mb-3">
             {selectedCountry.symbol} {localPrice}
           </p>
         )}
 
         <div className="flex justify-between items-center gap-2">
-          <button
-            onClick={handleWhatsApp}
-            className="bg-[#45f983] hover:bg-[#36e673] text-black font-bold py-2 px-3 text-sm rounded flex-grow flex items-center justify-center gap-2"
-          >
-            <i className="fab fa-whatsapp text-lg"></i> Comprar
-          </button>
+   <button
+  onClick={handleWhatsApp}
+ className="bg-[#FFFF00] text-black font-bold py-2.5 px-4 rounded-xl w-full flex items-center justify-center gap-2 transition-all duration-300"
+>
+  <i className="fab fa-whatsapp text-lg"></i> Comprar
 
-          <button
-            onClick={() =>
-              addToCart({ ...item, localPrice: localPrice ?? "0.00" })
-            }
-            className="bg-[#45f983] hover:bg-[#36e673] text-black w-9 h-9 flex items-center justify-center rounded"
-            title="Agregar al carrito"
-          >
-            <i className="fas fa-plus text-lg"></i>
-          </button>
+</button>
+
+
         </div>
       </div>
     </div>
