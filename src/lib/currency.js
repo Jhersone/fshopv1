@@ -1,6 +1,6 @@
 export const COUNTRIES = {
   PE: { code: "PE", name: "Perú", flag: "🇵🇪", symbol: "S/", rates: { vbucks: 0.015, robux: 35, crew: 25 } },
-  MX: { code: "MX", name: "México", flag: "🇲🇽", symbol: "$",  rates: { vbucks: 0.09,  robux: 185.5, crew: 110 } },
+  MX: { code: "MX", name: "México", flag: "🇲🇽", symbol: "$",  rates: { vbucks: 0.09,  robux: 185.5, crew: 140 } },
   BO: { code: "BO", name: "Bolivia", flag: "🇧🇴", symbol: "Bs", rates: { vbucks: 0.012, robux: 0,   crew: 140 } },
   CL: { code: "CL", name: "Chile", flag: "🇨🇱", symbol: "$",  rates: { vbucks: 0.0,   robux: 0,   crew: 6500 } },
   US: { code: "US", name: "USA",  flag: "🇺🇸", symbol: "$",  rates: { vbucks: 0.0045,   robux: 0,   crew: 7.50 } },
