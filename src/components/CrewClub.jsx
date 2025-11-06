@@ -68,7 +68,7 @@ const getVisiblePayments = (code) =>
   PAYMENTS_BY_COUNTRY[code] ?? PAYMENTS_BY_COUNTRY.GLOBAL;
 
 // ==== PRECIOS ====
-const CREW_PRICE = { PE: 25.0, MX: 110.0, BO: 140.0, CL: 6500.0, US: 7.50 };
+const CREW_PRICE = { PE: 25.0, MX: 140.0, BO: 140.0, CL: 6500.0, US: 7.50 };
 
 export default function CrewClub({ selectedCountry }) {
   const [platform, setPlatform] = useState("nintendo");
