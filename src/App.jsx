@@ -1,8 +1,9 @@
 import { useState } from "react";
+import CustomSnowfall from "./components/CustomSnowfall";
 import Header from "./components/Header";
 import CarouselTabs from "./components/CarouselTabs";
 import ShopGrid from "./components/ShopGrid";
-import CrewClub from "./components/CrewClub"
+import CrewClub from "./components/CrewClub";
 import AvisoRegalo from "./components/AvisoRegalo";
 import FloatingButtons from "./components/FloatingButtons";
 import BannerCarousel from "./components/BannerCarousel";
@@ -24,48 +25,61 @@ function App() {
   const clearCart = () => setCart([]);
 
   return (
-    <div className="min-h-screen text-white">
-      <Header
-        selectedCountry={selectedCountry}
-        onCountryChange={setSelectedCountry}
-        cart={cart}
-        removeFromCart={removeFromCart}
-        clearCart={clearCart}
-      />
-    {/* <BannerCarousel /> */}
+    // 1. Quité bg-[#0f161b] para respetar tu color original
+    <div className="min-h-screen text-white relative overflow-x-hidden">
+      
+      {/* 2. La nieve (z-0) se verá detrás de todo */}
+      <CustomSnowfall />
 
-      <CarouselTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* 3. Contenedor con z-10 para que tu contenido esté ENCIMA de la nieve */}
+      <div className="relative z-10">
+        
+        <Header
+          selectedCountry={selectedCountry}
+          onCountryChange={setSelectedCountry}
+          cart={cart}
+          removeFromCart={removeFromCart}
+          clearCart={clearCart}
+        />
+        {/* <BannerCarousel /> */}
 
-     {activeTab === "regalo" && <div className="px-4"><AvisoRegalo /></div>}
+        <CarouselTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-<main className="p-6">
-  {activeTab === "regalo" && (
-    <ShopGrid
-      searchTerm={searchTerm}
-      setSearchTerm={setSearchTerm}
-      selectedCountry={selectedCountry}
-      addToCart={addToCart}
-    />
-  )}
-  {activeTab === "crew" && (
-    <CrewClub selectedCountry={selectedCountry} />
-  )}
-  {activeTab === "pavos" && (
-    <div className="space-y-4">
-      <RobuxShop selectedCountry={selectedCountry} />
-    </div>
-  )}
-  {activeTab === "freefire" && (
-    <FreeFireShop selectedCountry={selectedCountry} />
-  )}
- {activeTab === "vbucks" && (
-  <VBucksShop selectedCountry={selectedCountry} />
-)}
+        {activeTab === "regalo" && (
+          <div className="px-4">
+            <AvisoRegalo />
+          </div>
+        )}
 
-</main>
+        <main className="p-6">
+          {activeTab === "regalo" && (
+            <ShopGrid
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedCountry={selectedCountry}
+              addToCart={addToCart}
+            />
+          )}
+          {activeTab === "crew" && (
+            <CrewClub selectedCountry={selectedCountry} />
+          )}
+          {activeTab === "pavos" && (
+            <div className="space-y-4">
+              <RobuxShop selectedCountry={selectedCountry} />
+            </div>
+          )}
+          {activeTab === "freefire" && (
+            <FreeFireShop selectedCountry={selectedCountry} />
+          )}
+          {activeTab === "vbucks" && (
+            <VBucksShop selectedCountry={selectedCountry} />
+          )}
+        </main>
 
-      <FloatingButtons />
-      <Footer />
+        <FloatingButtons />
+        <Footer />
+        
+      </div>
     </div>
   );
 }
