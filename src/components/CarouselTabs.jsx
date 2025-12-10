@@ -2,9 +2,10 @@
 const TABS = [
   { id: "regalo",   label: "Regalos",  img: "/img/regalo_morado.png" },
   { id: "crew",     label: "Crew",      img: "/img/crew.jpg" },
+    { id: "vbucks",   label: "Pavos",     img: "/img/dim3.png" },
   { id: "pavos",    label: "Robux",     img: "/img/robux_1.png" },
-  { id: "freefire", label: "Free Fire", img: "/img/dim2.png" },
-  //{ id: "vbucks",   label: "Pavos",     img: "/img/dim2.png" },
+ // { id: "freefire", label: "Free Fire", img: "/img/dim2.png" },
+
 ];
 
 const ICON_PX_MOBILE = 84;   // tamaño en móvil

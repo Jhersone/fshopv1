@@ -145,7 +145,7 @@ Total: ${priceText}`;
     "
   >
     <img
-      src="/img/crew2.png"  // 👈 usa aquí la imagen que quieras
+      src="/img/crew2.webp"  // 👈 usa aquí la imagen que quieras
       alt="Fortnite Crew"
       className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
       loading="lazy"
@@ -347,8 +347,8 @@ Total: ${priceText}`;
               "/img/club/3.png",
               "/img/club/4.png",
               "/img/club/5.png",
+              "/img/club/6.png",
               "/img/club/7.png",
-              "/img/club/10.png",
             ].map((src, i) => (
               <SwiperSlide key={i}>
                 <div className="rounded-xl overflow-hidden border border-[#FFFB00] bg-[#0f161b]">
