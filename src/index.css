@@ -224,6 +224,26 @@ body {
     linear-gradient(to bottom right, #e78df2 0%, #e78df2 60%, #eca4f3 100%);
 }
 
+.bg-harrypoter {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #0076fd 0%, #9ed8ff 60%, #1d9ff5 100%);
+}
+
+.bg-playboicarti {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #e2662c 0%, #ffe60a 60%, #a15d04 100%);
+}
+
+.bg-daftpunk {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #d506ff 0%, #f2b3ff 60%, #b30df5 100%);
+}
 
 
 
@@ -302,9 +322,6 @@ body {
 }
 .bg-legendary {
   background: linear-gradient(180deg, #f59e0b 0%, #92400e 100%);
-}
-.bg-uncommon {
-  background: linear-gradient(180deg, #22c55e 0%, #14532d 100%);
 }
 
 /* 🔹 Fallback */

@@ -19,6 +19,9 @@ export function getCategoryGradient(category = "") {
   if (name.includes("las guerreras k-pop")) return "bg-kpop";
   if (name.includes("los simpson") || name.includes("adidas")|| name.includes("listo para el combate"))return "bg-simpson";
   if (name.includes("jóvenes titanes")) return "bg-simpson";
+  if (name.includes("celebración de hogwarts") || name.includes("avatar: guerreros de pandora")|| name.includes("Festival de invierno")) return "bg-harrypoter";
+    if (name.includes("playboi carti")) return "bg-playboicarti";
+    if (name.includes("daft punk")) return "bg-daftpunk";
 
   // 🧩 Colaboraciones
   if (name.includes("scooby")) return "bg-scoobydoo";
@@ -34,7 +37,6 @@ export function getCategoryGradient(category = "") {
   if (name.includes("epic") || name.includes("épico")) return "bg-epic";
   if (name.includes("rare") || name.includes("raro")) return "bg-rare";
   if (name.includes("legendary") || name.includes("legendario")) return "bg-legendary";
-  if (name.includes("uncommon") || name.includes("poco común")) return "bg-uncommon";
 
   // 🎯 Default fallback
   return "bg-default";
