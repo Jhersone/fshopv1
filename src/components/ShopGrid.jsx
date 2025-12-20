@@ -41,11 +41,12 @@ const filters = [
   "Todos",
   { label: "SKINS", value: "Atuendo" },
   { label: "BAILES", value: "Gesto" },
+   { label: "MASCOTA", value: "Compañero" },
   "Calzado",
   "Música",
-  "Personaje",
   "Autos",
   "Pases"
+  
 ];
 
   const combinedItems = currentFilter === "Pases" ? manualPasesWithPrice : allItems;

@@ -7,37 +7,52 @@
  * Ejemplo: "Pesadilla Descerebrada" → bg-pesadilla
  */
 
+// src/utils/categoryGradients.js
+
 export function getCategoryGradient(category = "") {
+  // Convertimos a minúsculas para evitar errores
   const name = category.toLowerCase();
 
-  // 🎃 Eventos y temáticas
-  if (name.includes("pesadilla")) return "bg-pesadilla";
-  if (name.includes("halloween")) return "bg-pesadilla";
-  if (name.includes("navidad") || name.includes("winter") || name.includes("festiva")) return "bg-navidad";
-  if (name.includes("doja cat")) return "bg-doja";
-  if (name.includes("sin límite")) return "bg-sinlimite";
-  if (name.includes("las guerreras k-pop")) return "bg-kpop";
-  if (name.includes("los simpson") || name.includes("adidas")|| name.includes("listo para el combate"))return "bg-simpson";
-  if (name.includes("jóvenes titanes")) return "bg-simpson";
-  if (name.includes("celebración de hogwarts") || name.includes("avatar: guerreros de pandora")|| name.includes("Festival de invierno")) return "bg-harrypoter";
-    if (name.includes("playboi carti")) return "bg-playboicarti";
-    if (name.includes("daft punk")) return "bg-daftpunk";
+  // 🧽 SERIE NICKELODEON (Bob Esponja, Avatar, Tortugas Ninja)
+  if (name.includes("bob esponja") || name.includes("spongebob") || name.includes("patricio") || name.includes("patrick")) return "bg-spongebob";
+  if (name.includes("nickelodeon") || name.includes("tortugas") || name.includes("tmnt")) return "bg-navidad"; // Verde para tortugas
+  if (name.includes("avatar")) return "bg-harrypoter"; // Azul místico para Avatar
 
+  // 🎃 Eventos y temáticas
+  if (name.includes("invierno")) return "bg-harrypoter";
+ 
+  // 🎵 Música / Icon Series
+  if (name.includes("doja cat")) return "bg-doja";
+  if (name.includes("sin límite") || name.includes("the weeknd") || name.includes("lady gaga")) return "bg-sinlimite";
+  if (name.includes("k-pop") || name.includes("bts")) return "bg-kpop";
+  if (name.includes("playboi") || name.includes("carti")) return "bg-playboicarti";
+  if (name.includes("daft punk")) return "bg-daftpunk";
+  if (name.includes("eminem") || name.includes("icon") || name.includes("ídolos") || name.includes("colaboración")) return "bg-playboicarti"; // Naranja/Amarillo genérico para ídolos
+
+  // 📺 Series Animadas / TV
+  if (name.includes("simpson") || name.includes("futurama") || name.includes("family guy") || name.includes("padre de familia")) return "bg-simpson";
+  if (name.includes("titanes") || name.includes("raven")) return "bg-simpson"; // Morado
+  if (name.includes("rick") || name.includes("morty")) return "bg-navidad"; // Verde tóxico
+
+  // 🧙‍♂️ Fantasía / Magia
+  if (name.includes("hogwarts") || name.includes("harry") || name.includes("potter")) return "bg-harrypoter";
+  
   // 🧩 Colaboraciones
   if (name.includes("scooby")) return "bg-scoobydoo";
-  if (name.includes("dragon") || name.includes("goku") || name.includes("ball")) return "bg-dragonball";
-  if (name.includes("marvel") || name.includes("spider") || name.includes("avenger")) return "bg-marvel";
-  if (name.includes("dc") || name.includes("batman") || name.includes("joker")) return "bg-dc";
+  if (name.includes("dragon") || name.includes("goku") || name.includes("vegeta")) return "bg-dragonball";
+  if (name.includes("marvel") || name.includes("spider") || name.includes("avenger") || name.includes("deadpool")) return "bg-marvel";
+  if (name.includes("dc") || name.includes("batman") || name.includes("joker") || name.includes("superman")) return "bg-dc";
+  if (name.includes("star wars") || name.includes("jedi") || name.includes("sith") || name.includes("vader")) return "bg-fortnite-rare"; // Usamos uno azul espacial
 
-  if (name.includes("star wars") || name.includes("jedi") || name.includes("vader")) return "bg-starwars";
-  if (name.includes("icon") || name.includes("colaboración") || name.includes("creator")) return "bg-iconseries";
-  if (name.includes("gaming") || name.includes("legends") || name.includes("halo") || name.includes("kratos")) return "bg-gaminglegends";
+  // 🎮 Gaming Legends
+  if (name.includes("gaming") || name.includes("leyendas") || name.includes("halo") || name.includes("kratos") || name.includes("resident")) return "bg-fortnite-rare";
 
-  // 🦸 Series o rarezas
-  if (name.includes("epic") || name.includes("épico")) return "bg-epic";
-  if (name.includes("rare") || name.includes("raro")) return "bg-rare";
-  if (name.includes("legendary") || name.includes("legendario")) return "bg-legendary";
+  // 💎 Rarezas Estándar (Fallback)
+  if (name.includes("épico") || name.includes("epic")) return "bg-daftpunk"; // Morado
+  if (name.includes("legendario") || name.includes("legendary")) return "bg-playboicarti"; // Dorado/Naranja
+  if (name.includes("raro") || name.includes("rare")) return "bg-harrypoter"; // Azul
+  if (name.includes("poco común") || name.includes("uncommon")) return "bg-navidad"; // Verde
 
-  // 🎯 Default fallback
-  return "bg-default";
+  // Si no encuentra nada, devuelve undefined (o puedes poner una clase por defecto)
+  return ""; 
 }

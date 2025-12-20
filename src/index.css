@@ -250,15 +250,6 @@ body {
 /* === Gradientes por categoría === */
 
 /* 🎃 Eventos */
-.bg-pesadilla {
-  background:
-    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.25), transparent 70%),
-    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.25), transparent 70%),
-    linear-gradient(180deg, #f53527 0%, #640cd8 100%);
-}
-.bg-navidad {
-  background: linear-gradient(180deg, #22c55e 0%, #065f46 100%);
-}
 
 /* 🧩 Colaboraciones */
 .bg-scoobydoo {
@@ -303,28 +294,11 @@ body {
     linear-gradient(180deg, #ff33ff 0%, #d6245d  50%, #7b2cbf  100%);
 }
 
-.bg-starwars {
-  background: linear-gradient(180deg, #1e293b 0%, #000 100%);
-}
-.bg-iconseries {
-  background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 100%);
-}
-.bg-gaminglegends {
-  background: linear-gradient(180deg, #9333ea 0%, #581c87 100%);
-}
-
-/* 🦸 Rarezas */
-.bg-epic {
-  background: linear-gradient(180deg, #8b5cf6 0%, #4c1d95 100%);
-}
-.bg-rare {
-  background: linear-gradient(180deg, #3b82f6 0%, #1e3a8a 100%);
-}
-.bg-legendary {
-  background: linear-gradient(180deg, #f59e0b 0%, #92400e 100%);
-}
-
-/* 🔹 Fallback */
-.bg-default {
-  background: linear-gradient(180deg, #6b7280 0%, #374151 100%);
+/* 🧽 Fondo de Bikini (Bob Esponja) */
+.bg-spongebob {
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 0, 0.15), transparent 50%), /* Brillo Amarillo */
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 0, 0.15), transparent 50%),
+    linear-gradient(180deg, #ff62dd 0%, #f9b2ff 60%, #fc7adf 100%); /* Amarillo a Azul Océano */
+ 
 }
