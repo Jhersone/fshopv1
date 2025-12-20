@@ -233,9 +233,10 @@ body {
 
 .bg-playboicarti {
   background:
-    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
-    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
-    linear-gradient(to bottom right, #e2662c 0%, #ffe60a 60%, #a15d04 100%);
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 0, 0.15), transparent 50%), /* Brillo Amarillo */
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 0, 0.15), transparent 50%),
+    linear-gradient(180deg, #ff4221f6 0%, #b80b0b 60%, #800606 100%); /* Amarillo a Azul Océano */
+
 }
 
 .bg-daftpunk {

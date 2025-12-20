@@ -20,6 +20,7 @@ export function getCategoryGradient(category = "") {
 
   // 🎃 Eventos y temáticas
   if (name.includes("invierno")) return "bg-harrypoter";
+  if (name.includes("miku")) return "bg-harrypoter";
  
   // 🎵 Música / Icon Series
   if (name.includes("doja cat")) return "bg-doja";
