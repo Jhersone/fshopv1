@@ -1,7 +1,7 @@
 // 1. IMPORTAR LA FUNCIÓN DE ORDENAMIENTO
 import { sortShopCategories } from "../utils/shopSorter";
 
-const KEY = "fortniteShopData";
+const KEY = "fortniteShopData_1";
 const TTL = 5 * 60 * 1000; // 5 min
 
 export async function getShop(language = "es-419") {
