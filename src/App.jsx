@@ -1,4 +1,5 @@
-import { useState } from "react";
+// src/App.jsx
+import { useState, useEffect } from "react"; // 👈 OJO: Agregué useEffect aquí
 import CustomSnowfall from "./components/CustomSnowfall";
 import Header from "./components/Header";
 import CarouselTabs from "./components/CarouselTabs";
@@ -10,10 +11,13 @@ import RobuxShop from "./components/RobuxShop";
 import FreeFireShop from "./components/FreeFireShop";
 import VBucksShop from "./components/VBucksShop";
 import Footer from "./components/Footer";
-import BottomNav from "./components/BottomNav";   
-import CartDrawer from "./components/CartDrawer"; // Importamos el Drawer
+import BottomNav from "./components/BottomNav";    
+import CartDrawer from "./components/CartDrawer";
 import { useCountry } from "@/hooks/useCountry";
 import { DEFAULT_COUNTRY } from "@/lib/currency";
+
+// 👇 1. ESTA ES LA VERSIÓN. Cámbiala cuando hagas cambios grandes en la tienda.
+const APP_VERSION = "2.0"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -23,10 +27,27 @@ function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // 👇 CORRECCIÓN AQUÍ: Ya no abrimos el carrito automáticamente
+  // 👇 2. ESTE CÓDIGO BORRA EL CACHÉ VIEJO DEL CLIENTE AUTOMÁTICAMENTE
+  useEffect(() => {
+    const storedVersion = localStorage.getItem("app_version");
+
+    if (storedVersion !== APP_VERSION) {
+      console.log("Nueva actualización detectada. Limpiando caché...");
+      
+      // Borramos datos viejos que podrían romper la página
+      localStorage.removeItem("cart"); 
+      localStorage.clear(); 
+      
+      // Guardamos la nueva versión
+      localStorage.setItem("app_version", APP_VERSION);
+      
+      // Reseteamos el carrito visualmente por si acaso
+      setCart([]);
+    }
+  }, []);
+
   const addToCart = (item) => {
     setCart((prev) => [...prev, item]);
-    // setIsCartOpen(true); <--- ¡ELIMINADO! Para que no se abra solo.
   };
 
   const removeFromCart = (index) => setCart((prev) => prev.filter((_, i) => i !== index));
@@ -87,24 +108,21 @@ function App() {
           )}
         </main>
 
-        {/*<FloatingButtons />*/}
         <Footer />
 
-       {/* 👇 AQUÍ EL CAMBIO: Agregamos addToCart={addToCart} */}
         <CartDrawer 
           isOpen={isCartOpen} 
           onClose={() => setIsCartOpen(false)}
           cart={cart}
           removeFromCart={removeFromCart}
-          addToCart={addToCart}  // <--- ¡ESTO ES IMPORTANTE!
+          addToCart={addToCart}
           selectedCountry={selectedCountry}
         />
         
-        {/* 👇 BARRA INFERIOR (Esta sí activa isCartOpen al hacer clic en su botón) */}
         {activeTab === "regalo" && (
           <BottomNav 
             cartCount={cart.length} 
-            onOpenCart={() => setIsCartOpen(true)} // <--- Aquí SÍ abrimos el carrito
+            onOpenCart={() => setIsCartOpen(true)}
           />
         )}
         
