@@ -50,9 +50,10 @@ const PAYMENTS_BY_COUNTRY = {
   ],
   BO: [{ id: "qr_bo", name: "Pago con QR", note: "Sin comisión", logo: "/img/payments/qr.webp" }],
   US: [
-    { id: "coinbase_us", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
+   // { id: "coinbase_us", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
+     { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.webp" },
     { id: "meru_us",     name: "MERU",     note: "Con comisión", logo: "/img/payments/meru.webp" },
-    { id: "card_us",     name: "TARJETA",  note: "Con comisión", logo: "/img/payments/card.webp" },
+    //{ id: "card_us",     name: "TARJETA",  note: "Con comisión", logo: "/img/payments/card.webp" },
     { id: "paypal_us",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
   GLOBAL: [
@@ -62,13 +63,18 @@ const PAYMENTS_BY_COUNTRY = {
     { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
     { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.webp" },
   ],
+
+     CL: [
+    { id: "global66",  name: "GLOBAL66",  note: "Sin comisión", logo: "/img/payments/global66.webp" },
+    { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
+  ],
 };
 
 const getVisiblePayments = (code) =>
   PAYMENTS_BY_COUNTRY[code] ?? PAYMENTS_BY_COUNTRY.GLOBAL;
 
 // ==== PRECIOS ====
-const CREW_PRICE = { PE: 25.0, MX: 140.0, BO: 140.0, CL: 6500.0, US: 7.50 };
+const CREW_PRICE = { PE: 25.0, MX: 140.0, BO: 7.50, CL: 7400.0, US: 7.50 };
 
 export default function CrewClub({ selectedCountry }) {
   const [platform, setPlatform] = useState("nintendo");
@@ -115,12 +121,32 @@ export default function CrewClub({ selectedCountry }) {
     [payment, visiblePayments]
   );
 
-  const handleBuy = () => {
-    const msg = `¡Hola! Quiero el *Fortnite Crew*.
-País: ${code}
-Plataforma: ${selectedPlatform?.alt}
-Pago: ${selectedPayment?.name} (${selectedPayment?.note})
+ const handleBuy = () => {
+    // 1. Definimos los datos de pago según lo seleccionado
+    let datosPago = "";
+    const pid = selectedPayment?.id;
+
+    if (pid === "yape") {
+        datosPago = "Yape: 931646873 | Jherson M.F";
+    } else if (pid === "plin") {
+        datosPago = "Plin: 931646873";
+    } else if (pid === "transf_pe" || pid === "deposito_pe") {
+        datosPago = "BCP: *19199035150003*";
+    } else {
+        // Para otros métodos (PayPal, etc.)
+        datosPago = `Pago con: ${selectedPayment?.name} (Solicitar datos)`;
+    }
+
+    // 2. Construimos el mensaje con la estructura exacta que pediste
+    const msg = `¡Hola! Quiero el *Fortnite Crew*
+*${selectedPlatform?.alt || "Plataforma"}*
+Correo: 
+Contraseña: 
+
+*Pagar Aqui*
+${datosPago}
 Total: ${priceText}`;
+
     openWhatsApp(msg);
   };
 

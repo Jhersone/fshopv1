@@ -1,29 +1,37 @@
 import { useState } from "react";
 
-const COUNTRY_OPTIONS = [
-  { code: "PE", flag: "🇵🇪", symbol: "S/" },
-  { code: "MX", flag: "🇲🇽", symbol: "$" },
-  { code: "US", flag: "🇺🇸", symbol: "$" },
+// 1. LISTA OFICIAL DE PAÍSES (Actualizada con Banderas y Nuevos Países)
+const COUNTRIES = [
+  { code: "PE", name: "Perú",     flag: "🇵🇪", symbol: "S/" },
+  { code: "MX", name: "México",   flag: "🇲🇽", symbol: "$"  },
+  { code: "US", name: "USA",      flag: "🇺🇸", symbol: "$"  },
+  { code: "BO", name: "Bolivia",  flag: "🇧🇴", symbol: "US$" },
+  { code: "CL", name: "Chile",    flag: "🇨🇱", symbol: "$"  },
+  { code: "CO", name: "Colombia", flag: "🇨🇴", symbol: "$"  },
 ];
 
 function CountryMenu({ current, onSelect, onClose }) {
   return (
+    // Regresamos el ancho a w-28 como lo tenías
     <div
       className="absolute right-0 mt-2 w-28 bg-[#192028] rounded-lg shadow-xl border border-[#2C3A47] z-50 p-2"
       role="listbox"
       aria-label="Seleccionar país"
     >
-      {COUNTRY_OPTIONS.map((opt) => (
+      {/* Usamos la lista correcta 'COUNTRIES' */}
+      {COUNTRIES.map((opt) => (
         <button
           key={opt.code}
           onClick={() => {
             onSelect(opt);
             onClose?.();
           }}
+          // Usamos TU diseño de botón original
           className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded hover:bg-[#22303C] ${
             current?.code === opt.code ? "bg-[#22303C]" : ""
           }`}
         >
+          {/* 👇 SOLO BANDERA Y CÓDIGO (Tu diseño) 👇 */}
           <span className="text-lg">{opt.flag}</span>
           <span className="font-bold text-sm">{opt.code}</span>
         </button>
@@ -35,13 +43,15 @@ function CountryMenu({ current, onSelect, onClose }) {
 export default function Header({ selectedCountry, onCountryChange }) {
   const [openCountry, setOpenCountry] = useState(false);
 
+  // Asegurarnos de que selectedCountry tenga datos válidos
+  const current = selectedCountry || COUNTRIES[0];
+
   return (
     <header
       className="
         bg-[#0a0a0a] text-white sticky top-0 z-50 border-b border-[#1c1c1c] shadow-md
       "
     >
-      {/* --- Contenedor centrado como Pagostore --- */}
       <div
         className="
           max-w-[1200px] mx-auto
@@ -83,16 +93,16 @@ export default function Header({ selectedCountry, onCountryChange }) {
               transition-all duration-200
             "
           >
-            <span className="text-base sm:text-lg">{selectedCountry.flag}</span>
+            <span className="text-base sm:text-lg">{current.flag}</span>
             <span className="font-bold text-sm sm:text-base">
-              {selectedCountry.code}
+              {current.code}
             </span>
-            <i className="fas fa-chevron-down text-gray-400 text-xs sm:text-sm"></i>
+            <i className={`fas fa-chevron-down text-gray-400 text-xs sm:text-sm transition-transform ${openCountry ? "rotate-180" : ""}`}></i>
           </button>
 
           {openCountry && (
             <CountryMenu
-              current={selectedCountry}
+              current={current}
               onSelect={(opt) => onCountryChange(opt)}
               onClose={() => setOpenCountry(false)}
             />

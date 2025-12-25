@@ -8,19 +8,16 @@ import "swiper/css/pagination";
 import { openWhatsApp } from "../utils/whatsapp";
 import StickyCTA_vbuck from "./StickyCTA_vbuck";
 
-// ==== 1. MobileBleed ESTÁNDAR (Como en CrewClub) ====
-// Usa -mx-9 para estirar el contenedor más allá de los márgenes normales
+// ==== 1. MobileBleed ESTÁNDAR ====
 function MobileBleed({ children, className = "" }) {
   return (
     <div className={["-mx-9 sm:-mx-4 md:-mx-14 lg:mx-0", className].join(" ")}>
-      {/* Padding interno para que el texto no toque el borde de la pantalla */}
       <div className="px-3 sm:px-4 md:px-6 lg:px-0">{children}</div>
     </div>
   );
 }
 
 // ==== 2. HeroBleed (PARA LA IMAGEN) ====
-// Igual que el anterior pero SIN padding interno (px-0) para que la imagen sea FULL WIDTH
 function HeroBleed({ children, className = "" }) {
   return (
     <div className={["-mx-9 sm:-mx-4 md:-mx-14 lg:mx-0", className].join(" ")}>
@@ -47,30 +44,39 @@ const PAYMENTS_BY_COUNTRY = {
   PE: [
     { id: "yape",        name: "YAPE",          note: "Sin comisión", logo: "/img/payments/yape.webp" },
     { id: "plin",        name: "PLIN",          note: "Sin comisión", logo: "/img/payments/plin.png" },
-    { id: "transf_pe",   name: "TRANSFER", note: "Sin comisión", logo: "/img/payments/deposito.png" },
+    { id: "transf_pe",   name: "TRANSFER",      note: "Sin comisión", logo: "/img/payments/deposito.png" },
     { id: "deposito_pe", name: "DEPÓSITO",      note: "Sin comisión", logo: "/img/payments/deposito.png" },
     { id: "paypal_pe",   name: "PAYPAL",        note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
   MX: [
-    { id: "oxxo",      name: "OXXO",    note: "Con comisión", logo: "/img/payments/oxxo.png" },
-    { id: "spei",      name: "STP",    note: "Sin comisión", logo: "/img/payments/spei.png" },
-    { id: "paypal_mx", name: "PAYPAL",  note: "Con comisión", logo: "/img/payments/paypal.webp" },
+    { id: "oxxo",      name: "OXXO",     note: "Sin comisión", logo: "/img/payments/oxxo.png" },
+    { id: "spei",      name: "TRANSFER", note: "Sin comisión", logo: "/img/payments/spei.png" },
+    { id: "paypal_mx", name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
   BO: [
-    { id: "qr_bo", name: "Pago con QR", note: "Sin comisión", logo: "/img/payments/qr.webp" },
+    // Bolivia ahora usa Dólares (QR y Binance)
+    
+    { id: "binance", name: "BINANCE",     note: "Sin comisión", logo: "/img/payments/binance.webp" },
   ],
   US: [
-    { id: "coinbase_us", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
+      { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+   // { id: "coinbase_us", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
     { id: "meru_us",     name: "MERU",     note: "Con comisión", logo: "/img/payments/meru.webp" },
-    { id: "card_us",     name: "TARJETA",  note: "Con comisión", logo: "/img/payments/card.webp" },
+   // { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+    //{ id: "card_us",     name: "TARJETA",  note: "Con comisión", logo: "/img/payments/card.webp" },
     { id: "paypal_us",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
   GLOBAL: [
-    { id: "coinbase", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
+    //{ id: "coinbase", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
     { id: "meru",     name: "MERU",     note: "Con comisión", logo: "/img/payments/meru.webp" },
     { id: "card",     name: "TARJETA",  note: "Con comisión", logo: "/img/payments/card.webp" },
     { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
     { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.webp" },
+  ],
+
+    CL: [
+    { id: "global66",  name: "GLOBAL66",  note: "Sin comisión", logo: "/img/payments/global66.webp" },
+    { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
 };
 
@@ -81,16 +87,20 @@ const getVisiblePayments = (code) =>
 const VBUCKS_RATE = {
   PE: { per1000: 20,  symbol: "S/" },
   MX: { per1000: 110, symbol: "$"  },
-  BO: { per1000: 50,  symbol: "Bs" },
+  BO: { per1000: 7.0, symbol: "US$" }, // Bolivia en Dólares
   US: { per1000: 7.0, symbol: "$"  },
+  CL: { per1000: 6000, symbol: "$" }, // Chile (Ejemplo)
+  CO: { per1000: 25000, symbol: "$" }, // Colombia (Ejemplo)
   GLOBAL: { per1000: 20, symbol: "S/" },
 };
 
 const VBUCKS_PRICE_TABLE = {
-  PE: { 1000: 22,  2800: 54,  5000: 85,  13500: 200 },
-  MX: { 1000: 121, 2800: 297, 5000: 468, 13500: 1100 },
-  BO: { 1000: 50,  2800: 135, 5000: 220, 13500: 540 },
+  PE: { 1000: 22,   2800: 54,    5000: 85,   13500: 200 },
+  MX: { 1000: 121,  2800: 297,   5000: 468,  13500: 1100 },
+  BO: { 1000: 6.63, 2800: 16.30, 5000: 25.6, 13500: 60.30 }, // Bolivia = Precios US
   US: { 1000: 6.63, 2800: 16.30, 5000: 25.6, 13500: 60.30 },
+  CL: { 1000: 6550, 2800: 16300, 5000: 25100, 13500: 57900 }, // Precios Chile (Ejemplo)
+  CO: { 1000: 28000, 2800: 65000, 5000: 110000, 13500: 250000 }, // Precios Colombia (Ejemplo)
   GLOBAL: {}
 };
 
@@ -105,42 +115,42 @@ const VBUCKS_OPTIONS = [1000, 2800, 5000, 13500];
 
 /* ============ OFERTAS ESPECIALES ============ */
 const OFFERS = [
-
   {
     id: "pack1",
     title: "Surfeo Shaka",
     img: "/img/pavos/paquete-surf.webp",
-    price: { PE: 13, MX: 72, BO: 220, US: 3.92, GLOBAL: 95 },
+    // Recuerda editar estos precios de CL y CO con tus valores reales
+    price: { PE: 13, MX: 72, BO: 3.92, US: 3.92, CL: 3700, CO: 15000, GLOBAL: 95 },
   },
   {
     id: "pack2",
     title: "Leyendas Polares",
     img: "/img/pavos/paquete-polares.jpg",
-    price: { PE: 51, MX: 280, BO: 135, US: 15.37, GLOBAL: 55 },
+    price: { PE: 51, MX: 280, BO: 15.37, US: 15.37, CL: 15500, CO: 60000, GLOBAL: 55 },
   },
   {
     id: "pack3",
     title: "Elite Dorada",
      img: "/img/pavos/paquete-dorado.webp",
-    price: { PE: 40, MX: 220, BO: 135, US: 12.1, GLOBAL: 55 },
+    price: { PE: 40, MX: 220, BO: 12.1, US: 12.1, CL: 12300, CO: 50000, GLOBAL: 55 },
   },
    {
     id: "pack4",
     title: "Leyendas congeladas",
      img: "/img/pavos/paquete-congeladas.webp",
-    price: { PE: 41, MX: 226, BO: 135, US: 12.35, GLOBAL: 55 },
+    price: { PE: 41, MX: 226, BO: 12.35, US: 12.35, CL: 12600, CO: 52000, GLOBAL: 55 },
   },
    {
     id: "pack5",
     title: "Renegados Agencia",
      img: "/img/pavos/paquete-agencia.webp",
-    price: { PE: 48, MX: 264, BO: 135, US: 14.5, GLOBAL: 55 },
+    price: { PE: 48, MX: 264, BO: 14.5, US: 14.5, CL: 14650, CO: 58000, GLOBAL: 55 },
   },
   {
     id: "pack6",
     title: "Clip Completo",
      img: "/img/pavos/paquete-clip.webp",
-    price: { PE: 43, MX: 237, BO: 135, US: 13, GLOBAL: 55 },
+    price: { PE: 43, MX: 237, BO: 13.0, US: 13.0, CL: 13200, CO: 55000, GLOBAL: 55 },
   },
 ];
 
@@ -186,7 +196,7 @@ export default function VBucksShop({ selectedCountry }) {
     : VBucksPrice(code, amount);
 
   const totalText =
-    code === "US"
+    (code === "US" || code === "BO") // BO ahora usa formato de dólar
       ? `${symbol}${(computedTotal ?? 0).toFixed(2)}`
       : `${symbol} ${
           Number.isInteger(computedTotal)
@@ -214,7 +224,6 @@ Total: ${totalText}
     openWhatsApp(msg);
   };
 
-  // Badge estilo pagostore
   const Badge = ({ n }) => (
     <div
       className="w-8 h-8 bg-[#FFFB00] text-black font-bold text-[18px] grid place-items-center"
@@ -238,26 +247,26 @@ Total: ${totalText}
           mt-0
         "
       >
-      {/* HERO – full-bleed SOLO en mobile/tablet */}
-<MobileBleed>
-  <div
-    className="
-      overflow-hidden bg-[#0f161b]
-      rounded-none md:rounded-2xl
-      border-0 md:border md:border-[#2C3A47]
-    "
-  >
-    <img
-      src="/img/banerpav.webp"  // 👈 usa aquí la imagen que quieras
-      alt="Fortnite Crew"
-      className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
-      loading="lazy"
-      decoding="async"
-    />
-  </div>
-</MobileBleed>
+        {/* HERO */}
+        <MobileBleed>
+          <div
+            className="
+              overflow-hidden bg-[#0f161b]
+              rounded-none md:rounded-2xl
+              border-0 md:border md:border-[#2C3A47]
+            "
+          >
+            <img
+              src="/img/banerpav.webp" 
+              alt="Fortnite Crew"
+              className="w-full h-[75px] sm:h-[160px] md:h-[150px] object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </MobileBleed>
 
-        {/* ==================== PASO 1: Requisitos ==================== */}
+        {/* PASO 1: Requisitos */}
         <MobileBleed>
           <div>
             <div className="flex items-center gap-3 mb-3">
@@ -289,7 +298,7 @@ Total: ${totalText}
           </div>
         </MobileBleed>
 
-        {/* ==================== PASO 2: Plataformas (3 COLUMNAS) ==================== */}
+        {/* PASO 2: Plataformas */}
         <MobileBleed>
           <div>
             <div className="flex items-center gap-3 mb-5">
@@ -297,7 +306,6 @@ Total: ${totalText}
               <h2 className="text-xl font-bold">¿Por dónde ingresas?</h2>
             </div>
 
-            {/* Grid 3 columnas, gap reducido (gap-2) para que entren bien */}
             <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
               {PLATFORMS.map((p) => {
                 const active = platform === p.id;
@@ -337,7 +345,7 @@ Total: ${totalText}
           </div>
         </MobileBleed>
 
-        {/* ==================== PASO 3: Cantidad + Ofertas (CIERRA AQUI BIEN) ==================== */}
+        {/* PASO 3: Cantidad + Ofertas */}
         <MobileBleed>
           <div>
             <div className="flex items-center gap-3 mb-5">
@@ -345,7 +353,7 @@ Total: ${totalText}
               <h2 className="text-xl font-bold">Elige la cantidad</h2>
             </div>
 
-            {/* Grid Cantidades (3 cols en movil) */}
+            {/* Grid Cantidades */}
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
               {VBUCKS_OPTIONS.map((v) => {
                 const active = !selectedOfferId && amount === v;
@@ -379,14 +387,13 @@ Total: ${totalText}
               })}
             </div>
 
-            {/* Ofertas especiales (3 COLUMNAS MÓVIL / 6 COLUMNAS PC) */}
+            {/* Ofertas especiales */}
             <div className="mt-6">
               <div className="flex items-center gap-3 mb-3">
                 <span className="text-lg font-bold text-white">Ofertas especiales</span>
                 <div className="flex-1 border-t border-[#2C3A47]" />
               </div>
 
-              {/* Grid 3 columnas (móvil) / 6 columnas (PC) */}
               <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
                 {OFFERS.map((of) => {
                   const active = selectedOfferId === of.id;
@@ -407,11 +414,9 @@ Total: ${totalText}
                       <img
                         src={of.img}
                         alt={of.title}
-                        // Altura ajustada a 120px para móvil para que se vea bien en vertical
                         className="w-auto h-[120px] sm:h-[160px] object-contain mb-2" 
                       />
                       
-                      {/* Texto eliminado visualmente, pero se mantiene en el código para el StickyCTA */}
                       {active && (
                         <span className="absolute -bottom-2 -right-2 w-6 h-6 rounded-md bg-[#FFFB00] text-black grid place-items-center">
                           <i className="fa-solid fa-check text-sm" />
@@ -424,133 +429,62 @@ Total: ${totalText}
             </div>
           </div>
         </MobileBleed> 
-        {/* ^^^ AQUI ERA DONDE FALTABA EL CIERRE ANTES DEL PASO 4 ^^^ */}
 
-      {/* ==================== PASO 4: Métodos de pago ==================== */}
-<MobileBleed>
-  <div>
-    <div className="flex items-center gap-3 mb-5">
-      <Badge n={4} />
-      <h2 className="text-xl font-bold">Método de Pago</h2>
-    </div>
-
-    {/* CAMBIO AQUI: grid-cols-2 en lugar de grid-cols-1, y gap ajustado */}
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-      {visiblePayments.map((pm) => {
-        const active = payment === pm.id;
-        return (
-          <button
-            key={pm.id}
-            onClick={() => setPayment(pm.id)}
-            aria-pressed={active}
-            className={[
-              // Ajusté el padding (p-3 en movil, p-4 en desktop) para que entre bien en 2 columnas
-              "relative rounded-2xl p-3 sm:p-4 text-left border transition flex items-center justify-between",
-              "bg-[#192028] hover:border-[#FFFB00]",
-              active 
-                ? "bg-[#0f161b] border-[#FFFB00] ring-2 ring-[#FFFB00]/40"
-                : "border-[#2C3A47]"
-            ].filter(Boolean).join(" ")}
-          >
-            <div className="pr-2 sm:pr-3">
-              {/* Ajuste de texto para móvil */}
-              <div className="text-[15px] sm:text-lg font-bold leading-tight">{pm.name}</div>
-              <div className="text-xs sm:text-sm text-gray-300 mt-1">{pm.note}</div>
+        {/* PASO 4: Métodos de pago */}
+        <MobileBleed>
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <Badge n={4} />
+              <h2 className="text-xl font-bold">Método de Pago</h2>
             </div>
 
-            <img
-              src={pm.logo}
-              alt={pm.name}
-              // Ajusté el tamaño de la imagen (w-10 en movil, w-14 en desktop) igual que en CrewClub
-              className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain"
-              loading="lazy"
-              decoding="async"
-            />
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              {visiblePayments.map((pm) => {
+                const active = payment === pm.id;
+                return (
+                  <button
+                    key={pm.id}
+                    onClick={() => setPayment(pm.id)}
+                    aria-pressed={active}
+                    className={[
+                      "relative rounded-2xl p-3 sm:p-4 text-left border transition flex items-center justify-between",
+                      "bg-[#192028] hover:border-[#FFFB00]",
+                      active 
+                        ? "bg-[#0f161b] border-[#FFFB00] ring-2 ring-[#FFFB00]/40"
+                        : "border-[#2C3A47]"
+                    ].filter(Boolean).join(" ")}
+                  >
+                    <div className="pr-2 sm:pr-3">
+                      <div className="text-[15px] sm:text-lg font-bold leading-tight">{pm.name}</div>
+                      <div className="text-xs sm:text-sm text-gray-300 mt-1">{pm.note}</div>
+                    </div>
 
-            {active && (
-              <span className="absolute -bottom-2 -right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#FFFB00] text-black grid place-items-center font-bold shadow-lg">
-                <i className="fa-solid fa-check text-sm sm:text-base" />
-              </span>
-            )}
-          </button>
-        );
-      })}
-    </div>
-  </div>
-</MobileBleed>
+                    <img
+                      src={pm.logo}
+                      alt={pm.name}
+                      className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
 
-        {/* ==================== VIDEO YOUTUBE ==================== 
-        <MobileBleed>
-          <div className="w-full aspect-video rounded-2xl overflow-hidden border border-[#2C3A47] bg-[#191F26]">
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-              title="Video V-Bucks"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+                    {active && (
+                      <span className="absolute -bottom-2 -right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-[#FFFB00] text-black grid place-items-center font-bold shadow-lg">
+                        <i className="fa-solid fa-check text-sm sm:text-base" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </MobileBleed>*/}
+        </MobileBleed>
 
-        {/* ==================== REFERENCIAS (slider) ==================== 
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mt-4 mb-2">
-            ¿Necesitas <span className="text-[#FFFB00]">Referencias</span>?
-          </h2>
-          <p className="text-gray-300 mb-6">
-            Aquí podrás visualizar algunos de los tantos pedidos que concretamos todos los días.
-          </p>
-        </div>
-
-        <MobileBleed>
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay]}
-            navigation
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            loop
-            spaceBetween={12}
-            slidesPerView={1}
-            breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 14 },
-              768: { slidesPerView: 3, spaceBetween: 16 },
-              1024: { slidesPerView: 4, spaceBetween: 18 },
-            }}
-            className="rounded-xl referencias-slider"
-          >
-            {[
-              "/img/club/ref1.webp",
-              "/img/club/ref2.webp",
-              "/img/club/ref3.webp",
-              "/img/club/ref4.webp",
-              "/img/club/ref5.webp",
-              "/img/club/ref6.webp",
-              "/img/club/ref7.webp",
-            ].map((src, i) => (
-              <SwiperSlide key={i}>
-                <div className="rounded-xl overflow-hidden border border-[#FFFB00] bg-[#0f161b]">
-                  <img
-                    src={src}
-                    alt={`Referencia ${i + 1}`}
-                    className="w-full h-[320px] object-contain bg-[#0f161b]"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </MobileBleed>*/}
-
-        {/* Marcador para el final de la sección */}
         <div ref={endRef} className="h-0" />
 
-        {/* Espaciador SOLO cuando el CTA flotante está visible */}
+        {/* Espaciador CTA */}
         {!atEnd && <div aria-hidden className="h-24" />}
 
-        {/* CTA ACOPLADA (en el flujo) cuando estamos al final */}
+        {/* CTA Estática */}
         {atEnd && (
           <MobileBleed className="mt-0">
             <StickyCTA_vbuck
@@ -563,7 +497,7 @@ Total: ${totalText}
         )}
       </section>
 
-      {/* CTA FLOTANTE (para mobile y desktop) mientras NO estás al final */}
+      {/* CTA Flotante */}
       {!atEnd && (
         <StickyCTA_vbuck
           variant="fixed"

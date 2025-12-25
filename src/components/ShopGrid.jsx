@@ -7,7 +7,7 @@ import { getShop } from "@/services/shopService";
 export default function ShopGrid({ selectedCountry, searchTerm, setSearchTerm, addToCart }) {
   const [allItems, setAllItems] = useState([]);
   const [itemsByCategory, setItemsByCategory] = useState({});
-  const [currentFilter, setCurrentFilter] = useState("Atuendo");
+  const [currentFilter, setCurrentFilter] = useState("Todos");
   const [loading, setLoading] = useState(true);
 
   const manualPases = [
