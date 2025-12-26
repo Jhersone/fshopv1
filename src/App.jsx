@@ -1,5 +1,6 @@
 // src/App.jsx
-import { useState, useEffect } from "react"; // 👈 OJO: Agregué useEffect aquí
+import { useState, useEffect } from "react";
+import { useCountry } from "@/hooks/useCountry"; // 👈 IMPORTANTE: Faltaba importar esto
 import CustomSnowfall from "./components/CustomSnowfall";
 import Header from "./components/Header";
 import CarouselTabs from "./components/CarouselTabs";
@@ -13,11 +14,10 @@ import VBucksShop from "./components/VBucksShop";
 import Footer from "./components/Footer";
 import BottomNav from "./components/BottomNav";    
 import CartDrawer from "./components/CartDrawer";
-import { useCountry } from "@/hooks/useCountry";
-import { DEFAULT_COUNTRY } from "@/lib/currency";
+import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/currency";
 
-// 👇 1. ESTA ES LA VERSIÓN. Cámbiala cuando hagas cambios grandes en la tienda.
-const APP_VERSION = "2.2"; 
+// 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
+const APP_VERSION = "2.4"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -27,24 +27,26 @@ function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // 👇 2. ESTE CÓDIGO BORRA EL CACHÉ VIEJO DEL CLIENTE AUTOMÁTICAMENTE
+  // Lógica de limpieza de caché por versión
   useEffect(() => {
     const storedVersion = localStorage.getItem("app_version");
 
     if (storedVersion !== APP_VERSION) {
       console.log("Nueva actualización detectada. Limpiando caché...");
-      
-      // Borramos datos viejos que podrían romper la página
       localStorage.removeItem("cart"); 
       localStorage.clear(); 
-      
-      // Guardamos la nueva versión
       localStorage.setItem("app_version", APP_VERSION);
-      
-      // Reseteamos el carrito visualmente por si acaso
       setCart([]);
     }
   }, []);
+
+  // 👇 CAMBIO 2: Función "Interceptora"
+  // Esto asegura que al cambiar de bandera, leamos el archivo currency.js NUEVO (con USDT)
+  // en lugar de usar datos viejos que pueda tener el Header en memoria.
+  const handleCountryChange = (countryIncoming) => {
+    const freshData = COUNTRIES[countryIncoming.code]; // Buscamos la versión fresca
+    setSelectedCountry(freshData);
+  };
 
   const addToCart = (item) => {
     setCart((prev) => [...prev, item]);
@@ -63,7 +65,7 @@ function App() {
         <div className="fixed top-0 left-0 w-full z-50 bg-[#0D1321] shadow-lg border-b border-gray-800">
           <Header
             selectedCountry={selectedCountry}
-            onCountryChange={setSelectedCountry}
+            onCountryChange={handleCountryChange} // 👈 CAMBIO 3: Usamos la nueva función aquí
             cart={cart}
             removeFromCart={removeFromCart}
             clearCart={clearCart}

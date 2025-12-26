@@ -11,10 +11,10 @@ export default function ShopGrid({ selectedCountry, searchTerm, setSearchTerm, a
   const [loading, setLoading] = useState(true);
 
   const manualPases = [
-    { itemName: "Pase de Batalla", fallbackImage: "/img/pase_batalla.webp", type: "Pases", prices: { PE: 22, MX: 121, BO: 0, US: 6.63 } },
-    { itemName: "Pase Musical",  fallbackImage: "/img/pase_musical.webp", type: "Pases", prices: { PE: 28, MX: 154, BO: 0, US: 8.45  } },
-    { itemName: "Pase Orígenes", fallbackImage: "/img/pase_origenes.webp", type: "Pases", prices: { PE: 22, MX: 121, BO: 0 , US: 6.63 } },
-    { itemName: "Pase Lego",     fallbackImage: "/img/pase_lego.webp",     type: "Pases", prices: { PE: 28, MX: 154, BO: 0, US: 8.45 } },
+    { itemName: "Pase de Batalla", fallbackImage: "/img/pase_batalla.webp", type: "Pases", prices: { PE: 22, MX: 121, BO: 6.63, US: 6.63 } },
+    { itemName: "Pase Musical",  fallbackImage: "/img/pase_musical.webp", type: "Pases", prices: { PE: 28, MX: 154, BO: 8.45, US: 8.45  } },
+    { itemName: "Pase Orígenes", fallbackImage: "/img/pase_origenes.webp", type: "Pases", prices: { PE: 22, MX: 121, BO: 6.63 , US: 6.63 } },
+    { itemName: "Pase Lego",     fallbackImage: "/img/pase_lego.webp",     type: "Pases", prices: { PE: 28, MX: 154, BO: 8.45, US: 8.45 } },
   ];
   const manualPasesWithPrice = manualPases.map((p) => ({
     ...p,
