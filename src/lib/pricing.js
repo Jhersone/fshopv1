@@ -1,4 +1,4 @@
-import { COUNTRIES, DEFAULT_COUNTRY } from "./currency";
+import { COUNTRIES, DEFAULT_COUNTRY } from "./paises";
 
 export function vbucksToLocal(code, vbucks) {
   const country = COUNTRIES[code] ?? DEFAULT_COUNTRY;
