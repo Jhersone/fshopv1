@@ -17,7 +17,7 @@ import { useCountry } from "@/hooks/useCountry";
 import { DEFAULT_COUNTRY } from "@/lib/currency";
 
 // 👇 1. ESTA ES LA VERSIÓN. Cámbiala cuando hagas cambios grandes en la tienda.
-const APP_VERSION = "2.0"; 
+const APP_VERSION = "2.2"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);

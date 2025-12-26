@@ -3,7 +3,7 @@ const OPTIONS = [
   { code: "PE", name: "Perú",     flag: "🇵🇪", symbol: "S/" },
   { code: "MX", name: "México",   flag: "🇲🇽", symbol: "$"  },
   { code: "US", name: "USA",      flag: "🇺🇸", symbol: "$"  },
-  { code: "BO", name: "Bolivia",  flag: "🇧🇴", symbol: "US$" },
+  { code: "BO", name: "Bolivia",  flag: "🇧🇴", symbol: "USDT" },
   { code: "CL", name: "Chile",    flag: "🇨🇱", symbol: "$"  },
   { code: "CO", name: "Colombia", flag: "🇨🇴", symbol: "$"  },
 ];

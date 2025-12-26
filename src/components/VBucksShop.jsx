@@ -87,7 +87,7 @@ const getVisiblePayments = (code) =>
 const VBUCKS_RATE = {
   PE: { per1000: 20,  symbol: "S/" },
   MX: { per1000: 110, symbol: "$"  },
-  BO: { per1000: 7.0, symbol: "US$" }, // Bolivia en Dólares
+  BO: { per1000: 7.0, symbol: "USDT" }, // Bolivia en Dólares
   US: { per1000: 7.0, symbol: "$"  },
   CL: { per1000: 6000, symbol: "$" }, // Chile (Ejemplo)
   CO: { per1000: 25000, symbol: "$" }, // Colombia (Ejemplo)
