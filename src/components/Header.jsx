@@ -1,7 +1,7 @@
 // src/components/Header.jsx
 import { useState } from "react";
 // 👇 IMPORTAMOS LA LISTA REAL (Ya no la escribimos a mano)
-import { COUNTRIES } from "../lib/paises"; 
+import { COUNTRIES } from "../lib/config"; 
 
 function CountryMenu({ current, onSelect, onClose }) {
   // Convertimos el objeto de países a un array para poder hacer .map()

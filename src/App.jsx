@@ -14,7 +14,7 @@ import VBucksShop from "./components/VBucksShop";
 import Footer from "./components/Footer";
 import BottomNav from "./components/BottomNav";    
 import CartDrawer from "./components/CartDrawer";
-import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/paises";
+import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
 const APP_VERSION = "2.9"; 

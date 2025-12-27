@@ -1,5 +1,5 @@
 // src/lib/pricing.js
-import { COUNTRIES, DEFAULT_COUNTRY } from "./paises";
+import { COUNTRIES, DEFAULT_COUNTRY } from "./config";
 
 export function vbucksToLocal(code, vbucks) {
   const country = COUNTRIES[code] ?? DEFAULT_COUNTRY;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/paises";
+import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 
 export function useCountry(initial = DEFAULT_COUNTRY) {
   
