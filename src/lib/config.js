@@ -7,7 +7,7 @@ export const COUNTRIES = {
   BO: { code: "BO", name: "Bolivia", flag: "🇧🇴", symbol: "USDT", rates: { vbucks: 0.0046, robux: 0,   crew: 0 } },
   CL: { code: "CL", name: "Chile", flag: "🇨🇱", symbol: "$",  rates: { vbucks: 4.70,   robux: 0,   crew: 6500 } }, //1 pen = 269.18 GLOBAL66
   US: { code: "US", name: "USA",  flag: "🇺🇸", symbol: "$",  rates: { vbucks: 0.0046,   robux: 0,   crew: 7.50 } },
-  CO: { code: "CO", name: "Colombia",  flag: "co", symbol: "$",  rates: { vbucks: 19.30,   robux: 0,   crew: 0 } },//1 PEN = 1095.07
+CO: { code: "CO", name: "Colombia",  flag: "🇨🇴", symbol: "$",  rates: { vbucks: 19.30,   robux: 0,   crew: 0 } },
   EC: { code: "EC", name: "Ecuador", flag: "🇪🇨", symbol: "USDT", rates: { vbucks: 0.0046, robux: 0, crew: 0 } },
 };
 export const DEFAULT_COUNTRY = COUNTRIES.PE;
