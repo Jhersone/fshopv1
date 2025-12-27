@@ -48,7 +48,13 @@ const PAYMENTS_BY_COUNTRY = {
     { id: "spei",      name: "SPEI",   note: "Sin comisión", logo: "/img/payments/spei.png" },
     { id: "paypal_mx", name: "PAYPAL", note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
-  BO: [{ id: "qr_bo", name: "Pago con QR", note: "Sin comisión", logo: "/img/payments/qr.webp" }],
+  BO: [
+    { id: "qr_bo", name: "Pago con QR", note: "Sin comisión", logo: "/img/payments/QR.png" },
+    { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+  
+  
+  ],
+  
   US: [
    // { id: "coinbase_us", name: "COINBASE", note: "Sin comisión", logo: "/img/payments/coinbase.webp" },
      { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.webp" },
@@ -68,13 +74,24 @@ const PAYMENTS_BY_COUNTRY = {
     { id: "global66",  name: "GLOBAL66",  note: "Sin comisión", logo: "/img/payments/global66.webp" },
     { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
+
+     EC: [
+     { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+    { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
+  ],
+
+     CO: [
+    { id: "global66",  name: "GLOBAL66",  note: "Sin comisión", logo: "/img/payments/global66.webp" },
+    { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+    //{ id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
+  ],
 };
 
 const getVisiblePayments = (code) =>
   PAYMENTS_BY_COUNTRY[code] ?? PAYMENTS_BY_COUNTRY.GLOBAL;
 
 // ==== PRECIOS ====
-const CREW_PRICE = { PE: 25.0, MX: 140.0, BO: 7.50, CL: 7400.0, US: 7.50 };
+const CREW_PRICE = { PE: 25.0, MX: 140.0, BO: 7.50, CL: 7400.0, US: 7.50 ,CO: 30000, EC: 7.50};
 
 export default function CrewClub({ selectedCountry }) {
   const [platform, setPlatform] = useState("nintendo");

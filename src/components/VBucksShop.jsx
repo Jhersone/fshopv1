@@ -54,9 +54,8 @@ const PAYMENTS_BY_COUNTRY = {
     { id: "paypal_mx", name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
   BO: [
-    // Bolivia ahora usa Dólares (QR y Binance)
-    
-    { id: "binance", name: "BINANCE",     note: "Sin comisión", logo: "/img/payments/binance.webp" },
+    { id: "qr_bo", name: "Pago con QR", note: "Sin comisión", logo: "/img/payments/QR.png" },
+    { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
   ],
   US: [
       { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
@@ -78,6 +77,17 @@ const PAYMENTS_BY_COUNTRY = {
     { id: "global66",  name: "GLOBAL66",  note: "Sin comisión", logo: "/img/payments/global66.webp" },
     { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
   ],
+
+    EC: [
+     { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+    { id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
+  ],
+
+      CO: [
+    { id: "global66",  name: "GLOBAL66",  note: "Sin comisión", logo: "/img/payments/global66.webp" },
+    { id: "binance",  name: "BINANCE",  note: "Sin comisión", logo: "/img/payments/binance.png" },
+    //{ id: "paypal",   name: "PAYPAL",   note: "Con comisión", logo: "/img/payments/paypal.webp" },
+  ],
 };
 
 const getVisiblePayments = (code) =>
@@ -98,6 +108,7 @@ const VBUCKS_PRICE_TABLE = {
   PE: { 1000: 22,   2800: 54,    5000: 85,   13500: 200 },
   MX: { 1000: 121,  2800: 297,   5000: 468,  13500: 1100 },
   BO: { 1000: 6.63, 2800: 16.30, 5000: 25.6, 13500: 60.30 }, // Bolivia = Precios US
+  EC: { 1000: 6.63, 2800: 16.30, 5000: 25.6, 13500: 60.30 },
   US: { 1000: 6.63, 2800: 16.30, 5000: 25.6, 13500: 60.30 },
   CL: { 1000: 6550, 2800: 16300, 5000: 25100, 13500: 57900 }, // Precios Chile (Ejemplo)
   CO: { 1000: 28000, 2800: 65000, 5000: 110000, 13500: 250000 }, // Precios Colombia (Ejemplo)
@@ -120,37 +131,37 @@ const OFFERS = [
     title: "Surfeo Shaka",
     img: "/img/pavos/paquete-surf.webp",
     // Recuerda editar estos precios de CL y CO con tus valores reales
-    price: { PE: 13, MX: 72, BO: 3.92, US: 3.92, CL: 3700, CO: 15000, GLOBAL: 95 },
+    price: { PE: 13, MX: 72, BO: 3.92, EC: 3.92, US: 3.92, CL: 3700, CO: 15000, GLOBAL: 95 },
   },
   {
     id: "pack2",
     title: "Leyendas Polares",
     img: "/img/pavos/paquete-polares.jpg",
-    price: { PE: 51, MX: 280, BO: 15.37, US: 15.37, CL: 15500, CO: 60000, GLOBAL: 55 },
+    price: { PE: 51, MX: 280, BO: 15.37,EC: 15.37, US: 15.37, CL: 15500, CO: 60000, GLOBAL: 55 },
   },
   {
     id: "pack3",
     title: "Elite Dorada",
      img: "/img/pavos/paquete-dorado.webp",
-    price: { PE: 40, MX: 220, BO: 12.1, US: 12.1, CL: 12300, CO: 50000, GLOBAL: 55 },
+    price: { PE: 40, MX: 220, BO: 12.1, EC: 12.1, US: 12.1, CL: 12300, CO: 50000, GLOBAL: 55 },
   },
    {
     id: "pack4",
     title: "Leyendas congeladas",
      img: "/img/pavos/paquete-congeladas.webp",
-    price: { PE: 41, MX: 226, BO: 12.35, US: 12.35, CL: 12600, CO: 52000, GLOBAL: 55 },
+    price: { PE: 41, MX: 226, BO: 12.35, EC: 12.35, US: 12.35, CL: 12600, CO: 52000, GLOBAL: 55 },
   },
    {
     id: "pack5",
     title: "Renegados Agencia",
      img: "/img/pavos/paquete-agencia.webp",
-    price: { PE: 48, MX: 264, BO: 14.5, US: 14.5, CL: 14650, CO: 58000, GLOBAL: 55 },
+    price: { PE: 48, MX: 264, BO: 14.5, EC: 14.5, US: 14.5, CL: 14650, CO: 58000, GLOBAL: 55 },
   },
   {
     id: "pack6",
     title: "Clip Completo",
      img: "/img/pavos/paquete-clip.webp",
-    price: { PE: 43, MX: 237, BO: 13.0, US: 13.0, CL: 13200, CO: 55000, GLOBAL: 55 },
+    price: { PE: 43, MX: 237, BO: 13.0, EC: 13.0, US: 13.0, CL: 13200, CO: 55000, GLOBAL: 55 },
   },
 ];
 
@@ -197,7 +208,7 @@ export default function VBucksShop({ selectedCountry }) {
 
   const totalText =
     (code === "US" || code === "BO") // BO ahora usa formato de dólar
-      ? `${symbol}${(computedTotal ?? 0).toFixed(2)}`
+      ? `${symbol} ${(computedTotal ?? 0).toFixed(2)}`
       : `${symbol} ${
           Number.isInteger(computedTotal)
             ? (computedTotal ?? 0).toFixed(0)

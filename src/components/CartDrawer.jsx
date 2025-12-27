@@ -34,7 +34,7 @@ export default function CartDrawer({ isOpen, onClose, cart, removeFromCart, addT
 
 ${itemsList}
 
-*TOTAL A PAGAR: ${selectedCountry.symbol} ${total.toFixed(2)}*
+*Total a pagar: ${selectedCountry.symbol} ${total.toFixed(2)}*
 País: ${selectedCountry.name}
 
 ¿Me envías los datos de pago?`;

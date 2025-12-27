@@ -24,7 +24,7 @@ export default function Card({ item, selectedCountry, addToCart, category }) {
     const priceToSend = localPrice ?? "0.00";
     
     // Generamos mensaje
-    const msg = `¡Hola TioHunter! 🦁
+    const msg = `¡Hola TioHunter!
 Me interesa: *${item.itemName}*
 Precio: ${selectedCountry.symbol} ${priceToSend}
 ${extra ? `(${extra})` : ""}
