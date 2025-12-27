@@ -17,7 +17,7 @@ import CartDrawer from "./components/CartDrawer";
 import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/paises";
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "2.7"; 
+const APP_VERSION = "2.8"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);

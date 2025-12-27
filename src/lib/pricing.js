@@ -1,3 +1,4 @@
+// src/lib/pricing.js
 import { COUNTRIES, DEFAULT_COUNTRY } from "./paises";
 
 export function vbucksToLocal(code, vbucks) {
