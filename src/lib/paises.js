@@ -1,3 +1,6 @@
+// 👇 AGREGA ESTO AL INICIO DEL ARCHIVO
+console.log(">>> CARGANDO PAISES.JS - VERSION USDT (SI LEES ESTO, EL CODIGO ESTA BIEN) <<<");
+
 export const COUNTRIES = {
   PE: { code: "PE", name: "Perú", flag: "🇵🇪", symbol: "S/", rates: { vbucks: 0.015, robux: 35, crew: 25 } },//precio skins via regalo
   MX: { code: "MX", name: "México", flag: "🇲🇽", symbol: "$",  rates: { vbucks: 0.09,  robux: 185.5, crew: 140 } },
