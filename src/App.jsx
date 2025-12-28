@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState, useEffect } from "react";
-import { useCountry } from "@/hooks/useCountry"; // 👈 IMPORTANTE: Faltaba importar esto
+import { useCountry } from "@/hooks/useCountry"; 
 import CustomSnowfall from "./components/CustomSnowfall";
 import Header from "./components/Header";
 import CarouselTabs from "./components/CarouselTabs";
@@ -15,9 +15,10 @@ import Footer from "./components/Footer";
 import BottomNav from "./components/BottomNav";    
 import CartDrawer from "./components/CartDrawer";
 import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
+import { VideoModal } from "@/components/VideoModal"; // ✅ Importado correctamente
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "2.9"; 
+const APP_VERSION = "3.0"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -41,10 +42,8 @@ function App() {
   }, []);
 
   // 👇 CAMBIO 2: Función "Interceptora"
-  // Esto asegura que al cambiar de bandera, leamos el archivo currency.js NUEVO (con USDT)
-  // en lugar de usar datos viejos que pueda tener el Header en memoria.
   const handleCountryChange = (countryIncoming) => {
-    const freshData = COUNTRIES[countryIncoming.code]; // Buscamos la versión fresca
+    const freshData = COUNTRIES[countryIncoming.code]; 
     setSelectedCountry(freshData);
   };
 
@@ -60,12 +59,15 @@ function App() {
       
       <CustomSnowfall />
 
+      {/* ✅ AQUÍ ESTÁ EL VIDEO: Se activará solo si selectedCountry es Bolivia */}
+      <VideoModal country={selectedCountry} />
+
       <div className="relative z-10 pt-16">
         
         <div className="fixed top-0 left-0 w-full z-50 bg-[#0D1321] shadow-lg border-b border-gray-800">
           <Header
             selectedCountry={selectedCountry}
-            onCountryChange={handleCountryChange} // 👈 CAMBIO 3: Usamos la nueva función aquí
+            onCountryChange={handleCountryChange} 
             cart={cart}
             removeFromCart={removeFromCart}
             clearCart={clearCart}
