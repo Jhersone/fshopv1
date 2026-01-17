@@ -18,6 +18,8 @@ export function getCategoryGradient(category = "") {
   if (name.includes("nickelodeon") || name.includes("tortugas") || name.includes("tmnt")) return "bg-navidad"; // Verde para tortugas
   if (name.includes("avatar")) return "bg-harrypoter"; // Azul místico para Avatar
   if (name.includes("kizunaai")) return "bg-kizunaai"; // Azul místico para Avatar
+  if (name.includes("south park")) return "bg-southpark"; // Azul místico para Avatar
+  if (name.includes("hora de aventura")) return "bg-southpark"; // Azul místico para Avatar
 
   // 🎃 Eventos y temáticas
   if (name.includes("invierno")) return "bg-harrypoter";

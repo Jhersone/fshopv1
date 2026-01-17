@@ -246,6 +246,20 @@ body {
 
 }
 
+.bg-southpark {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 0, 0.15), transparent 50%), /* Brillo Amarillo */
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 0, 0.15), transparent 50%),
+    linear-gradient(180deg, #12ffb0ad 0%, #8bf5d2 60%, #058166 100%); /* Amarillo a Azul Océano */
+
+}
+.bg-horadeaventura {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 0, 0.15), transparent 50%), /* Brillo Amarillo */
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 0, 0.15), transparent 50%),
+    linear-gradient(180deg, #721909f6 0%, #fc4646 60%, #d10d0d 100%); /* Amarillo a Azul Océano */
+
+}
 .bg-daftpunk {
   background:
     radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
