@@ -224,6 +224,13 @@ body {
     linear-gradient(to bottom right, #e78df2 0%, #e78df2 60%, #eca4f3 100%);
 }
 
+.bg-kizunaai {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #d72bee 0%, #e78df2 60%, #eca4f3 100%);
+}
+
 .bg-harrypoter {
   background:
     radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),

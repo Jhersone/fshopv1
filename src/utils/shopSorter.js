@@ -5,10 +5,11 @@
 const PRIORITY_CONFIG = {
   // ⬆️ ALTA PRIORIDAD (Saldrán primero)
   HIGH: [
+      "kizunaai",
+      "SOUTH PARK",
       "volver al futuro",
       "hatsune miku",
       "bob esponja",   // Bob Esponja
-      "lisa",
       "kardashian",
       "BLEACH",
       "avatar",
