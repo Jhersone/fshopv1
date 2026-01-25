@@ -1,28 +1,44 @@
 // src/utils/messages.js
 
 export const msgCart = (items, country, total) => {
-  // Construimos la lista de productos con lógica inteligente
+  console.log("📢 --- INICIANDO REPORTE DE CARRITO PARA WHATSAPP ---");
+  
   const itemsList = items.map((it, i) => {
-    // 1. DETECCIÓN DE MÚSICA (Lógica Todoterreno)
-    // Convertimos el tipo a texto y minúsculas para buscar "music" o "música"
-    const typeRaw = it.type?.displayValue || it.type || "";
-    const typeStr = JSON.stringify(typeRaw).toLowerCase();
+    // 🔍 AQUÍ ESTÁ LA CÁMARA DE SEGURIDAD
+    console.log(`📦 Item ${i + 1}: ${it.itemName}`);
+    console.log(`   👉 Tipo crudo (it.type):`, it.type);
+    console.log(`   👉 Tipo Display (it.type.displayValue):`, it.type?.displayValue);
     
-    // Si dice "music" es música. Si dice "emote" o "gesto", NO es música.
+    // 1. INTENTO DE DETECCIÓN (Copiamos tu lógica actual)
+    const typeRaw = it.type?.displayValue || it.type || "";
+    
+    // TRUCO: Convertimos a texto sí o sí para evitar errores
+    let typeStr = "";
+    try {
+        typeStr = JSON.stringify(typeRaw).toLowerCase();
+    } catch(e) {
+        console.log("   ❌ Error convirtiendo tipo a texto:", e);
+    }
+    
+    console.log(`   🔍 Texto analizado: "${typeStr}"`);
+
     const isMusic = typeStr.includes("music") || typeStr.includes("música");
+    console.log(`   🎵 ¿Es música?: ${isMusic ? "SÍ" : "NO"}`);
+    
     const label = isMusic ? " [Música 🎵]" : "";
 
-    // 2. DETECCIÓN DE CANTIDAD
+    // 2. CANTIDAD
     const qty = it.quantity || 1;
     const qtyDisplay = qty > 1 ? `(x${qty}) ` : "";
 
-    // 3. PRECIO TOTAL DE LA LÍNEA
+    // 3. PRECIO
     const linePrice = (Number(it.localPrice) * qty).toFixed(2);
 
-    // Retornamos la línea formateada
-    // Ejemplo: "1. (x2) Hello Morning [Música 🎵] - S/ 15.00"
     return `${i + 1}. ${qtyDisplay}${it.itemName}${label} - ${it.vBucks ? `${it.vBucks} pavos - ` : ""}${country.symbol} ${linePrice}`;
   }).join("\n");
+
+  console.log("✅ Mensaje generado exitosamente");
+  console.log("----------------------------------------------------");
 
   return `¡Hola TioHunter! Quiero finalizar mi compra del carrito:
 
@@ -33,7 +49,7 @@ ${itemsList}
 ¿Está disponible? ¿Cómo coordinamos?`;
 };
 
-// 👇 FUNCIÓN INDIVIDUAL (Para cuando compran 1 solo item directo)
+// 👇 ESTA NO LA TOCAMOS PORQUE DIJISTE QUE SÍ FUNCIONA
 export const msgItem = (name, price, country, type = "", extra = "") => {
   const typeStr = JSON.stringify(type).toLowerCase();
   const isMusic = typeStr.includes("music") || typeStr.includes("música");
