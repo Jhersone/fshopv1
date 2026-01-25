@@ -18,7 +18,7 @@ import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 import { VideoModal } from "@/components/VideoModal"; // ✅ Importado correctamente
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "10.1"; 
+const APP_VERSION = "10.2"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
