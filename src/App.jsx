@@ -18,7 +18,7 @@ import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 import { VideoModal } from "@/components/VideoModal"; // ✅ Importado correctamente
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "10.0"; 
+const APP_VERSION = "10.1"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -47,57 +47,38 @@ function App() {
     setSelectedCountry(freshData);
   };
 
-// ✅ FUNCIÓN ADD TO CART (MODO DETECTIVE 🕵️‍♂️)
+// ✅ FUNCIÓN ADD TO CART (BLINDADA CONTRA "UNDEFINED")
   const addToCart = (newItem) => {
     setCart((prevCart) => {
-      console.log("%c--- INTENTANDO AGREGAR AL CARRITO ---", "color: yellow; font-weight: bold;");
-      console.log("📦 Producto entrante:", newItem.itemName);
-      console.log("❓ Tipo original:", newItem.type);
-
-      // 1. OBTENER EL TIPO COMO TEXTO
+      // 1. OBTENER TIPO (Tu código actual ya hace esto bien)
       let typeStr = "item";
       try {
-        if (newItem.type?.displayValue) {
-          typeStr = newItem.type.displayValue;
-        } else if (typeof newItem.type === "string") {
-          typeStr = newItem.type;
-        } else if (newItem.type) {
-          typeStr = JSON.stringify(newItem.type); 
-        }
-      } catch (e) {
-        console.error("❌ Error leyendo tipo:", e);
-      }
+        if (newItem.type?.displayValue) typeStr = newItem.type.displayValue;
+        else if (typeof newItem.type === "string") typeStr = newItem.type;
+        else if (newItem.type) typeStr = JSON.stringify(newItem.type); 
+      } catch (e) { console.error(e); }
+
+      // 2. 🛡️ GENERAR HUELLA DIGITAL (Ahora usamos Nombre si falta el ID)
+      // Antes: undefined-Música
+      // Ahora: Hello, Morning-Música
+      const safeId = newItem.id || newItem.itemName || "unknown"; 
+      const uniqueIdentity = `${safeId}-${typeStr}`;
       
-      console.log("📝 Tipo procesado (Texto):", typeStr);
+      console.log(`🛒 Agregando: ${newItem.itemName} | Huella: ${uniqueIdentity}`);
 
-      // 2. CREAR UN ID ÚNICO INTERNO (ID + TIPO)
-      const uniqueIdentity = `${newItem.id}-${typeStr}`;
-      console.log("🔑 Huella Digital Generada:", uniqueIdentity);
-
-      // 3. BUSCAR SI YA EXISTE
+      // 3. BUSCAR DUPLICADOS
       const existingIndex = prevCart.findIndex((item) => {
-        let existingType = "item";
-        if (item.type?.displayValue) existingType = item.type.displayValue;
-        else if (typeof item.type === "string") existingType = item.type;
-        else if (item.type) existingType = JSON.stringify(item.type);
+        let t = "item";
+        if (item.type?.displayValue) t = item.type.displayValue;
+        else if (typeof item.type === "string") t = item.type;
+        else if (item.type) t = JSON.stringify(item.type);
         
-        const existingKey = `${item.id}-${existingType}`;
-        
-        // Comparamos para ver si son gemelos
-        const sonIguales = existingKey === uniqueIdentity;
-        // Solo mostramos log si encontramos un posible candidato
-        if (item.id === newItem.id) {
-           console.log(`🔍 Comparando con item en carrito (${item.itemName}):`);
-           console.log(`   - Clave Carrito: ${existingKey}`);
-           console.log(`   - Clave Nueva:   ${uniqueIdentity}`);
-           console.log(`   - ¿Son iguales?: ${sonIguales ? "SÍ (Se fusionan)" : "NO (Se separan)"}`);
-        }
-        
-        return sonIguales;
+        // Usamos la misma lógica segura para comparar
+        const itemSafeId = item.id || item.itemName || "unknown";
+        return `${itemSafeId}-${t}` === uniqueIdentity;
       });
 
       if (existingIndex >= 0) {
-        console.log("✅ Se encontró duplicado. Sumando cantidad +1.");
         const newCart = [...prevCart];
         newCart[existingIndex] = {
             ...newCart[existingIndex],
@@ -105,7 +86,7 @@ function App() {
         };
         return newCart;
       } else {
-        console.log("🆕 No existe en carrito. Creando nueva fila.");
+        // Guardamos el "safeId" por si acaso, pero lo importante es que ya se separaron
         return [...prevCart, { ...newItem, quantity: 1 }];
       }
     });
