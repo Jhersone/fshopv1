@@ -18,7 +18,7 @@ import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 import { VideoModal } from "@/components/VideoModal"; // ✅ Importado correctamente
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "7.0"; 
+const APP_VERSION = "9.0"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -47,12 +47,46 @@ function App() {
     setSelectedCountry(freshData);
   };
 
-  const addToCart = (item) => {
-    setCart((prev) => [...prev, item]);
+// ✅ 1. FUNCIÓN PARA AGREGAR (CORREGIDA PARA NO MEZCLAR GEMELOS)
+  const addToCart = (newItem) => {
+    setCart((prevCart) => {
+      // Creamos una "Huella Digital" única: ID + TIPO
+      // Así "Hello Morning (Música)" es diferente a "Hello Morning (Gesto)"
+      const typeNew = newItem.type?.displayValue || newItem.type || "item";
+      const uniqueKeyNew = `${newItem.id}-${typeNew}`;
+
+      // Buscamos si ya existe alguien con esa misma huella
+      const existingIndex = prevCart.findIndex((item) => {
+        const typeItem = item.type?.displayValue || item.type || "item";
+        const uniqueKeyItem = `${item.id}-${typeItem}`;
+        return uniqueKeyItem === uniqueKeyNew;
+      });
+
+      // Si existe, sumamos +1 a la cantidad
+      if (existingIndex >= 0) {
+        const newCart = [...prevCart];
+        newCart[existingIndex] = {
+            ...newCart[existingIndex],
+            quantity: (newCart[existingIndex].quantity || 1) + 1
+        };
+        return newCart;
+      } else {
+        // Si es nuevo, lo agregamos
+        return [...prevCart, { ...newItem, quantity: 1 }];
+      }
+    });
   };
 
-  const removeFromCart = (index) => setCart((prev) => prev.filter((_, i) => i !== index));
-  const clearCart = () => setCart([]);
+  // ✅ 2. FUNCIÓN PARA QUITAR (ESTA ES LA QUE TE FALTABA Y DABA ERROR)
+  const removeFromCart = (index) => {
+    setCart((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // ✅ 3. FUNCIÓN PARA LIMPIAR
+  const clearCart = () => {
+    setCart([]);
+  };
+  // ... AQUI SIGUE TU return ( <div className=... ) NO LO BORRES
 
   return (
     <div className="min-h-screen text-white relative overflow-x-hidden">
