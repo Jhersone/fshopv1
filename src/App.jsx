@@ -47,22 +47,44 @@ function App() {
     setSelectedCountry(freshData);
   };
 
-// ✅ 1. FUNCIÓN PARA AGREGAR (CORREGIDA PARA NO MEZCLAR GEMELOS)
+/// ✅ 1. FUNCIÓN BLINDADA (Reemplaza la que tienes en App.jsx)
   const addToCart = (newItem) => {
     setCart((prevCart) => {
-      // Creamos una "Huella Digital" única: ID + TIPO
-      // Así "Hello Morning (Música)" es diferente a "Hello Morning (Gesto)"
-      const typeNew = newItem.type?.displayValue || newItem.type || "item";
-      const uniqueKeyNew = `${newItem.id}-${typeNew}`;
+      // --- GENERACIÓN DE HUELLA DIGITAL ROBUSTA ---
+      let typeString = "item";
 
-      // Buscamos si ya existe alguien con esa misma huella
+      // 1. Intentamos leer displayValue (lo ideal)
+      if (newItem.type?.displayValue) {
+        typeString = newItem.type.displayValue;
+      } 
+      // 2. Si es solo texto, lo usamos
+      else if (typeof newItem.type === "string") {
+        typeString = newItem.type;
+      } 
+      // 3. 🛡️ SEGURIDAD: Si es un objeto raro, lo convertimos a texto único
+      else if (newItem.type) {
+        typeString = JSON.stringify(newItem.type);
+      }
+
+      // Creamos la clave única
+      const uniqueKeyNew = `${newItem.id}-${typeString}`;
+      
+      // 👇 Descomenta esto si quieres ver en la consola (F12) qué clave se genera
+      // console.log("🛒 Agregando:", newItem.itemName, "Clave:", uniqueKeyNew);
+
+      // --- LÓGICA DE BÚSQUEDA ---
       const existingIndex = prevCart.findIndex((item) => {
-        const typeItem = item.type?.displayValue || item.type || "item";
-        const uniqueKeyItem = `${item.id}-${typeItem}`;
+        // Repetimos la misma lógica para el item que ya está en carrito
+        let existingTypeStr = "item";
+        if (item.type?.displayValue) existingTypeStr = item.type.displayValue;
+        else if (typeof item.type === "string") existingTypeStr = item.type;
+        else if (item.type) existingTypeStr = JSON.stringify(item.type);
+
+        const uniqueKeyItem = `${item.id}-${existingTypeStr}`;
         return uniqueKeyItem === uniqueKeyNew;
       });
 
-      // Si existe, sumamos +1 a la cantidad
+      // --- ACTUALIZACIÓN ---
       if (existingIndex >= 0) {
         const newCart = [...prevCart];
         newCart[existingIndex] = {
@@ -71,7 +93,6 @@ function App() {
         };
         return newCart;
       } else {
-        // Si es nuevo, lo agregamos
         return [...prevCart, { ...newItem, quantity: 1 }];
       }
     });
