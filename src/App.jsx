@@ -18,7 +18,7 @@ import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 import { VideoModal } from "@/components/VideoModal"; // ✅ Importado correctamente
 
 // 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "9.0"; 
+const APP_VERSION = "10.0"; 
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -47,45 +47,57 @@ function App() {
     setSelectedCountry(freshData);
   };
 
-/// ✅ 1. FUNCIÓN BLINDADA (Reemplaza la que tienes en App.jsx)
+// ✅ FUNCIÓN ADD TO CART (MODO DETECTIVE 🕵️‍♂️)
   const addToCart = (newItem) => {
     setCart((prevCart) => {
-      // --- GENERACIÓN DE HUELLA DIGITAL ROBUSTA ---
-      let typeString = "item";
+      console.log("%c--- INTENTANDO AGREGAR AL CARRITO ---", "color: yellow; font-weight: bold;");
+      console.log("📦 Producto entrante:", newItem.itemName);
+      console.log("❓ Tipo original:", newItem.type);
 
-      // 1. Intentamos leer displayValue (lo ideal)
-      if (newItem.type?.displayValue) {
-        typeString = newItem.type.displayValue;
-      } 
-      // 2. Si es solo texto, lo usamos
-      else if (typeof newItem.type === "string") {
-        typeString = newItem.type;
-      } 
-      // 3. 🛡️ SEGURIDAD: Si es un objeto raro, lo convertimos a texto único
-      else if (newItem.type) {
-        typeString = JSON.stringify(newItem.type);
+      // 1. OBTENER EL TIPO COMO TEXTO
+      let typeStr = "item";
+      try {
+        if (newItem.type?.displayValue) {
+          typeStr = newItem.type.displayValue;
+        } else if (typeof newItem.type === "string") {
+          typeStr = newItem.type;
+        } else if (newItem.type) {
+          typeStr = JSON.stringify(newItem.type); 
+        }
+      } catch (e) {
+        console.error("❌ Error leyendo tipo:", e);
       }
-
-      // Creamos la clave única
-      const uniqueKeyNew = `${newItem.id}-${typeString}`;
       
-      // 👇 Descomenta esto si quieres ver en la consola (F12) qué clave se genera
-      // console.log("🛒 Agregando:", newItem.itemName, "Clave:", uniqueKeyNew);
+      console.log("📝 Tipo procesado (Texto):", typeStr);
 
-      // --- LÓGICA DE BÚSQUEDA ---
+      // 2. CREAR UN ID ÚNICO INTERNO (ID + TIPO)
+      const uniqueIdentity = `${newItem.id}-${typeStr}`;
+      console.log("🔑 Huella Digital Generada:", uniqueIdentity);
+
+      // 3. BUSCAR SI YA EXISTE
       const existingIndex = prevCart.findIndex((item) => {
-        // Repetimos la misma lógica para el item que ya está en carrito
-        let existingTypeStr = "item";
-        if (item.type?.displayValue) existingTypeStr = item.type.displayValue;
-        else if (typeof item.type === "string") existingTypeStr = item.type;
-        else if (item.type) existingTypeStr = JSON.stringify(item.type);
-
-        const uniqueKeyItem = `${item.id}-${existingTypeStr}`;
-        return uniqueKeyItem === uniqueKeyNew;
+        let existingType = "item";
+        if (item.type?.displayValue) existingType = item.type.displayValue;
+        else if (typeof item.type === "string") existingType = item.type;
+        else if (item.type) existingType = JSON.stringify(item.type);
+        
+        const existingKey = `${item.id}-${existingType}`;
+        
+        // Comparamos para ver si son gemelos
+        const sonIguales = existingKey === uniqueIdentity;
+        // Solo mostramos log si encontramos un posible candidato
+        if (item.id === newItem.id) {
+           console.log(`🔍 Comparando con item en carrito (${item.itemName}):`);
+           console.log(`   - Clave Carrito: ${existingKey}`);
+           console.log(`   - Clave Nueva:   ${uniqueIdentity}`);
+           console.log(`   - ¿Son iguales?: ${sonIguales ? "SÍ (Se fusionan)" : "NO (Se separan)"}`);
+        }
+        
+        return sonIguales;
       });
 
-      // --- ACTUALIZACIÓN ---
       if (existingIndex >= 0) {
+        console.log("✅ Se encontró duplicado. Sumando cantidad +1.");
         const newCart = [...prevCart];
         newCart[existingIndex] = {
             ...newCart[existingIndex],
@@ -93,6 +105,7 @@ function App() {
         };
         return newCart;
       } else {
+        console.log("🆕 No existe en carrito. Creando nueva fila.");
         return [...prevCart, { ...newItem, quantity: 1 }];
       }
     });
