@@ -19,13 +19,21 @@ export default function Card({ item, selectedCountry, addToCart, category }) {
     (item.vBucks ? vbucksToLocal(selectedCountry.code, item.vBucks) : null);
 
   const handleWhatsApp = () => {
+    // 1. Detectar si es Música 🎵
+    // La API a veces lo manda como objeto (item.type.displayValue) o texto (item.type)
+    const typeRaw = item.type?.displayValue || item.type || "";
+    const isMusic = typeRaw === "Music" || typeRaw === "Música";
+    
+    // Si es música, agregamos la etiqueta. Si no, lo dejamos vacío.
+    const label = isMusic ? " [Música]" : "";
+
     const isPase = item.type === "Pases";
     const extra = !isPase && item.vBucks ? `Costo: ${item.vBucks} pavos` : "";
     const priceToSend = localPrice ?? "0.00";
     
-    // Generamos mensaje
+    // 2. Generamos mensaje CON la etiqueta "label"
     const msg = `¡Hola TioHunter!
-Me interesa: *${item.itemName}*
+Me interesa: *${item.itemName}${label}*
 Precio: ${selectedCountry.symbol} ${priceToSend}
 ${extra ? `(${extra})` : ""}
 País: ${selectedCountry.name} ${selectedCountry.flag}`;
