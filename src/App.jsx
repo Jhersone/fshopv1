@@ -16,7 +16,7 @@ import CartDrawer from "./components/CartDrawer";
 import { VideoModal } from "@/components/VideoModal"; 
 import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
 
-const APP_VERSION = "10.5"; // Subimos versión por si acaso
+const APP_VERSION = "10.6"; // Subimos versión por si acaso
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);

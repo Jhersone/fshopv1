@@ -1,5 +1,5 @@
 // src/components/Card.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { openWhatsApp } from "../utils/whatsapp";
 // ⚠️ Asegúrate de tener este archivo o ajusta el import
 import { msgItem } from "../utils/messages";
@@ -8,16 +8,13 @@ import { getCategoryGradient } from "../utils/categoryGradients";
 
 export default function Card({ item, selectedCountry, addToCart, category }) {
   const [imageError, setImageError] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(null);
   
   // 1. OBTENEMOS EL COLOR DE LA CATEGORÍA
   const bgClass = getCategoryGradient(category);
-  
-  // 2. 🎨 CORRECCIÓN AQUÍ:
-  // Quitamos la condición que forzaba el azul en los Gestos.
-  // Ahora usamos siempre el color de la categoría (bgClass).
   const finalBackground = bgClass; 
 
-  // 🛡️ LÓGICA DE IMAGEN (Red de Seguridad)
+  // 🛡️ LÓGICA DE IMAGEN
   const imgSrc = item.fallbackImage ||
                  item.images?.featured ||
                  item.images?.icon ||
@@ -29,6 +26,48 @@ export default function Card({ item, selectedCountry, addToCart, category }) {
     item.localPrice ??
     (item.vBucks ? vbucksToLocal(selectedCountry.code, item.vBucks) : null);
 
+  // ⏰ 3. LÓGICA INTELIGENTE DEL RELOJ (Días/Horas o Horas/Minutos)
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      let targetDate;
+
+      if (item.outDate) {
+        targetDate = new Date(item.outDate);
+      } else {
+        // Reinicio diario (00:00 UTC)
+        targetDate = new Date();
+        targetDate.setUTCHours(24, 0, 0, 0); 
+      }
+
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        setTimeLeft(null);
+        return;
+      }
+
+      // --- NUEVA LÓGICA MATEMÁTICA ---
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (days > 0) {
+        // Si falta más de 1 día: "5d 14h"
+        setTimeLeft(`${days}d ${hours}h`);
+      } else {
+        // Si falta menos de 1 día: "16h 30m"
+        setTimeLeft(`${hours}h ${minutes}m`);
+      }
+    };
+
+    calculateTimeLeft(); 
+    const timer = setInterval(calculateTimeLeft, 60000); 
+
+    return () => clearInterval(timer);
+  }, [item.outDate]);
+
+  // --- HANDLERS ---
   const handleWhatsApp = () => {
     const typeRaw = item.type?.displayValue || item.type || "";
     const typeStr = JSON.stringify(typeRaw).toLowerCase();
@@ -64,7 +103,7 @@ País: ${selectedCountry.name} ${selectedCountry.flag}`;
         <div className="shine"></div>
       </div>
 
-      {/* Imagen + Fondo (Con altura ajustada: h-44 en móvil, h-52 en PC) */}
+      {/* Imagen + Fondo */}
       <div className={`relative w-full h-44 sm:h-50 flex justify-center items-center overflow-hidden rounded-t-xl ${finalBackground}`}>
 
         {/* Imagen Real */}
@@ -83,9 +122,17 @@ País: ${selectedCountry.name} ${selectedCountry.flag}`;
           </div>
         )}
 
+        {/* ⏰ BADGE DE TIEMPO (Ahora con formato inteligente) */}
+        {timeLeft && (
+          <div className="absolute bottom-2 right-2 z-30 bg-[#c23535] text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-md border border-[#e64646]">
+            <i className="fa-regular fa-clock text-[10px]"></i>
+            <span>{timeLeft}</span>
+          </div>
+        )}
+
         {/* Sombra inferior con Nombre */}
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/40 to-transparent px-2 py-1 text-left z-20">
-          <h3 className="text-white text-sm font-burbank-shadow truncate">
+        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent px-2 py-1 text-left z-20 pointer-events-none">
+          <h3 className="text-white text-sm font-burbank-shadow truncate max-w-[70%]">
             {item.itemName}
           </h3>
           {item.type !== "Pases" && item.vBucks && (
@@ -97,7 +144,7 @@ País: ${selectedCountry.name} ${selectedCountry.flag}`;
         </div>
       </div>
 
-      {/* Footer de Tarjeta */}
+      {/* Footer */}
       <div className="bg-[#192028] text-white px-3 py-3 text-center">
         {localPrice && (
         <p className="text-[#FFFFFF] font-burbank-shadow text-lg mb-3">
