@@ -267,6 +267,19 @@ body {
     linear-gradient(to bottom right, #d506ff 0%, #f2b3ff 60%, #b30df5 100%);
 }
 
+.bg-naruto {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #ffbb00 0%, #fff0ac 60%, #ffc60b 100%);
+}
+
+.bg-the-office {
+  background:
+    radial-gradient(circle at 25% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    radial-gradient(circle at 75% 10%, rgba(255, 255, 255, 0.2), transparent 70%),
+    linear-gradient(to bottom right, #a1ecff 0%, #c6f4ff 60%, #a3fcff 100%);
+}
 
 
 /* === Gradientes por categoría === */

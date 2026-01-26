@@ -1,55 +1,36 @@
 // src/utils/messages.js
 
 export const msgCart = (items, country, total) => {
-  console.log("📢 --- INICIANDO REPORTE DE CARRITO PARA WHATSAPP ---");
-  
   const itemsList = items.map((it, i) => {
-    // 🔍 AQUÍ ESTÁ LA CÁMARA DE SEGURIDAD
-    console.log(`📦 Item ${i + 1}: ${it.itemName}`);
-    console.log(`   👉 Tipo crudo (it.type):`, it.type);
-    console.log(`   👉 Tipo Display (it.type.displayValue):`, it.type?.displayValue);
-    
-    // 1. INTENTO DE DETECCIÓN (Copiamos tu lógica actual)
+    // 1. Detección de Música
     const typeRaw = it.type?.displayValue || it.type || "";
-    
-    // TRUCO: Convertimos a texto sí o sí para evitar errores
-    let typeStr = "";
-    try {
-        typeStr = JSON.stringify(typeRaw).toLowerCase();
-    } catch(e) {
-        console.log("   ❌ Error convirtiendo tipo a texto:", e);
-    }
-    
-    console.log(`   🔍 Texto analizado: "${typeStr}"`);
-
+    const typeStr = JSON.stringify(typeRaw).toLowerCase();
     const isMusic = typeStr.includes("music") || typeStr.includes("música");
-    console.log(`   🎵 ¿Es música?: ${isMusic ? "SÍ" : "NO"}`);
-    
     const label = isMusic ? " [Música 🎵]" : "";
 
-    // 2. CANTIDAD
+    // 2. Cantidad
     const qty = it.quantity || 1;
     const qtyDisplay = qty > 1 ? `(x${qty}) ` : "";
 
-    // 3. PRECIO
-    const linePrice = (Number(it.localPrice) * qty).toFixed(2);
+    // 3. 🛡️ CORRECCIÓN DEL PRECIO (NaN Fix)
+    // Buscamos el precio en todos los lugares posibles
+    const unitPrice = Number(it.localPrice || it.price || 0); 
+    const linePrice = (unitPrice * qty).toFixed(2);
 
-    return `${i + 1}. ${qtyDisplay}${it.itemName}${label} - ${it.vBucks ? `${it.vBucks} pavos - ` : ""}${country.symbol} ${linePrice}`;
+    return `${i + 1}. ${qtyDisplay}${it.itemName}${label} - ${country.symbol} ${linePrice}`;
   }).join("\n");
-
-  console.log("✅ Mensaje generado exitosamente");
-  console.log("----------------------------------------------------");
 
   return `¡Hola TioHunter! Quiero finalizar mi compra del carrito:
 
 ${itemsList}
 
 *Total a Pagar: ${country.symbol} ${Number(total).toFixed(2)}*
+País: ${country.name} ${country.flag}
 
 ¿Está disponible? ¿Cómo coordinamos?`;
 };
 
-// 👇 ESTA NO LA TOCAMOS PORQUE DIJISTE QUE SÍ FUNCIONA
+// La función msgItem déjala como estaba (si funciona bien).
 export const msgItem = (name, price, country, type = "", extra = "") => {
   const typeStr = JSON.stringify(type).toLowerCase();
   const isMusic = typeStr.includes("music") || typeStr.includes("música");

@@ -5,7 +5,9 @@
 const PRIORITY_CONFIG = {
   // ⬆️ ALTA PRIORIDAD (Saldrán primero)
   HIGH: [
+      "naruto",
       "kizunaai",
+      "the office",
       "south park",
       "hora de aventura",
       "volver al futuro",

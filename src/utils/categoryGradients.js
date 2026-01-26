@@ -20,6 +20,8 @@ export function getCategoryGradient(category = "") {
   if (name.includes("kizunaai")) return "bg-kizunaai"; // Azul místico para Avatar
   if (name.includes("south park")) return "bg-southpark"; // Azul místico para Avatar
   if (name.includes("hora de aventura")) return "bg-horadeaventura"; // Azul místico para Avatar
+  if (name.includes("naruto")) return "bg-naruto"; // Azul místico para Avatar
+  if (name.includes("the office")) return "bg-the-office"; // Azul místico para Avatar
 
   // 🎃 Eventos y temáticas
   if (name.includes("invierno")) return "bg-harrypoter";
