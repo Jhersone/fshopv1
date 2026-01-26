@@ -7,18 +7,16 @@ import CarouselTabs from "./components/CarouselTabs";
 import ShopGrid from "./components/ShopGrid";
 import CrewClub from "./components/CrewClub";
 import AvisoRegalo from "./components/AvisoRegalo";
-import FloatingButtons from "./components/FloatingButtons";
 import RobuxShop from "./components/RobuxShop";
 import FreeFireShop from "./components/FreeFireShop";
 import VBucksShop from "./components/VBucksShop";
 import Footer from "./components/Footer";
-import BottomNav from "./components/BottomNav";    
+import BottomNav from "./components/BottomNav";     
 import CartDrawer from "./components/CartDrawer";
+import { VideoModal } from "@/components/VideoModal"; 
 import { COUNTRIES, DEFAULT_COUNTRY } from "@/lib/config";
-import { VideoModal } from "@/components/VideoModal"; // ✅ Importado correctamente
 
-// 👇 CAMBIO 1: Subimos versión para asegurar limpieza total
-const APP_VERSION = "10.4"; 
+const APP_VERSION = "10.5"; // Subimos versión por si acaso
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useCountry(DEFAULT_COUNTRY);
@@ -28,7 +26,7 @@ function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Lógica de limpieza de caché por versión
+  // Limpieza de caché
   useEffect(() => {
     const storedVersion = localStorage.getItem("app_version");
 
@@ -41,16 +39,14 @@ function App() {
     }
   }, []);
 
-  // 👇 CAMBIO 2: Función "Interceptora"
   const handleCountryChange = (countryIncoming) => {
     const freshData = COUNTRIES[countryIncoming.code]; 
     setSelectedCountry(freshData);
   };
 
-// ✅ FUNCIÓN ADD TO CART (BLINDADA CONTRA "UNDEFINED")
+  // ✅ FUNCIÓN ADD TO CART
   const addToCart = (newItem) => {
     setCart((prevCart) => {
-      // 1. OBTENER TIPO (Tu código actual ya hace esto bien)
       let typeStr = "item";
       try {
         if (newItem.type?.displayValue) typeStr = newItem.type.displayValue;
@@ -58,22 +54,15 @@ function App() {
         else if (newItem.type) typeStr = JSON.stringify(newItem.type); 
       } catch (e) { console.error(e); }
 
-      // 2. 🛡️ GENERAR HUELLA DIGITAL (Ahora usamos Nombre si falta el ID)
-      // Antes: undefined-Música
-      // Ahora: Hello, Morning-Música
       const safeId = newItem.id || newItem.itemName || "unknown"; 
       const uniqueIdentity = `${safeId}-${typeStr}`;
       
-      console.log(`🛒 Agregando: ${newItem.itemName} | Huella: ${uniqueIdentity}`);
-
-      // 3. BUSCAR DUPLICADOS
       const existingIndex = prevCart.findIndex((item) => {
         let t = "item";
         if (item.type?.displayValue) t = item.type.displayValue;
         else if (typeof item.type === "string") t = item.type;
         else if (item.type) t = JSON.stringify(item.type);
         
-        // Usamos la misma lógica segura para comparar
         const itemSafeId = item.id || item.itemName || "unknown";
         return `${itemSafeId}-${t}` === uniqueIdentity;
       });
@@ -86,29 +75,24 @@ function App() {
         };
         return newCart;
       } else {
-        // Guardamos el "safeId" por si acaso, pero lo importante es que ya se separaron
         return [...prevCart, { ...newItem, quantity: 1 }];
       }
     });
   };
 
-  // ✅ 2. FUNCIÓN PARA QUITAR (ESTA ES LA QUE TE FALTABA Y DABA ERROR)
   const removeFromCart = (index) => {
     setCart((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // ✅ 3. FUNCIÓN PARA LIMPIAR
   const clearCart = () => {
     setCart([]);
   };
-  // ... AQUI SIGUE TU return ( <div className=... ) NO LO BORRES
 
   return (
     <div className="min-h-screen text-white relative overflow-x-hidden">
       
       <CustomSnowfall />
 
-      {/* ✅ AQUÍ ESTÁ EL VIDEO: Se activará solo si selectedCountry es Bolivia */}
       <VideoModal country={selectedCountry} />
 
       <div className="relative z-10 pt-16">
@@ -171,12 +155,35 @@ function App() {
           addToCart={addToCart}
           selectedCountry={selectedCountry}
         />
-        
+ {/* === BOTÓN FLOTANTE PARA PC (Siempre muestra el 0 rebotando) === */}
         {activeTab === "regalo" && (
-          <BottomNav 
-            cartCount={cart.length} 
-            onOpenCart={() => setIsCartOpen(true)}
-          />
+          <div className="hidden md:flex fixed bottom-8 left-1/2 -translate-x-1/2 w-full max-w-[1280px] z-50 pointer-events-none justify-end px-6">
+            <button 
+              onClick={() => setIsCartOpen(true)}
+              className="pointer-events-auto bg-[#FFFF00] text-black w-16 h-16 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 border-4 border-black group"
+            >
+              <div className="relative">
+                <i className="fa-solid fa-cart-shopping text-2xl group-hover:rotate-12 transition-transform"></i>
+                
+                {/* 🔴 CAMBIO AQUÍ: Quitamos la condición. 
+                    Ahora siempre renderiza el span, mostrando "0" si está vacío. */}
+                <span className="absolute -top-3 -right-3 bg-red-600 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white shadow-sm animate-bounce">
+                  {cart.length}
+                </span>
+
+              </div>
+            </button>
+          </div>
+        )}
+
+        {/* BARRA DE NAVEGACIÓN (Solo visible en Móvil) */}
+        {activeTab === "regalo" && (
+          <div className="md:hidden"> 
+             <BottomNav 
+               cartCount={cart.length} 
+               onOpenCart={() => setIsCartOpen(true)}
+             />
+          </div>
         )}
         
       </div>

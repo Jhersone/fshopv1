@@ -2,16 +2,27 @@
 import { useState } from "react";
 import { openWhatsApp } from "../utils/whatsapp";
 // ⚠️ Asegúrate de tener este archivo o ajusta el import
-import { msgItem } from "../utils/messages"; 
+import { msgItem } from "../utils/messages";
 import { vbucksToLocal } from "../lib/pricing";
 import { getCategoryGradient } from "../utils/categoryGradients";
 
 export default function Card({ item, selectedCountry, addToCart, category }) {
   const [imageError, setImageError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   
+  // 1. OBTENEMOS EL COLOR DE LA CATEGORÍA
   const bgClass = getCategoryGradient(category);
-  const finalBackground = item.type === "Gesto" ? "bg-fortnite-rare" : bgClass;
+  
+  // 2. 🎨 CORRECCIÓN AQUÍ:
+  // Quitamos la condición que forzaba el azul en los Gestos.
+  // Ahora usamos siempre el color de la categoría (bgClass).
+  const finalBackground = bgClass; 
+
+  // 🛡️ LÓGICA DE IMAGEN (Red de Seguridad)
+  const imgSrc = item.fallbackImage ||
+                 item.images?.featured ||
+                 item.images?.icon ||
+                 item.images?.smallIcon ||
+                 item.background;
 
   // Calculamos precio
   const localPrice =
@@ -19,19 +30,14 @@ export default function Card({ item, selectedCountry, addToCart, category }) {
     (item.vBucks ? vbucksToLocal(selectedCountry.code, item.vBucks) : null);
 
   const handleWhatsApp = () => {
-    // 1. Detectar si es Música 🎵
-    // La API a veces lo manda como objeto (item.type.displayValue) o texto (item.type)
     const typeRaw = item.type?.displayValue || item.type || "";
-    const isMusic = typeRaw === "Music" || typeRaw === "Música";
-    
-    // Si es música, agregamos la etiqueta. Si no, lo dejamos vacío.
-    const label = isMusic ? " [Música]" : "";
-
+    const typeStr = JSON.stringify(typeRaw).toLowerCase();
+    const isMusic = typeStr.includes("music") || typeStr.includes("música");
+    const label = isMusic ? " [Música 🎵]" : "";
     const isPase = item.type === "Pases";
     const extra = !isPase && item.vBucks ? `Costo: ${item.vBucks} pavos` : "";
     const priceToSend = localPrice ?? "0.00";
-    
-    // 2. Generamos mensaje CON la etiqueta "label"
+
     const msg = `¡Hola TioHunter!
 Me interesa: *${item.itemName}${label}*
 Precio: ${selectedCountry.symbol} ${priceToSend}
@@ -42,40 +48,33 @@ País: ${selectedCountry.name} ${selectedCountry.flag}`;
   };
 
   const handleAddToCart = () => {
-    addToCart({ 
-        ...item, 
+    addToCart({
+        ...item,
+        fallbackImage: imgSrc,
         price: parseFloat(localPrice) || 0,
-        background: finalBackground 
+        background: finalBackground
     });
   };
 
   return (
     <div className="relative bg-[#192028] rounded-xl shadow-lg w-full mx-auto overflow-hidden transform transition-transform duration-300 hover:scale-105">
-      
+
       {/* Brillo */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-30">
         <div className="shine"></div>
       </div>
 
-      {/* Imagen + Fondo */}
-      <div className={`relative w-full h-40 flex justify-center items-center overflow-hidden rounded-t-xl ${finalBackground}`}>
-        
-        {/* Placeholder de carga */}
-        {!isLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-                 <i className="fa-solid fa-image text-4xl text-white/50 animate-pulse"></i>
-            </div>
-        )}
+      {/* Imagen + Fondo (Con altura ajustada: h-44 en móvil, h-52 en PC) */}
+      <div className={`relative w-full h-44 sm:h-50 flex justify-center items-center overflow-hidden rounded-t-xl ${finalBackground}`}>
 
         {/* Imagen Real */}
-        {!imageError && item.fallbackImage ? (
+        {!imageError && imgSrc ? (
           <img
-            src={item.fallbackImage}
+            src={imgSrc}
             alt={item.itemName}
-            className={`absolute w-full h-full object-contain transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className="absolute w-full h-full object-contain"
             loading="lazy"
             decoding="async"
-            onLoad={() => setIsLoaded(true)}
             onError={() => setImageError(true)}
           />
         ) : (

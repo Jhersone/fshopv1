@@ -36,7 +36,7 @@ export default function ShopGrid({ selectedCountry, searchTerm, setSearchTerm, a
     })();
   }, []);
 
-// 🔹 Filtros con etiquetas personalizadas (UI) y valores reales (data)
+// 🔹 Filtros
 const filters = [
   "Todos",
   { label: "SKINS", value: "Atuendo" },
@@ -72,7 +72,8 @@ const filters = [
         <section className="mt-6">
           <h2 className="text-white text-2xl font-bold mb-4 text-center">Resultados para: "{searchTerm}"</h2>
           {globalResults.length > 0 ? (
-            <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
+            /* 1. SECCIÓN DE BÚSQUEDA */
+            <div className="grid gap-x-3 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] justify-center">
               {globalResults.map((item, index) => (
                 <Card key={index} item={item} selectedCountry={selectedCountry} addToCart={addToCart} />
               ))}
@@ -84,7 +85,8 @@ const filters = [
       ) : currentFilter === "Pases" ? (
         <section>
           <h2 className="text-white text-2xl font-bold mb-4 text-center">Pases de Batalla</h2>
-          <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
+          {/* 2. SECCIÓN DE PASES */ }
+          <div className="grid gap-x-3 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] justify-center">
             {manualPasesWithPrice.map((item, index) => (
               <Card
                 key={index}
@@ -104,7 +106,8 @@ const filters = [
           return (
             <section key={category} className="mb-10">
               <h2 className="text-white text-2xl font-bold mb-4 text-center font-burbank-shadow">{category}</h2>
-              <div className="grid gap-x-5 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(180px,_1fr))] justify-center">
+              {/* 3. SECCIÓN POR CATEGORÍAS */ }
+              <div className="grid gap-x-3 gap-y-6 grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] justify-center">
                 {sectionItems.map((item, index) => (
                   <Card key={index} item={item} selectedCountry={selectedCountry} addToCart={addToCart} category={category} />
                 ))}

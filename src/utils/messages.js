@@ -12,25 +12,23 @@ export const msgCart = (items, country, total) => {
     const qty = it.quantity || 1;
     const qtyDisplay = qty > 1 ? `(x${qty}) ` : "";
 
-    // 3. 🛡️ CORRECCIÓN DEL PRECIO (NaN Fix)
-    // Buscamos el precio en todos los lugares posibles
+    // 3. 🛡️ CORRECCIÓN DEL PRECIO
     const unitPrice = Number(it.localPrice || it.price || 0); 
     const linePrice = (unitPrice * qty).toFixed(2);
 
     return `${i + 1}. ${qtyDisplay}${it.itemName}${label} - ${country.symbol} ${linePrice}`;
   }).join("\n");
 
+  // 👇 AQUÍ SE QUITÓ LA FRASE FINAL
   return `¡Hola TioHunter! Quiero finalizar mi compra del carrito:
 
 ${itemsList}
 
 *Total a Pagar: ${country.symbol} ${Number(total).toFixed(2)}*
-País: ${country.name} ${country.flag}
-
-¿Está disponible? ¿Cómo coordinamos?`;
+País: ${country.name} ${country.flag}`;
 };
 
-// La función msgItem déjala como estaba (si funciona bien).
+// La función msgItem se queda igual
 export const msgItem = (name, price, country, type = "", extra = "") => {
   const typeStr = JSON.stringify(type).toLowerCase();
   const isMusic = typeStr.includes("music") || typeStr.includes("música");
